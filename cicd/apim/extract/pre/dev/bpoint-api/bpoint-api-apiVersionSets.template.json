@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "BPoint API",
+        "description": "Provides APIs to BPoint services.\nReference <a href=\\\"https://www.bpoint.com.au/developers/v5/\\\">https://www.bpoint.com.au/developers/v5/ </a>\n<br />\nThe above api is to get the transaction details after making a payment to show the receipt number.\n\nWhen showing the iframe you use the bpoint domain - https://bpoint-uat.premier.com.au/rest/iframe/field/card.number\nAnd \nWhen submitting a payment from browser, you have to use the bpoint domain - https://bpoint-uat.premier.com.au/rest/v5/txns/authkeys/{authkey-value}/client/payment-method \nYou can see the flow working on preprod site - https://preprod.sydneywater.com.au/accounts-billing/paying-your-bill/bill-payment.html accessible via SW Citrix.\nYou can use test card numbers - https://www.bpoint.com.au/developers/v5/reference/test-mode\n",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60b830e1839b233270e90fe6')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

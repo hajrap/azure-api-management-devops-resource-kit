@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "aem-api-authentication-password",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/aem-api-authentication-password"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/aem-api-authentication-password')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "aem-api-authentication-username",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/aem-api-authentication-username"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/aem-api-authentication-username')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

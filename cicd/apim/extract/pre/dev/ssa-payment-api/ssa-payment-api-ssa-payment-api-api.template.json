@@ -1,0 +1,2452 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "TBC",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "3",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiRevisionDescription": "added the DELETE operation for BankAccount ",
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/61ad5fba1f4bd4af20490a4e')]",
+        "subscriptionRequired": true,
+        "displayName": "SSA Payment API",
+        "serviceUrl": "[parameters('serviceUrl').ssapaymentapi]",
+        "path": "ssa-payment",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "ERP_FICA_UMC.BankAccount": {
+                "title": "BankAccount",
+                "type": "object",
+                "properties": {
+                  "AccountID": {
+                    "title": "Business Partner ID",
+                    "maxLength": 10,
+                    "type": "string",
+                    "description": "Business Partner Identification Number"
+                  },
+                  "BankAccountID": {
+                    "title": "Bank Account ID",
+                    "maxLength": 4,
+                    "type": "string",
+                    "description": "Bank Account Identification Number"
+                  },
+                  "BankID": {
+                    "title": "Bank ID",
+                    "maxLength": 15,
+                    "type": "string",
+                    "description": "Bank Identification Number"
+                  },
+                  "BankAccountNo": {
+                    "title": "Bank Acct No.",
+                    "maxLength": 18,
+                    "type": "string",
+                    "description": "Bank Account Number"
+                  },
+                  "AccountHolder": {
+                    "title": "Account Holder",
+                    "maxLength": 60,
+                    "type": "string",
+                    "description": "Bank Acount Holder Name"
+                  },
+                  "BankAccountName": {
+                    "title": "Account Name",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Bank Account Name"
+                  },
+                  "IBAN": {
+                    "title": "IBAN",
+                    "maxLength": 34,
+                    "type": "string"
+                  },
+                  "ControlKey": {
+                    "title": "Bank Control Key",
+                    "maxLength": 2,
+                    "type": "string"
+                  },
+                  "CountryID": {
+                    "title": "Bank Country",
+                    "maxLength": 3,
+                    "type": "string",
+                    "description": "Bank country key Identifies the country in which the bank is located. The country key defines the rules according to which bank data, such as the bank and account numbers, is to be validated."
+                  },
+                  "ExternalID": {
+                    "title": "Extern.bank ID",
+                    "maxLength": 20,
+                    "type": "string",
+                    "description": "Bank details ID in external system If the current bank details are known under a different ID in an external system, you can store this ID here. The ID in the external system simply provides information on the number under which the bank details were created in your legacy or operational system. Direct input gives you the option of maintaining the bank details of a business partner by specifying the external ID. If you maintain business partner data in your legacy system, you can copy changes made to bank details to the SAP system, even if the SAP ID is not recognized by the legacy system."
+                  },
+                  "Bank": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.Bank"
+                  }
+                }
+              },
+              "ERP_FICA_UMC.BankAccount-create": {
+                "title": "BankAccount (for create)",
+                "type": "object",
+                "properties": {
+                  "BankAccountName": {
+                    "title": "Account Name",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Bank Account Name"
+                  },
+                  "Bank": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.Bank-create"
+                  }
+                }
+              },
+              "ERP_FICA_UMC.BankAccount-update": {
+                "title": "BankAccount (for update)",
+                "type": "object",
+                "properties": {
+                  "BankAccountName": {
+                    "title": "Account Name",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Bank Account Name"
+                  }
+                }
+              },
+              "ERP_FICA_UMC.Bank": {
+                "title": "Bank",
+                "type": "object",
+                "properties": {
+                  "CountryID": {
+                    "title": "Bank Country",
+                    "maxLength": 3,
+                    "type": "string"
+                  },
+                  "BankID": {
+                    "title": "Bank ID",
+                    "maxLength": 15,
+                    "type": "string",
+                    "description": "Bank Identification Number"
+                  },
+                  "Name": {
+                    "title": "Bank Name",
+                    "maxLength": 60,
+                    "type": "string"
+                  },
+                  "City": {
+                    "title": "City",
+                    "maxLength": 35,
+                    "type": "string",
+                    "description": "Bank City"
+                  },
+                  "SWIFTCode": {
+                    "title": "SWIFT Code",
+                    "maxLength": 11,
+                    "type": "string"
+                  }
+                }
+              },
+              "ERP_FICA_UMC.Bank-create": {
+                "title": "Bank (for create)",
+                "type": "object"
+              },
+              "ERP_FICA_UMC.Account-update": {
+                "title": "Account (for update)",
+                "type": "object",
+                "properties": {
+                  "AccountTitleID": {
+                    "title": "Title ID",
+                    "maxLength": 4,
+                    "type": "string"
+                  },
+                  "FirstName": {
+                    "title": "First Name",
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "LastName": {
+                    "title": "Last Name",
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "MiddleName": {
+                    "title": "Middle Name",
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "SecondName": {
+                    "title": "Second Name",
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "Sex": {
+                    "title": "Gender",
+                    "maxLength": 1,
+                    "type": "string"
+                  },
+                  "Name1": {
+                    "title": "Name 1",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Name 1 of Organization"
+                  },
+                  "Name2": {
+                    "title": "Name 2",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Name 2 of Organization"
+                  },
+                  "Name3": {
+                    "title": "Name 3",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Name 3 of Organization"
+                  },
+                  "Name4": {
+                    "title": "Name 4",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Name 4 of Organization"
+                  },
+                  "GroupName1": {
+                    "title": "Name 1",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Name 1 of Group"
+                  },
+                  "GroupName2": {
+                    "title": "Name 2",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Name 2 of Group"
+                  },
+                  "FullName": {
+                    "title": "Full Name",
+                    "maxLength": 80,
+                    "type": "string"
+                  },
+                  "CorrespondenceLanguage": {
+                    "title": "Correspondence lang.",
+                    "maxLength": 1,
+                    "type": "string",
+                    "description": "Business Partner: Correspondence Language Correspondence language (written) for business partners in the 'Person' category. Maintain the correspondence language for business partners in the 'Organization' and 'Group' category with the address (communication). When transferring data (direct input), make sure that for a 'Person', the field 'LANGU_CORR' and for an 'Organization' or \"Group\" the field 'LANGU' has an entry."
+                  },
+                  "CorrespondenceLanguageISO": {
+                    "title": "ISO code f. lang.",
+                    "maxLength": 2,
+                    "type": "string",
+                    "description": "Business Partner: Correspondence Language (ISO)"
+                  },
+                  "Language": {
+                    "title": "Language",
+                    "maxLength": 1,
+                    "type": "string",
+                    "description": "Business partner: Language Language for verbal communication with a business partner. This language may differ from the language(s) defined for written correspondence."
+                  },
+                  "LanguageISO": {
+                    "title": "ISO code f. lang.",
+                    "maxLength": 2,
+                    "type": "string",
+                    "description": "Business Partner: Language (ISO)"
+                  }
+                }
+              },
+              "ERP_FICA_UMC.PaymentCard": {
+                "title": "PaymentCard",
+                "type": "object",
+                "properties": {
+                  "AccountID": {
+                    "title": "Business Partner ID",
+                    "maxLength": 10,
+                    "type": "string",
+                    "description": "Business Partner Identification Number"
+                  },
+                  "PaymentCardID": {
+                    "title": "Card ID",
+                    "maxLength": 6,
+                    "type": "string",
+                    "description": "Payment Card Identification Number"
+                  },
+                  "PaymentCardTypeID": {
+                    "title": "Card Type",
+                    "maxLength": 4,
+                    "type": "string",
+                    "description": "Payment Card Type"
+                  },
+                  "CardNumber": {
+                    "title": "Card Number",
+                    "maxLength": 25,
+                    "type": "string",
+                    "description": "Payment Card Number"
+                  },
+                  "StandardFlag": {
+                    "title": "Standard Card",
+                    "type": "boolean",
+                    "description": "Standard Payment Card Indicator"
+                  },
+                  "Description": {
+                    "title": "Description",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Payment Card Description"
+                  },
+                  "ValidFrom": {
+                    "title": "Valid From",
+                    "type": "string",
+                    "description": "Payment Card Valid From",
+                    "nullable": true,
+                    "example": "2017-04-13T15:51:04Z"
+                  },
+                  "ValidTo": {
+                    "title": "Valid To",
+                    "type": "string",
+                    "description": "Payment Card Valid To",
+                    "nullable": true,
+                    "example": "2017-04-13T15:51:04Z"
+                  },
+                  "Cardholder": {
+                    "title": "Cardholder Name",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Payment Card: Name of Cardholder"
+                  },
+                  "Issuer": {
+                    "title": "Issuing Bank",
+                    "maxLength": 40,
+                    "type": "string",
+                    "description": "Payment Card: Issuing Bank"
+                  },
+                  "IssueDate": {
+                    "title": "Issue Date",
+                    "type": "string",
+                    "description": "Payment Card: Date of Issue",
+                    "nullable": true,
+                    "example": "2017-04-13T15:51:04Z"
+                  },
+                  "MaskNumber": {
+                    "title": "Card Number",
+                    "maxLength": 25,
+                    "type": "string",
+                    "description": "Masked Payment Card Number If the external encryption is activated for the payment card master, the payment card number is saved and displayed in the partly masked form. Example: A 16 character payment card number saved and displayed in the masked form '4123**********30'. The payment card number, which is encrypted via an external tool, does not provide the user with any clues as to which payment card it is. This can be important when there are two payment cards of the same payment card type for a business partner. With the masked card number, you can differentiate between the two cards without the entire card number having to be displayed."
+                  },
+                  "PaymentCardType": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCardType"
+                  }
+                }
+              },
+              "ERP_FICA_UMC.PaymentCardType": {
+                "title": "PaymentCardType",
+                "type": "object",
+                "properties": {
+                  "PaymentCardTypeID": {
+                    "title": "Paymnt Card Type",
+                    "maxLength": 4,
+                    "type": "string",
+                    "description": "Payment Card Type"
+                  },
+                  "Description": {
+                    "title": "Description",
+                    "maxLength": 30,
+                    "type": "string",
+                    "description": "Payment Card Type Description"
+                  }
+                }
+              },
+              "count": {
+                "type": "string",
+                "description": "The number of entities in the collection. Available when using the [$inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67) query option."
+              },
+              "error": {
+                "required": [
+                  "error"
+                ],
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "required": [
+                      "code",
+                      "message"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "required": [
+                          "lang",
+                          "value"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "lang": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "innererror": {
+                        "type": "object",
+                        "description": "The structure of this object is service-specific"
+                      }
+                    }
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "BankAccountsGetRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BankAccountsGetRequest-1": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "AccountID",
+                    "BankAccountID",
+                    "BankID",
+                    "BankAccountNo",
+                    "AccountHolder",
+                    "BankAccountName",
+                    "IBAN",
+                    "ControlKey",
+                    "CountryID",
+                    "ExternalID",
+                    "Bank"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "BankAccountsGetRequest-2": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "Bank"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "BankAccountsGet200ApplicationJsonResponse": {
+                "title": "Wrapper",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "title": "Collection of BankAccount",
+                    "type": "object",
+                    "properties": {
+                      "__count": {
+                        "$ref": "#/components/schemas/count"
+                      },
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ERP_FICA_UMC.BankAccount"
+                        }
+                      }
+                    }
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "BankAccountsPost201ApplicationJsonResponse": {
+                "title": "BankAccount",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.BankAccount"
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-OperationsRequest": {
+                "maxLength": 10,
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-OperationsRequest-1": {
+                "maxLength": 4,
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-GetRequest": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "AccountID",
+                    "BankAccountID",
+                    "BankID",
+                    "BankAccountNo",
+                    "AccountHolder",
+                    "BankAccountName",
+                    "IBAN",
+                    "ControlKey",
+                    "CountryID",
+                    "ExternalID",
+                    "Bank"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-GetRequest-1": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "Bank"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-Get200ApplicationJsonResponse": {
+                "title": "BankAccount",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.BankAccount"
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-PutRequest": {
+                "title": "Modified BankAccount",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.BankAccount-update"
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-BankOperationsRequest": {
+                "maxLength": 10,
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-BankOperationsRequest-1": {
+                "maxLength": 4,
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-BankGetRequest": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "CountryID",
+                    "BankID",
+                    "Name",
+                    "City",
+                    "SWIFTCode"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-BankGet200ApplicationJsonResponse": {
+                "title": "Bank",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.Bank"
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "Accounts-AccountID-OperationsRequest": {
+                "maxLength": 10,
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "Accounts-AccountID-PutRequest": {
+                "title": "Modified Account",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.Account-update"
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "Accounts-AccountID-ContractAccountsOperationsRequest": {
+                "maxLength": 10,
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "Accounts-AccountID-ContractAccountsGetRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "Accounts-AccountID-ContractAccountsGetRequest-1": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "ContractAccountID",
+                    "AccountID",
+                    "Description",
+                    "IncomingPaymentMethodID",
+                    "OutgoingPaymentMethodID1",
+                    "OutgoingPaymentMethodID2",
+                    "OutgoingPaymentMethodID3",
+                    "OutgoingPaymentMethodID4",
+                    "OutgoingPaymentMethodID5",
+                    "IncomingPaymentBankAccountID",
+                    "OutgoingPaymentBankAccountID",
+                    "IncomingPaymentPaymentCardID",
+                    "OutgoingPaymentPaymentCardID",
+                    "AccountAddressID",
+                    "BillToAccountID",
+                    "BillToAccountAddressID",
+                    "AlternativePayeeID",
+                    "AlternativePayerID",
+                    "CountryID",
+                    "BudgetBillingProcedure",
+                    "CommunicationPreferences",
+                    "IncomingPaymentCard",
+                    "OutgoingPaymentMethod4",
+                    "OutgoingBankAccount",
+                    "OutgoingPaymentCard",
+                    "OutgoingPaymentMethod2",
+                    "AlternativePayer",
+                    "IncomingAlternativePayerPaymentCard",
+                    "Country",
+                    "AccountAddress",
+                    "IncomingAlternativePayerBankAccount",
+                    "AlternativePayee",
+                    "OutgoingAlternativePayeeBankAccount",
+                    "BillToAccount",
+                    "IncomingBankAccount",
+                    "OutgoingPaymentMethod5",
+                    "OutgoingPaymentMethod3",
+                    "IncomingPaymentMethod",
+                    "ContractAccountBalance",
+                    "OutgoingAlternativePayeePaymentCard",
+                    "BillToAccountAddress",
+                    "OutgoingPaymentMethod1",
+                    "Contracts",
+                    "Invoices"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "Accounts-AccountID-ContractAccountsGetRequest-2": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "CommunicationPreferences",
+                    "IncomingPaymentCard",
+                    "OutgoingPaymentMethod4",
+                    "OutgoingBankAccount",
+                    "OutgoingPaymentCard",
+                    "OutgoingPaymentMethod2",
+                    "AlternativePayer",
+                    "IncomingAlternativePayerPaymentCard",
+                    "Country",
+                    "AccountAddress",
+                    "IncomingAlternativePayerBankAccount",
+                    "AlternativePayee",
+                    "OutgoingAlternativePayeeBankAccount",
+                    "BillToAccount",
+                    "IncomingBankAccount",
+                    "OutgoingPaymentMethod5",
+                    "OutgoingPaymentMethod3",
+                    "IncomingPaymentMethod",
+                    "ContractAccountBalance",
+                    "OutgoingAlternativePayeePaymentCard",
+                    "BillToAccountAddress",
+                    "OutgoingPaymentMethod1",
+                    "Contracts",
+                    "Invoices"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "Accounts-AccountID-ContractAccountsGet200ApplicationJsonResponse": {
+                "title": "Wrapper",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "title": "Collection of ContractAccount",
+                    "type": "object",
+                    "properties": {
+                      "__count": {
+                        "$ref": "#/components/schemas/count"
+                      },
+                      "results": {
+                        "type": "array",
+                        "items": {}
+                      }
+                    }
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "Accounts-AccountID-ContractAccountsPostRequest": {
+                "x-apim-inline": true
+              },
+              "Accounts-AccountID-ContractAccountsPost201ApplicationJsonResponse": {
+                "title": "ContractAccount",
+                "type": "object",
+                "properties": {
+                  "d": {}
+                },
+                "x-apim-inline": true
+              },
+              "PaymentCardsGetRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "PaymentCardsGetRequest-1": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "AccountID",
+                    "PaymentCardID",
+                    "PaymentCardTypeID",
+                    "CardNumber",
+                    "StandardFlag",
+                    "Description",
+                    "ValidFrom",
+                    "ValidTo",
+                    "Cardholder",
+                    "Issuer",
+                    "IssueDate",
+                    "MaskNumber",
+                    "PaymentCardType"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "PaymentCardsGetRequest-2": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "PaymentCardType"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "PaymentCardsGet200ApplicationJsonResponse": {
+                "title": "Wrapper",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "title": "Collection of PaymentCard",
+                    "type": "object",
+                    "properties": {
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCard"
+                        }
+                      }
+                    }
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "PaymentCardsPostRequest": {
+                "x-apim-inline": true
+              },
+              "PaymentCardsPost201ApplicationJsonResponse": {
+                "title": "PaymentCard",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCard"
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "PaymentCards-AccountID-AccountID-PaymentCardID-PaymentCardID-OperationsRequest": {
+                "maxLength": 10,
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "PaymentCards-AccountID-AccountID-PaymentCardID-PaymentCardID-OperationsRequest-1": {
+                "maxLength": 6,
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "PaymentCards-AccountID-AccountID-PaymentCardID-PaymentCardID-GetRequest": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "AccountID",
+                    "PaymentCardID",
+                    "PaymentCardTypeID",
+                    "CardNumber",
+                    "StandardFlag",
+                    "Description",
+                    "ValidFrom",
+                    "ValidTo",
+                    "Cardholder",
+                    "Issuer",
+                    "IssueDate",
+                    "MaskNumber",
+                    "PaymentCardType"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "PaymentCards-AccountID-AccountID-PaymentCardID-PaymentCardID-GetRequest-1": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "PaymentCardType"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "PaymentCards-AccountID-AccountID-PaymentCardID-PaymentCardID-Get200ApplicationJsonResponse": {
+                "title": "PaymentCard",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCard"
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "PaymentCards-AccountID-AccountID-PaymentCardID-PaymentCardID-PaymentCardTypeOperationsRequest": {
+                "maxLength": 10,
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "PaymentCards-AccountID-AccountID-PaymentCardID-PaymentCardID-PaymentCardTypeOperationsRequest-1": {
+                "maxLength": 6,
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "PaymentCards-AccountID-AccountID-PaymentCardID-PaymentCardID-PaymentCardTypeGetRequest": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "PaymentCardTypeID",
+                    "Description"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "PaymentCards-AccountID-AccountID-PaymentCardID-PaymentCardID-PaymentCardTypeGet200ApplicationJsonResponse": {
+                "title": "PaymentCardType",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCardType"
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "ContractAccountsPostRequest": {
+                "x-apim-inline": true
+              },
+              "ContractAccountsPost201ApplicationJsonResponse": {
+                "title": "ContractAccount",
+                "type": "object",
+                "properties": {
+                  "d": {}
+                },
+                "x-apim-inline": true
+              },
+              "ContractAccounts-ContractAccountID-OperationsRequest": {
+                "maxLength": 12,
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "ContractAccounts-ContractAccountID-GetRequest": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "ContractAccountID",
+                    "AccountID",
+                    "Description",
+                    "IncomingPaymentMethodID",
+                    "OutgoingPaymentMethodID1",
+                    "OutgoingPaymentMethodID2",
+                    "OutgoingPaymentMethodID3",
+                    "OutgoingPaymentMethodID4",
+                    "OutgoingPaymentMethodID5",
+                    "IncomingPaymentBankAccountID",
+                    "OutgoingPaymentBankAccountID",
+                    "IncomingPaymentPaymentCardID",
+                    "OutgoingPaymentPaymentCardID",
+                    "AccountAddressID",
+                    "BillToAccountID",
+                    "BillToAccountAddressID",
+                    "AlternativePayeeID",
+                    "AlternativePayerID",
+                    "CountryID",
+                    "BudgetBillingProcedure",
+                    "CommunicationPreferences",
+                    "IncomingPaymentCard",
+                    "OutgoingPaymentMethod4",
+                    "OutgoingBankAccount",
+                    "OutgoingPaymentCard",
+                    "OutgoingPaymentMethod2",
+                    "AlternativePayer",
+                    "IncomingAlternativePayerPaymentCard",
+                    "Country",
+                    "AccountAddress",
+                    "IncomingAlternativePayerBankAccount",
+                    "AlternativePayee",
+                    "OutgoingAlternativePayeeBankAccount",
+                    "BillToAccount",
+                    "IncomingBankAccount",
+                    "OutgoingPaymentMethod5",
+                    "OutgoingPaymentMethod3",
+                    "IncomingPaymentMethod",
+                    "ContractAccountBalance",
+                    "OutgoingAlternativePayeePaymentCard",
+                    "BillToAccountAddress",
+                    "OutgoingPaymentMethod1",
+                    "Contracts",
+                    "Invoices"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "ContractAccounts-ContractAccountID-GetRequest-1": {
+                "uniqueItems": true,
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "CommunicationPreferences",
+                    "IncomingPaymentCard",
+                    "OutgoingPaymentMethod4",
+                    "OutgoingBankAccount",
+                    "OutgoingPaymentCard",
+                    "OutgoingPaymentMethod2",
+                    "AlternativePayer",
+                    "IncomingAlternativePayerPaymentCard",
+                    "Country",
+                    "AccountAddress",
+                    "IncomingAlternativePayerBankAccount",
+                    "AlternativePayee",
+                    "OutgoingAlternativePayeeBankAccount",
+                    "BillToAccount",
+                    "IncomingBankAccount",
+                    "OutgoingPaymentMethod5",
+                    "OutgoingPaymentMethod3",
+                    "IncomingPaymentMethod",
+                    "ContractAccountBalance",
+                    "OutgoingAlternativePayeePaymentCard",
+                    "BillToAccountAddress",
+                    "OutgoingPaymentMethod1",
+                    "Contracts",
+                    "Invoices"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "ContractAccounts-ContractAccountID-Get200ApplicationJsonResponse": {
+                "title": "ContractAccount",
+                "type": "object",
+                "properties": {
+                  "d": {}
+                },
+                "x-apim-inline": true
+              },
+              "ContractAccounts-ContractAccountID-PutRequest": {
+                "title": "Modified ContractAccount",
+                "type": "object",
+                "properties": {
+                  "d": {}
+                },
+                "x-apim-inline": true
+              },
+              "errorResponse-json": {
+                "required": [
+                  "error"
+                ],
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "required": [
+                      "code",
+                      "message"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "required": [
+                          "lang",
+                          "value"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "lang": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "innererror": {
+                        "type": "object",
+                        "description": "The structure of this object is service-specific"
+                      }
+                    }
+                  }
+                },
+                "x-apim-inline": true
+              },
+              "ERP_FICA_UMC.PaymentCard-update": {
+                "type": "object",
+                "properties": {
+                  "StandardFlag": {
+                    "type": "boolean",
+                    "title": "Standard Card"
+                  },
+                  "ValidTo": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "example": "2017-04-13T15:51:04Z",
+                    "title": "Valid To"
+                  },
+                  "Cardholder": {
+                    "type": "string",
+                    "maxLength": 40,
+                    "title": "Cardholder Name"
+                  },
+                  "MaskNumber": {
+                    "type": "string",
+                    "maxLength": 25,
+                    "title": "Card Number"
+                  }
+                },
+                "title": "PaymentCard (for update)"
+              },
+              "PaymentCard": {
+                "title": "Modified PaymentCard",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCard-update"
+                  }
+                }
+              },
+              "PaymentCardsPutOKApplicationJsonResponse": {
+                "title": "PaymentCard",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCard"
+                  }
+                },
+                "x-apim-inline": true
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/61df5b5bec635c0d9c45d3b9')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Add new entity to BankAccounts",
+        "request": {
+          "description": "New entity",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"BankAccountName\": \"string\",\r\n  \"Bank\": {}\r\n}",
+              "schemaId": "61df5b5bec635c0d9c45d3b9",
+              "typeName": "ERP_FICA_UMC.BankAccount-create"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 201,
+            "description": "Created entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"AccountID\": \"string\",\r\n    \"BankAccountID\": \"string\",\r\n    \"BankID\": \"string\",\r\n    \"BankAccountNo\": \"string\",\r\n    \"AccountHolder\": \"string\",\r\n    \"BankAccountName\": \"string\",\r\n    \"IBAN\": \"string\",\r\n    \"ControlKey\": \"string\",\r\n    \"CountryID\": \"string\",\r\n    \"ExternalID\": \"string\",\r\n    \"Bank\": {\r\n      \"CountryID\": \"string\",\r\n      \"BankID\": \"string\",\r\n      \"Name\": \"string\",\r\n      \"City\": \"string\",\r\n      \"SWIFTCode\": \"string\"\r\n    }\r\n  }\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "BankAccountsPost201ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Add new entity to BankAccounts",
+        "method": "POST",
+        "urlTemplate": "/BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-bankaccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-bankaccounts/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'post-bankaccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Add new entity to ContractAccounts",
+        "request": {
+          "description": "New entity",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{}",
+              "schemaId": "61df5b5bec635c0d9c45d3b9",
+              "typeName": "ContractAccountsPostRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 201,
+            "description": "Created entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {}\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "ContractAccountsPost201ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Add new entity to ContractAccounts",
+        "method": "POST",
+        "urlTemplate": "/ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-contractaccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-contractaccounts/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'post-contractaccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Add new entity to PaymentCards",
+        "request": {
+          "description": "New entity",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{}",
+              "schemaId": "61df5b5bec635c0d9c45d3b9",
+              "typeName": "PaymentCardsPostRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 201,
+            "description": "Created entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"AccountID\": \"string\",\r\n    \"PaymentCardID\": \"string\",\r\n    \"PaymentCardTypeID\": \"string\",\r\n    \"CardNumber\": \"string\",\r\n    \"StandardFlag\": true,\r\n    \"Description\": \"string\",\r\n    \"ValidFrom\": \"2017-04-13T15:51:04Z\",\r\n    \"ValidTo\": \"2017-04-13T15:51:04Z\",\r\n    \"Cardholder\": \"string\",\r\n    \"Issuer\": \"string\",\r\n    \"IssueDate\": \"2017-04-13T15:51:04Z\",\r\n    \"MaskNumber\": \"string\",\r\n    \"PaymentCardType\": {\r\n      \"PaymentCardTypeID\": \"string\",\r\n      \"Description\": \"string\"\r\n    }\r\n  }\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "PaymentCardsPost201ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Add new entity to PaymentCards",
+        "method": "POST",
+        "urlTemplate": "/PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-paymentcards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-paymentcards/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'post-paymentcards')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountID",
+            "description": "Business Partner ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Add new entity to related ContractAccounts",
+        "request": {
+          "description": "New entity",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{}",
+              "schemaId": "61df5b5bec635c0d9c45d3b9",
+              "typeName": "Accounts-AccountID-ContractAccountsPostRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 201,
+            "description": "Created entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {}\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "Accounts-AccountID-ContractAccountsPost201ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Add new entity to related ContractAccounts",
+        "method": "POST",
+        "urlTemplate": "/Accounts('{AccountID}')/ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-accounts-accountid-contractaccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Accounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-accounts-accountid-contractaccounts/Accounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'post-accounts-accountid-contractaccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-accounts-accountid-contractaccounts/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'post-accounts-accountid-contractaccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountID",
+            "description": "Business Partner ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "BankAccountID",
+            "description": "Bank Account ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Delete entity from BankAccounts",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 204,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Delete entity from BankAccounts",
+        "method": "DELETE",
+        "urlTemplate": "/BankAccounts(AccountID='{AccountID}',BankAccountID='{BankAccountID}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/delete-bankaccounts-accountid-accountid-bankaccountid-bankaccountid')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/delete-bankaccounts-accountid-accountid-bankaccountid-bankaccountid/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'delete-bankaccounts-accountid-accountid-bankaccountid-bankaccountid')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountID",
+            "description": "Business Partner ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "PaymentCardID",
+            "description": "Card ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Delete entity from PaymentCards",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 204,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Delete entity from PaymentCards",
+        "method": "DELETE",
+        "urlTemplate": "/PaymentCards(AccountID='{AccountID}',PaymentCardID='{PaymentCardID}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/delete-paymentcards-accountid-accountid-paymentcardid-paymentcardid')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/delete-paymentcards-accountid-accountid-paymentcardid-paymentcardid/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'delete-paymentcards-accountid-accountid-paymentcardid-paymentcardid')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Get entities from BankAccounts",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$filter",
+              "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$inlinecount",
+              "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+              "type": "string",
+              "required": false,
+              "values": [
+                "allpages",
+                "none"
+              ]
+            },
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$expand",
+              "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entities",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"__count\": \"string\",\r\n    \"results\": [\r\n      {\r\n        \"AccountID\": \"string\",\r\n        \"BankAccountID\": \"string\",\r\n        \"BankID\": \"string\",\r\n        \"BankAccountNo\": \"string\",\r\n        \"AccountHolder\": \"string\",\r\n        \"BankAccountName\": \"string\",\r\n        \"IBAN\": \"string\",\r\n        \"ControlKey\": \"string\",\r\n        \"CountryID\": \"string\",\r\n        \"ExternalID\": \"string\",\r\n        \"Bank\": {\r\n          \"CountryID\": \"string\",\r\n          \"BankID\": \"string\",\r\n          \"Name\": \"string\",\r\n          \"City\": \"string\",\r\n          \"SWIFTCode\": \"string\"\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "BankAccountsGet200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entities from BankAccounts",
+        "method": "GET",
+        "urlTemplate": "/BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-bankaccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-bankaccounts/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'get-bankaccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Get entities from PaymentCards",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$filter",
+              "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$inlinecount",
+              "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+              "type": "string",
+              "required": false,
+              "values": [
+                "allpages",
+                "none"
+              ]
+            },
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$expand",
+              "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entities",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"results\": [\r\n      {\r\n        \"AccountID\": \"string\",\r\n        \"PaymentCardID\": \"string\",\r\n        \"PaymentCardTypeID\": \"string\",\r\n        \"CardNumber\": \"string\",\r\n        \"StandardFlag\": true,\r\n        \"Description\": \"string\",\r\n        \"ValidFrom\": \"2017-04-13T15:51:04Z\",\r\n        \"ValidTo\": \"2017-04-13T15:51:04Z\",\r\n        \"Cardholder\": \"string\",\r\n        \"Issuer\": \"string\",\r\n        \"IssueDate\": \"2017-04-13T15:51:04Z\",\r\n        \"MaskNumber\": \"string\",\r\n        \"PaymentCardType\": {\r\n          \"PaymentCardTypeID\": \"string\",\r\n          \"Description\": \"string\"\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "PaymentCardsGet200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entities from PaymentCards",
+        "method": "GET",
+        "urlTemplate": "/PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-paymentcards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-paymentcards/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'get-paymentcards')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountID",
+            "description": "Business Partner ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Get entities from related ContractAccounts",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$filter",
+              "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$inlinecount",
+              "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+              "type": "string",
+              "required": false,
+              "values": [
+                "allpages",
+                "none"
+              ]
+            },
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$expand",
+              "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entities",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"__count\": \"string\",\r\n    \"results\": [\r\n      {}\r\n    ]\r\n  }\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "Accounts-AccountID-ContractAccountsGet200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entities from related ContractAccounts",
+        "method": "GET",
+        "urlTemplate": "/Accounts('{AccountID}')/ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-accounts-accountid-contractaccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Accounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-accounts-accountid-contractaccounts/Accounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'get-accounts-accountid-contractaccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-accounts-accountid-contractaccounts/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'get-accounts-accountid-contractaccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountID",
+            "description": "Business Partner ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "BankAccountID",
+            "description": "Bank Account ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Get entity from BankAccounts by key",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$expand",
+              "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"AccountID\": \"string\",\r\n    \"BankAccountID\": \"string\",\r\n    \"BankID\": \"string\",\r\n    \"BankAccountNo\": \"string\",\r\n    \"AccountHolder\": \"string\",\r\n    \"BankAccountName\": \"string\",\r\n    \"IBAN\": \"string\",\r\n    \"ControlKey\": \"string\",\r\n    \"CountryID\": \"string\",\r\n    \"ExternalID\": \"string\",\r\n    \"Bank\": {\r\n      \"CountryID\": \"string\",\r\n      \"BankID\": \"string\",\r\n      \"Name\": \"string\",\r\n      \"City\": \"string\",\r\n      \"SWIFTCode\": \"string\"\r\n    }\r\n  }\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-Get200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entity from BankAccounts by key",
+        "method": "GET",
+        "urlTemplate": "/BankAccounts(AccountID='{AccountID}',BankAccountID='{BankAccountID}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "ContractAccountID",
+            "description": "Contract Account ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Get entity from ContractAccounts by key",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$expand",
+              "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {}\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "ContractAccounts-ContractAccountID-Get200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entity from ContractAccounts by key",
+        "method": "GET",
+        "urlTemplate": "/ContractAccounts('{ContractAccountID}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-contractaccounts-contractaccountid')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-contractaccounts-contractaccountid/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'get-contractaccounts-contractaccountid')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountID",
+            "description": "Business Partner ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "PaymentCardID",
+            "description": "Card ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Get entity from PaymentCards by key",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$expand",
+              "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"AccountID\": \"string\",\r\n    \"PaymentCardID\": \"string\",\r\n    \"PaymentCardTypeID\": \"string\",\r\n    \"CardNumber\": \"string\",\r\n    \"StandardFlag\": true,\r\n    \"Description\": \"string\",\r\n    \"ValidFrom\": \"2017-04-13T15:51:04Z\",\r\n    \"ValidTo\": \"2017-04-13T15:51:04Z\",\r\n    \"Cardholder\": \"string\",\r\n    \"Issuer\": \"string\",\r\n    \"IssueDate\": \"2017-04-13T15:51:04Z\",\r\n    \"MaskNumber\": \"string\",\r\n    \"PaymentCardType\": {\r\n      \"PaymentCardTypeID\": \"string\",\r\n      \"Description\": \"string\"\r\n    }\r\n  }\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "PaymentCards-AccountID-AccountID-PaymentCardID-PaymentCardID-Get200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entity from PaymentCards by key",
+        "method": "GET",
+        "urlTemplate": "/PaymentCards(AccountID='{AccountID}',PaymentCardID='{PaymentCardID}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-paymentcards-accountid-accountid-paymentcardid-paymentcardid')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-paymentcards-accountid-accountid-paymentcardid-paymentcardid/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'get-paymentcards-accountid-accountid-paymentcardid-paymentcardid')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountID",
+            "description": "Business Partner ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "BankAccountID",
+            "description": "Bank Account ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Get related Bank",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"CountryID\": \"string\",\r\n    \"BankID\": \"string\",\r\n    \"Name\": \"string\",\r\n    \"City\": \"string\",\r\n    \"SWIFTCode\": \"string\"\r\n  }\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-BankGet200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get related Bank",
+        "method": "GET",
+        "urlTemplate": "/BankAccounts(AccountID='{AccountID}',BankAccountID='{BankAccountID}')/Bank"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid-bank')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid-bank/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid-bank')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Banks"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid-bank/Banks')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid-bank')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountID",
+            "description": "Business Partner ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "PaymentCardID",
+            "description": "Card ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Get related PaymentCardType",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"PaymentCardTypeID\": \"string\",\r\n    \"Description\": \"string\"\r\n  }\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "PaymentCards-AccountID-AccountID-PaymentCardID-PaymentCardID-PaymentCardTypeGet200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get related PaymentCardType",
+        "method": "GET",
+        "urlTemplate": "/PaymentCards(AccountID='{AccountID}',PaymentCardID='{PaymentCardID}')/PaymentCardType"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-paymentcards-accountid-accountid-paymentcardid-paymentcardid-paymentcard')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-paymentcards-accountid-accountid-paymentcardid-paymentcardid-paymentcard/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'get-paymentcards-accountid-accountid-paymentcardid-paymentcardid-paymentcard')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCardTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-paymentcards-accountid-accountid-paymentcardid-paymentcardid-paymentcard/PaymentCardTypes')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'get-paymentcards-accountid-accountid-paymentcardid-paymentcardid-paymentcard')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountID",
+            "description": "Business Partner Identification Number",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Update entity in Accounts",
+        "request": {
+          "description": "New property values",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"d\": {\r\n    \"AccountTitleID\": \"string\",\r\n    \"FirstName\": \"string\",\r\n    \"LastName\": \"string\",\r\n    \"MiddleName\": \"string\",\r\n    \"SecondName\": \"string\",\r\n    \"Sex\": \"string\",\r\n    \"Name1\": \"string\",\r\n    \"Name2\": \"string\",\r\n    \"Name3\": \"string\",\r\n    \"Name4\": \"string\",\r\n    \"GroupName1\": \"string\",\r\n    \"GroupName2\": \"string\",\r\n    \"FullName\": \"string\",\r\n    \"CorrespondenceLanguage\": \"string\",\r\n    \"CorrespondenceLanguageISO\": \"string\",\r\n    \"Language\": \"string\",\r\n    \"LanguageISO\": \"string\"\r\n  }\r\n}",
+              "schemaId": "61df5b5bec635c0d9c45d3b9",
+              "typeName": "Accounts-AccountID-PutRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 204,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Update entity in Accounts",
+        "method": "PUT",
+        "urlTemplate": "/Accounts('{AccountID}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/put-accounts-accountid')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Accounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/put-accounts-accountid/Accounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'put-accounts-accountid')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountID",
+            "description": "Business Partner ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "BankAccountID",
+            "description": "Bank Account ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Update entity in BankAccounts",
+        "request": {
+          "description": "New property values",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"d\": {\r\n    \"BankAccountName\": \"string\"\r\n  }\r\n}",
+              "schemaId": "61df5b5bec635c0d9c45d3b9",
+              "typeName": "BankAccounts-AccountID-AccountID-BankAccountID-BankAccountID-PutRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 204,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Update entity in BankAccounts",
+        "method": "PUT",
+        "urlTemplate": "/BankAccounts(AccountID='{AccountID}',BankAccountID='{BankAccountID}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/put-bankaccounts-accountid-accountid-bankaccountid-bankaccountid')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/put-bankaccounts-accountid-accountid-bankaccountid-bankaccountid/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'put-bankaccounts-accountid-accountid-bankaccountid-bankaccountid')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "ContractAccountID",
+            "description": "Contract Account ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Update entity in ContractAccounts",
+        "request": {
+          "description": "New property values",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"d\": {}\r\n}",
+              "schemaId": "61df5b5bec635c0d9c45d3b9",
+              "typeName": "ContractAccounts-ContractAccountID-PutRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 204,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Update entity in ContractAccounts",
+        "method": "PUT",
+        "urlTemplate": "/ContractAccounts('{ContractAccountID}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/put-contractaccounts-contractaccountid')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/put-contractaccounts-contractaccountid/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'put-contractaccounts-contractaccountid')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountID",
+            "description": "Business Partner ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "PaymentCardID",
+            "description": "Card ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Update entity in PaymentCards",
+        "request": {
+          "description": "New property values",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"AccountID\": \"string\",\r\n  \"PaymentCardID\": \"string\",\r\n  \"PaymentCardTypeID\": \"string\",\r\n  \"CardNumber\": \"string\",\r\n  \"StandardFlag\": false,\r\n  \"Description\": \"string\",\r\n  \"ValidFrom\": \"string\",\r\n  \"ValidTo\": \"string\",\r\n  \"Cardholder\": \"string\",\r\n  \"Issuer\": \"string\",\r\n  \"IssueDate\": \"string\",\r\n  \"MaskNumber\": \"string\",\r\n  \"PaymentCardType\": {\r\n    \"PaymentCardTypeID\": \"string\",\r\n    \"Description\": \"string\"\r\n  }\r\n}",
+              "schemaId": "61df5b5bec635c0d9c45d3b9",
+              "typeName": "ERP_FICA_UMC.PaymentCard"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 204,
+            "description": "Success",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"error\": {\r\n    \"code\": \"string\",\r\n    \"message\": {\r\n      \"lang\": \"string\",\r\n      \"value\": \"string\"\r\n    },\r\n    \"innererror\": {}\r\n  }\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "error"
+              }
+            ]
+          },
+          {
+            "statusCode": 200,
+            "description": "",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"AccountID\": \"string\",\r\n    \"PaymentCardID\": \"string\",\r\n    \"PaymentCardTypeID\": \"string\",\r\n    \"CardNumber\": \"string\",\r\n    \"StandardFlag\": true,\r\n    \"Description\": \"string\",\r\n    \"ValidFrom\": \"2017-04-13T15:51:04Z\",\r\n    \"ValidTo\": \"2017-04-13T15:51:04Z\",\r\n    \"Cardholder\": \"string\",\r\n    \"Issuer\": \"string\",\r\n    \"IssueDate\": \"2017-04-13T15:51:04Z\",\r\n    \"MaskNumber\": \"string\",\r\n    \"PaymentCardType\": {\r\n      \"PaymentCardTypeID\": \"string\",\r\n      \"Description\": \"string\"\r\n    }\r\n  }\r\n}",
+                "schemaId": "61df5b5bec635c0d9c45d3b9",
+                "typeName": "PaymentCardsPutOKApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Update entity in PaymentCards",
+        "method": "PUT",
+        "urlTemplate": "/PaymentCards(AccountID='{AccountID}',PaymentCardID='{PaymentCardID}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/patch-paymentcards-accountid-accountid-paymentcardid-paymentcardid')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'ssa-payment-api', '61df5b5bec635c0d9c45d3b9')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/patch-paymentcards-accountid-accountid-paymentcardid-paymentcardid/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'ssa-payment-api', 'patch-paymentcards-accountid-accountid-paymentcardid-paymentcardid')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-query-parameter name=\"sap-client\" exists-action=\"append\">\r\n\t\t\t<value>{{sap-client-value}}</value>\r\n\t\t</set-query-parameter>\r\n\t\t<authentication-basic username=\"{{api-authentication-username}}\" password=\"{{api-authentication-password}}\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/self-service-apis/ssa-payment-api')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'ssa-payment-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID",
+              "ApplicationID",
+              "UserID",
+              "Version",
+              "apim-correlation-id",
+              "Ocp-Apim-Subscription-Key"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "apim-correlation-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

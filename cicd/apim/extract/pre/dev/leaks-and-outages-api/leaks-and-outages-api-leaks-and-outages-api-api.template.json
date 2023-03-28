@@ -1,0 +1,285 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "Provides access to information about water leaks and outages.",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/60aee5233f5618debd339063')]",
+        "subscriptionRequired": true,
+        "displayName": "Leaks and Outages API",
+        "serviceUrl": "[parameters('serviceUrl').leaksandoutagesapi]",
+        "path": "leaks-and-outages",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/leaks-and-outages-api')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "leaks": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "property-number": {
+                    "type": "string"
+                  },
+                  "leaks": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "wonum": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "priority-assessed": {
+                          "type": "string"
+                        },
+                        "priority-initial": {
+                          "type": "string"
+                        },
+                        "problem": {
+                          "type": "string"
+                        },
+                        "reported": {
+                          "type": "string"
+                        },
+                        "distance": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "wonum",
+                        "status",
+                        "priority-assessed",
+                        "priority-initial",
+                        "problem",
+                        "reported",
+                        "distance"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/leaks-and-outages-api/1622074368269')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'leaks-and-outages-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Report a leak in public spaces",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "ApplicationID",
+              "description": "Send System APP ID – All interaction from source system should have same Application ID.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "TransactionContextID",
+              "description": "Supply GUID – It is generated once at the initiation point of the transaction and is propagated throughout the transaction lifecycle through the service execution.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "UserID",
+              "description": "End user initiating the transaction.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "Version",
+              "description": "Version of the API to be called. Use the value specified in example (highest version)",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "MessageTraceID",
+              "description": "This element is a unique identifier associated with each message. Response and Fault messages should have a distinct MessageTraceID from request messages. Element can be used to achieve idempotent behaviour on server side.",
+              "type": "string",
+              "required": true,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/x-www-form-urlencoded",
+              "sample": "coverage_system_key={\"mode\":\"leaks\",\"property-number\":\"lxffbFBxMNW24lKLIH5Hlg%3D%3D\", \"radius-m\":\"100\"}"
+            },
+            {
+              "contentType": "application/x-www-form-urlencoded",
+              "sample": "coverage_system_key={\"mode\":\"leaks\", \"property-number\":\"\", \"coord\":\"151.00542199999998,-33.8167244\",\"radius-m\":\"100\"}"
+            },
+            {
+              "contentType": "application/x-www-form-urlencoded",
+              "sample": "coverage_system_key={\"mode\":\"outages\",\"property-number\":\"%2FtIb1HjvcO7ZAnaVmTcvSQ%3D%3D\"}"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\"address\":\"PARRAMATTA RLWY STN DARCY ST PARRAMATTA 2150\",\"property-number\": \"3320181\",\"leaks\":[{\"wonum\":\"74191844\",\"status\":\"APPR\",\"priority-assessed\":\"2\",\"priority-initial\":\"2\",\"problem\":\"Water on Footpath\",\"reported\":\"27/10/2017 11:52:50\",\"distance\":44.45},{\"wonum\":\"74196572\",\"status\":\"APPR\",\"priority-assessed\":\"5\",\"priority-initial\":\"5\",\"problem\":\"Water on Footpath\",\"reported\":\"25/01/2018 08:42:36\",\"distance\":44.45},{\"wonum\":\"74196799\",\"status\":\"APPR\",\"priority-assessed\":\"6\",\"priority-initial\":\"6\",\"problem\":\"Water on Footpath\",\"reported\":\"31/01/2018 11:07:14\",\"distance\":44.45},{\"wonum\":\"74197627\",\"status\":\"APPR\",\"priority-assessed\":\"2\",\"priority-initial\":\"2\",\"problem\":\"Water on Footpath\",\"reported\":\"26/02/2018 13:56:50\",\"distance\":44.45}]}",
+                "schemaId": "1622074368269",
+                "typeName": "leaks"
+              }
+            ]
+          }
+        ],
+        "displayName": "Report a Leak",
+        "method": "POST",
+        "urlTemplate": "/ReportALeak"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/leaks-and-outages-api/reportaleak')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'leaks-and-outages-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'leaks-and-outages-api', '1622074368269')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-body>@{\n            var stringBody = context.Request.Body.As<String>();\n            JObject body = JObject.Parse(stringBody.Replace(\"coverage_system_key=\",\"\"));  \n            if(body != null)\n            {\n                var propertyNumber = (string)body[\"property-number\"];\n                if(!String.IsNullOrEmpty(propertyNumber))\n                {\n                    string encryptedValue = propertyNumber;\n\n                    byte[] IV = Convert.FromBase64String(\"{{api-encryptiv}}\");\n                    byte[] key = Convert.FromBase64String(\"{{api-encryptkey}}\");\n                    string encryptExcpetions = \"{{encrypt-exception-values}}\";\n                    string[] arrEncryptExceptions = encryptExcpetions.Split(',');  \n\n                    bool toDecrypt = (Array.Exists(arrEncryptExceptions, e => e.Trim() == encryptedValue.Trim())) ? false : true;\n                    if (toDecrypt)\n                    {\n                        string urlDecodedValue =  System.Net.WebUtility.UrlDecode(encryptedValue);\n                        byte[] urlDecodedByte = Convert.FromBase64String(urlDecodedValue);\n                        byte[] decryptedBytes = urlDecodedByte.Decrypt(\"Aes\", key, IV);\n                        char[] convertedBytesToChar = Encoding.UTF8.GetString(decryptedBytes).ToCharArray();\n                        string decryptedValue = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(convertedBytesToChar));\n\n                        body[\"property-number\"] = \"\";\n\n                        if(!String.IsNullOrEmpty(decryptedValue))\n                        {\n                            body[\"property-number\"] = decryptedValue;\n                        }\n                        \n                    }\n                    return \"coverage_system_key=\" + body.ToString(Newtonsoft.Json.Formatting.None);\n                }\n            }  \n            return stringBody;\n        }</set-body>\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/leaks-and-outages-api/reportaleak/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'leaks-and-outages-api', 'reportaleak')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<authentication-basic username=\"{{api-authentication-username}}\" password=\"{{api-authentication-password}}\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/leaks-and-outages-api/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'leaks-and-outages-api')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/non-self-service-apis/leaks-and-outages-api')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'leaks-and-outages-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

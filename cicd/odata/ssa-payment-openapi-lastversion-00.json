@@ -1,0 +1,1284 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "SSA Payment API",
+		"description": "TBC",
+		"version": "v1"
+	},
+	"servers": [
+		{
+			"url": "https://apim-corenonprod01-integration-00.azure-api.net/ssa-payment/v1"
+		}
+	],
+	"paths": {
+		"/BankAccounts": {
+			"post": {
+				"tags": [
+					"BankAccounts"
+				],
+				"summary": "Add new entity to BankAccounts",
+				"description": "Add new entity to BankAccounts",
+				"operationId": "post-bankaccounts",
+				"requestBody": {
+					"description": "New entity",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ERP_FICA_UMC.BankAccount-create"
+							},
+							"example": {
+								"BankAccountName": "string",
+								"Bank": {}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Created entity",
+						"content": {
+							"application/json": {
+								"schema": {
+									"title": "BankAccount",
+									"type": "object",
+									"properties": {
+										"d": {
+											"$ref": "#/components/schemas/ERP_FICA_UMC.BankAccount"
+										}
+									}
+								},
+								"example": {
+									"d": {
+										"AccountID": "string",
+										"BankAccountID": "string",
+										"BankID": "string",
+										"BankAccountNo": "string",
+										"AccountHolder": "string",
+										"BankAccountName": "string",
+										"IBAN": "string",
+										"ControlKey": "string",
+										"CountryID": "string",
+										"ExternalID": "string",
+										"Bank": {
+											"CountryID": "string",
+											"BankID": "string",
+											"Name": "string",
+											"City": "string",
+											"SWIFTCode": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/BankAccounts(AccountID='{AccountID}',BankAccountID='{BankAccountID}')": {
+			"put": {
+				"tags": [
+					"BankAccounts"
+				],
+				"summary": "Update entity in BankAccounts",
+				"description": "Update entity in BankAccounts",
+				"operationId": "put-bankaccounts-accountid-accountid-bankaccountid-bankaccountid",
+				"parameters": [
+					{
+						"name": "AccountID",
+						"in": "path",
+						"description": "Business Partner Identification Number",
+						"required": true,
+						"schema": {
+							"maxLength": 10,
+							"type": "string"
+						}
+					},
+					{
+						"name": "BankAccountID",
+						"in": "path",
+						"description": "Bank Account Identification Number",
+						"required": true,
+						"schema": {
+							"maxLength": 4,
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "New property values",
+					"content": {
+						"application/json": {
+							"schema": {
+								"title": "Modified BankAccount",
+								"type": "object",
+								"properties": {
+									"d": {
+										"$ref": "#/components/schemas/ERP_FICA_UMC.BankAccount-update"
+									}
+								}
+							},
+							"example": {
+								"d": {
+									"BankAccountName": "string"
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"204": {
+						"description": "Success"
+					}
+				}
+			}
+		},
+		"/BankAccounts(AccountID='{AccountID}',BankAccountID='{BankAccountID}')/Bank": {
+			"get": {
+				"tags": [
+					"BankAccounts",
+					"Banks"
+				],
+				"summary": "Get related Bank",
+				"description": "Get related Bank",
+				"operationId": "get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid-bank",
+				"parameters": [
+					{
+						"name": "AccountID",
+						"in": "path",
+						"description": "Business Partner Identification Number",
+						"required": true,
+						"schema": {
+							"maxLength": 10,
+							"type": "string"
+						}
+					},
+					{
+						"name": "BankAccountID",
+						"in": "path",
+						"description": "Bank Account Identification Number",
+						"required": true,
+						"schema": {
+							"maxLength": 4,
+							"type": "string"
+						}
+					},
+					{
+						"name": "$select",
+						"in": "query",
+						"description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+						"schema": {
+							"uniqueItems": true,
+							"type": "array",
+							"items": {
+								"enum": [
+									"CountryID",
+									"BankID",
+									"Name",
+									"City",
+									"SWIFTCode"
+								],
+								"type": "string"
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Retrieved entity",
+						"content": {
+							"application/json": {
+								"schema": {
+									"title": "Bank",
+									"type": "object",
+									"properties": {
+										"d": {
+											"$ref": "#/components/schemas/ERP_FICA_UMC.Bank"
+										}
+									}
+								},
+								"example": {
+									"d": {
+										"CountryID": "string",
+										"BankID": "string",
+										"Name": "string",
+										"City": "string",
+										"SWIFTCode": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/Accounts('{AccountID}')": {
+			"put": {
+				"tags": [
+					"Accounts"
+				],
+				"summary": "Update entity in Accounts",
+				"description": "Update entity in Accounts",
+				"operationId": "put-accounts-accountid",
+				"parameters": [
+					{
+						"name": "AccountID",
+						"in": "path",
+						"description": "Business Partner Identification Number",
+						"required": true,
+						"schema": {
+							"maxLength": 10,
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "New property values",
+					"content": {
+						"application/json": {
+							"schema": {
+								"title": "Modified Account",
+								"type": "object",
+								"properties": {
+									"d": {
+										"$ref": "#/components/schemas/ERP_FICA_UMC.Account-update"
+									}
+								}
+							},
+							"example": {
+								"d": {
+									"AccountTitleID": "string",
+									"FirstName": "string",
+									"LastName": "string",
+									"MiddleName": "string",
+									"SecondName": "string",
+									"Sex": "string",
+									"Name1": "string",
+									"Name2": "string",
+									"Name3": "string",
+									"Name4": "string",
+									"GroupName1": "string",
+									"GroupName2": "string",
+									"FullName": "string",
+									"CorrespondenceLanguage": "string",
+									"CorrespondenceLanguageISO": "string",
+									"Language": "string",
+									"LanguageISO": "string"
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"204": {
+						"description": "Success"
+					}
+				}
+			}
+		},
+		"/Accounts('{AccountID}')/ContractAccounts": {
+			"parameters": [
+				{
+					"name": "AccountID",
+					"in": "path",
+					"required": true,
+					"description": "Business Partner ID",
+					"schema": {
+						"type": "string",
+						"maxLength": 10
+					}
+				}
+			],
+			"get": {
+				"summary": "Get entities from related ContractAccounts",
+				"tags": [
+					"Accounts",
+					"ContractAccounts"
+				],
+				"parameters": [
+					{
+						"name": "$filter",
+						"in": "query",
+						"description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"$ref": "#/components/parameters/count"
+					},
+					{
+						"name": "$select",
+						"in": "query",
+						"description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+						"explode": false,
+						"schema": {
+							"type": "array",
+							"uniqueItems": true,
+							"items": {
+								"type": "string",
+								"enum": [
+									"ContractAccountID",
+									"AccountID",
+									"Description",
+									"IncomingPaymentMethodID",
+									"OutgoingPaymentMethodID1",
+									"OutgoingPaymentMethodID2",
+									"OutgoingPaymentMethodID3",
+									"OutgoingPaymentMethodID4",
+									"OutgoingPaymentMethodID5",
+									"IncomingPaymentBankAccountID",
+									"OutgoingPaymentBankAccountID",
+									"IncomingPaymentPaymentCardID",
+									"OutgoingPaymentPaymentCardID",
+									"AccountAddressID",
+									"BillToAccountID",
+									"BillToAccountAddressID",
+									"AlternativePayeeID",
+									"AlternativePayerID",
+									"CountryID",
+									"BudgetBillingProcedure",
+									"CommunicationPreferences",
+									"IncomingPaymentCard",
+									"OutgoingPaymentMethod4",
+									"OutgoingBankAccount",
+									"OutgoingPaymentCard",
+									"OutgoingPaymentMethod2",
+									"AlternativePayer",
+									"IncomingAlternativePayerPaymentCard",
+									"Country",
+									"AccountAddress",
+									"IncomingAlternativePayerBankAccount",
+									"AlternativePayee",
+									"OutgoingAlternativePayeeBankAccount",
+									"BillToAccount",
+									"IncomingBankAccount",
+									"OutgoingPaymentMethod5",
+									"OutgoingPaymentMethod3",
+									"IncomingPaymentMethod",
+									"ContractAccountBalance",
+									"OutgoingAlternativePayeePaymentCard",
+									"BillToAccountAddress",
+									"OutgoingPaymentMethod1",
+									"Contracts",
+									"Invoices"
+								]
+							}
+						}
+					},
+					{
+						"name": "$expand",
+						"in": "query",
+						"description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+						"explode": false,
+						"schema": {
+							"type": "array",
+							"uniqueItems": true,
+							"items": {
+								"type": "string",
+								"enum": [
+									"CommunicationPreferences",
+									"IncomingPaymentCard",
+									"OutgoingPaymentMethod4",
+									"OutgoingBankAccount",
+									"OutgoingPaymentCard",
+									"OutgoingPaymentMethod2",
+									"AlternativePayer",
+									"IncomingAlternativePayerPaymentCard",
+									"Country",
+									"AccountAddress",
+									"IncomingAlternativePayerBankAccount",
+									"AlternativePayee",
+									"OutgoingAlternativePayeeBankAccount",
+									"BillToAccount",
+									"IncomingBankAccount",
+									"OutgoingPaymentMethod5",
+									"OutgoingPaymentMethod3",
+									"IncomingPaymentMethod",
+									"ContractAccountBalance",
+									"OutgoingAlternativePayeePaymentCard",
+									"BillToAccountAddress",
+									"OutgoingPaymentMethod1",
+									"Contracts",
+									"Invoices"
+								]
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Retrieved entities",
+						"content": {
+							"application/json": {
+								"schema": {
+									"title": "Wrapper",
+									"type": "object",
+									"properties": {
+										"d": {
+											"title": "Collection of ContractAccount",
+											"type": "object",
+											"properties": {
+												"__count": {
+													"$ref": "#/components/schemas/count"
+												},
+												"results": {
+													"type": "array",
+													"items": {
+														"$ref": "#/components/schemas/ERP_FICA_UMC.ContractAccount"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"4XX": {
+						"$ref": "#/components/responses/error"
+					}
+				}
+			},
+			"post": {
+				"summary": "Add new entity to related ContractAccounts",
+				"tags": [
+					"Accounts",
+					"ContractAccounts"
+				],
+				"requestBody": {
+					"required": true,
+					"description": "New entity",
+					"content": {
+						"application/json": {
+							"schema": {
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Created entity",
+						"content": {
+							"application/json": {
+								"schema": {
+									"title": "ContractAccount",
+									"type": "object",
+									"properties": {
+										"d": {
+											"$ref": "#/components/schemas/ERP_FICA_UMC.ContractAccount"
+										}
+									}
+								}
+							}
+						}
+					},
+					"4XX": {
+						"$ref": "#/components/responses/error"
+					}
+				}
+			}
+		},
+		"/PaymentCards": {
+			"get": {
+				"summary": "Get entities from PaymentCards",
+				"tags": [
+					"PaymentCards"
+				],
+				"parameters": [
+					{
+						"name": "$filter",
+						"in": "query",
+						"description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"$ref": "#/components/parameters/count"
+					},
+					{
+						"name": "$select",
+						"in": "query",
+						"description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+						"explode": false,
+						"schema": {
+							"type": "array",
+							"uniqueItems": true,
+							"items": {
+								"type": "string",
+								"enum": [
+									"AccountID",
+									"PaymentCardID",
+									"PaymentCardTypeID",
+									"CardNumber",
+									"StandardFlag",
+									"Description",
+									"ValidFrom",
+									"ValidTo",
+									"Cardholder",
+									"Issuer",
+									"IssueDate",
+									"MaskNumber",
+									"PaymentCardType"
+								]
+							}
+						}
+					},
+					{
+						"name": "$expand",
+						"in": "query",
+						"description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+						"explode": false,
+						"schema": {
+							"type": "array",
+							"uniqueItems": true,
+							"items": {
+								"type": "string",
+								"enum": [
+									"PaymentCardType"
+								]
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Retrieved entities",
+						"content": {
+							"application/json": {
+								"schema": {
+									"title": "Wrapper",
+									"type": "object",
+									"properties": {
+										"d": {
+											"title": "Collection of PaymentCard",
+											"type": "object",
+											"properties": {
+												"results": {
+													"type": "array",
+													"items": {
+														"$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCard"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"4XX": {
+						"$ref": "#/components/responses/error"
+					}
+				}
+			},
+			"post": {
+				"summary": "Add new entity to PaymentCards",
+				"tags": [
+					"PaymentCards"
+				],
+				"requestBody": {
+					"required": true,
+					"description": "New entity",
+					"content": {
+						"application/json": {
+							"schema": {
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Created entity",
+						"content": {
+							"application/json": {
+								"schema": {
+									"title": "PaymentCard",
+									"type": "object",
+									"properties": {
+										"d": {
+											"$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCard"
+										}
+									}
+								}
+							}
+						}
+					},
+					"4XX": {
+						"$ref": "#/components/responses/error"
+					}
+				}
+			}
+		},
+		"/PaymentCards(AccountID='{AccountID}',PaymentCardID='{PaymentCardID}')": {
+			"parameters": [
+				{
+					"name": "AccountID",
+					"in": "path",
+					"required": true,
+					"description": "Business Partner ID",
+					"schema": {
+						"type": "string",
+						"maxLength": 10
+					}
+				},
+				{
+					"name": "PaymentCardID",
+					"in": "path",
+					"required": true,
+					"description": "Card ID",
+					"schema": {
+						"type": "string",
+						"maxLength": 6
+					}
+				}
+			],
+			"get": {
+				"summary": "Get entity from PaymentCards by key",
+				"tags": [
+					"PaymentCards"
+				],
+				"parameters": [
+					{
+						"name": "$select",
+						"in": "query",
+						"description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+						"explode": false,
+						"schema": {
+							"type": "array",
+							"uniqueItems": true,
+							"items": {
+								"type": "string",
+								"enum": [
+									"AccountID",
+									"PaymentCardID",
+									"PaymentCardTypeID",
+									"CardNumber",
+									"StandardFlag",
+									"Description",
+									"ValidFrom",
+									"ValidTo",
+									"Cardholder",
+									"Issuer",
+									"IssueDate",
+									"MaskNumber",
+									"PaymentCardType"
+								]
+							}
+						}
+					},
+					{
+						"name": "$expand",
+						"in": "query",
+						"description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+						"explode": false,
+						"schema": {
+							"type": "array",
+							"uniqueItems": true,
+							"items": {
+								"type": "string",
+								"enum": [
+									"PaymentCardType"
+								]
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Retrieved entity",
+						"content": {
+							"application/json": {
+								"schema": {
+									"title": "PaymentCard",
+									"type": "object",
+									"properties": {
+										"d": {
+											"$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCard"
+										}
+									}
+								}
+							}
+						}
+					},
+					"4XX": {
+						"$ref": "#/components/responses/error"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete entity from PaymentCards",
+				"tags": [
+					"PaymentCards"
+				],
+				"responses": {
+					"204": {
+						"description": "Success"
+					},
+					"4XX": {
+						"$ref": "#/components/responses/error"
+					}
+				}
+			}
+		},
+		"/PaymentCards(AccountID='{AccountID}',PaymentCardID='{PaymentCardID}')/PaymentCardType": {
+			"parameters": [
+				{
+					"name": "AccountID",
+					"in": "path",
+					"required": true,
+					"description": "Business Partner ID",
+					"schema": {
+						"type": "string",
+						"maxLength": 10
+					}
+				},
+				{
+					"name": "PaymentCardID",
+					"in": "path",
+					"required": true,
+					"description": "Card ID",
+					"schema": {
+						"type": "string",
+						"maxLength": 6
+					}
+				}
+			],
+			"get": {
+				"summary": "Get related PaymentCardType",
+				"tags": [
+					"PaymentCards",
+					"PaymentCardTypes"
+				],
+				"parameters": [
+					{
+						"name": "$select",
+						"in": "query",
+						"description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+						"explode": false,
+						"schema": {
+							"type": "array",
+							"uniqueItems": true,
+							"items": {
+								"type": "string",
+								"enum": [
+									"PaymentCardTypeID",
+									"Description"
+								]
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Retrieved entity",
+						"content": {
+							"application/json": {
+								"schema": {
+									"title": "PaymentCardType",
+									"type": "object",
+									"properties": {
+										"d": {
+											"$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCardType"
+										}
+									}
+								}
+							}
+						}
+					},
+					"4XX": {
+						"$ref": "#/components/responses/error"
+					}
+				}
+			}
+		},
+		"/ContractAccounts": {
+			"post": {
+				"tags": [
+					"ContractAccounts"
+				],
+				"summary": "Add new entity to ContractAccounts",
+				"description": "Add new entity to ContractAccounts",
+				"operationId": "post-contractaccounts",
+				"requestBody": {
+					"description": "New entity",
+					"content": {
+						"application/json": {
+							"schema": {}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Created entity",
+						"content": {
+							"application/json": {
+								"schema": {
+									"title": "ContractAccount",
+									"type": "object",
+									"properties": {
+										"d": {
+											"$ref": "#/components/schemas/ERP_FICA_UMC.ContactClass"
+										}
+									}
+								},
+								"example": {
+									"d": {}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/ContractAccounts('{ContractAccountID}')": {
+			"put": {
+				"tags": [
+					"ContractAccounts"
+				],
+				"summary": "Update entity in ContractAccounts",
+				"description": "Update entity in ContractAccounts",
+				"operationId": "put-contractaccounts-contractaccountid",
+				"parameters": [
+					{
+						"name": "ContractAccountID",
+						"in": "path",
+						"description": "Contract Account Identification Number",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "New property values",
+					"content": {
+						"application/json": {
+							"schema": {
+								"title": "Modified ContractAccount",
+								"type": "object",
+								"properties": {
+									"d": {
+										"$ref": "#/components/schemas/ERP_FICA_UMC.ContractAccount-update"
+									}
+								}
+							},
+							"example": {
+								"d": {}
+							}
+						}
+					}
+				},
+				"responses": {
+					"204": {
+						"description": "Success"
+					}
+				}
+			}
+		},
+		"/Accounts('{AccountID}')/ContractAccounts('{ContractAccountID}')": {
+			"get": {
+				"tags": [
+					"Accounts"
+				],
+				"summary": "Get entity in Accounts",
+				"description": "Get entity in Accounts",
+				"operationId": "get-entity-in-accounts",
+				"parameters": [
+					{
+						"name": "AccountID",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": ""
+						}
+					},
+					{
+						"name": "ContractAccountID",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": null
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"ERP_FICA_UMC.BankAccount": {
+				"title": "BankAccount",
+				"type": "object",
+				"properties": {
+					"AccountID": {
+						"title": "Business Partner ID",
+						"maxLength": 10,
+						"type": "string",
+						"description": "Business Partner Identification Number"
+					},
+					"BankAccountID": {
+						"title": "Bank Account ID",
+						"maxLength": 4,
+						"type": "string",
+						"description": "Bank Account Identification Number"
+					},
+					"BankID": {
+						"title": "Bank ID",
+						"maxLength": 15,
+						"type": "string",
+						"description": "Bank Identification Number"
+					},
+					"BankAccountNo": {
+						"title": "Bank Acct No.",
+						"maxLength": 18,
+						"type": "string",
+						"description": "Bank Account Number"
+					},
+					"AccountHolder": {
+						"title": "Account Holder",
+						"maxLength": 60,
+						"type": "string",
+						"description": "Bank Acount Holder Name"
+					},
+					"BankAccountName": {
+						"title": "Account Name",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Bank Account Name"
+					},
+					"IBAN": {
+						"title": "IBAN",
+						"maxLength": 34,
+						"type": "string"
+					},
+					"ControlKey": {
+						"title": "Bank Control Key",
+						"maxLength": 2,
+						"type": "string"
+					},
+					"CountryID": {
+						"title": "Bank Country",
+						"maxLength": 3,
+						"type": "string",
+						"description": "Bank country key Identifies the country in which the bank is located. The country key defines the rules according to which bank data, such as the bank and account numbers, is to be validated."
+					},
+					"ExternalID": {
+						"title": "Extern.bank ID",
+						"maxLength": 20,
+						"type": "string",
+						"description": "Bank details ID in external system If the current bank details are known under a different ID in an external system, you can store this ID here. The ID in the external system simply provides information on the number under which the bank details were created in your legacy or operational system. Direct input gives you the option of maintaining the bank details of a business partner by specifying the external ID. If you maintain business partner data in your legacy system, you can copy changes made to bank details to the SAP system, even if the SAP ID is not recognized by the legacy system."
+					},
+					"Bank": {
+						"$ref": "#/components/schemas/ERP_FICA_UMC.Bank"
+					}
+				}
+			},
+			"ERP_FICA_UMC.BankAccount-create": {
+				"title": "BankAccount (for create)",
+				"type": "object",
+				"properties": {
+					"BankAccountName": {
+						"title": "Account Name",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Bank Account Name"
+					},
+					"Bank": {
+						"$ref": "#/components/schemas/ERP_FICA_UMC.Bank-create"
+					}
+				}
+			},
+			"ERP_FICA_UMC.BankAccount-update": {
+				"title": "BankAccount (for update)",
+				"type": "object",
+				"properties": {
+					"BankAccountName": {
+						"title": "Account Name",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Bank Account Name"
+					}
+				}
+			},
+			"ERP_FICA_UMC.Bank": {
+				"title": "Bank",
+				"type": "object",
+				"properties": {
+					"CountryID": {
+						"title": "Bank Country",
+						"maxLength": 3,
+						"type": "string"
+					},
+					"BankID": {
+						"title": "Bank ID",
+						"maxLength": 15,
+						"type": "string",
+						"description": "Bank Identification Number"
+					},
+					"Name": {
+						"title": "Bank Name",
+						"maxLength": 60,
+						"type": "string"
+					},
+					"City": {
+						"title": "City",
+						"maxLength": 35,
+						"type": "string",
+						"description": "Bank City"
+					},
+					"SWIFTCode": {
+						"title": "SWIFT Code",
+						"maxLength": 11,
+						"type": "string"
+					}
+				}
+			},
+			"ERP_FICA_UMC.Bank-create": {
+				"title": "Bank (for create)",
+				"type": "object"
+			},
+			"ERP_FICA_UMC.Account-update": {
+				"title": "Account (for update)",
+				"type": "object",
+				"properties": {
+					"AccountTitleID": {
+						"title": "Title ID",
+						"maxLength": 4,
+						"type": "string"
+					},
+					"FirstName": {
+						"title": "First Name",
+						"maxLength": 40,
+						"type": "string"
+					},
+					"LastName": {
+						"title": "Last Name",
+						"maxLength": 40,
+						"type": "string"
+					},
+					"MiddleName": {
+						"title": "Middle Name",
+						"maxLength": 40,
+						"type": "string"
+					},
+					"SecondName": {
+						"title": "Second Name",
+						"maxLength": 40,
+						"type": "string"
+					},
+					"Sex": {
+						"title": "Gender",
+						"maxLength": 1,
+						"type": "string"
+					},
+					"Name1": {
+						"title": "Name 1",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Name 1 of Organization"
+					},
+					"Name2": {
+						"title": "Name 2",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Name 2 of Organization"
+					},
+					"Name3": {
+						"title": "Name 3",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Name 3 of Organization"
+					},
+					"Name4": {
+						"title": "Name 4",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Name 4 of Organization"
+					},
+					"GroupName1": {
+						"title": "Name 1",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Name 1 of Group"
+					},
+					"GroupName2": {
+						"title": "Name 2",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Name 2 of Group"
+					},
+					"FullName": {
+						"title": "Full Name",
+						"maxLength": 80,
+						"type": "string"
+					},
+					"CorrespondenceLanguage": {
+						"title": "Correspondence lang.",
+						"maxLength": 1,
+						"type": "string",
+						"description": "Business Partner: Correspondence Language Correspondence language (written) for business partners in the 'Person' category. Maintain the correspondence language for business partners in the 'Organization' and 'Group' category with the address (communication). When transferring data (direct input), make sure that for a 'Person', the field 'LANGU_CORR' and for an 'Organization' or \"Group\" the field 'LANGU' has an entry."
+					},
+					"CorrespondenceLanguageISO": {
+						"title": "ISO code f. lang.",
+						"maxLength": 2,
+						"type": "string",
+						"description": "Business Partner: Correspondence Language (ISO)"
+					},
+					"Language": {
+						"title": "Language",
+						"maxLength": 1,
+						"type": "string",
+						"description": "Business partner: Language Language for verbal communication with a business partner. This language may differ from the language(s) defined for written correspondence."
+					},
+					"LanguageISO": {
+						"title": "ISO code f. lang.",
+						"maxLength": 2,
+						"type": "string",
+						"description": "Business Partner: Language (ISO)"
+					}
+				}
+			},
+			"ERP_FICA_UMC.PaymentCard": {
+				"title": "PaymentCard",
+				"type": "object",
+				"properties": {
+					"AccountID": {
+						"title": "Business Partner ID",
+						"maxLength": 10,
+						"type": "string",
+						"description": "Business Partner Identification Number"
+					},
+					"PaymentCardID": {
+						"title": "Card ID",
+						"maxLength": 6,
+						"type": "string",
+						"description": "Payment Card Identification Number"
+					},
+					"PaymentCardTypeID": {
+						"title": "Card Type",
+						"maxLength": 4,
+						"type": "string",
+						"description": "Payment Card Type"
+					},
+					"CardNumber": {
+						"title": "Card Number",
+						"maxLength": 25,
+						"type": "string",
+						"description": "Payment Card Number"
+					},
+					"StandardFlag": {
+						"title": "Standard Card",
+						"type": "boolean",
+						"description": "Standard Payment Card Indicator"
+					},
+					"Description": {
+						"title": "Description",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Payment Card Description"
+					},
+					"ValidFrom": {
+						"title": "Valid From",
+						"type": "string",
+						"description": "Payment Card Valid From",
+						"nullable": true,
+						"example": "2017-04-13T15:51:04Z"
+					},
+					"ValidTo": {
+						"title": "Valid To",
+						"type": "string",
+						"description": "Payment Card Valid To",
+						"nullable": true,
+						"example": "2017-04-13T15:51:04Z"
+					},
+					"Cardholder": {
+						"title": "Cardholder Name",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Payment Card: Name of Cardholder"
+					},
+					"Issuer": {
+						"title": "Issuing Bank",
+						"maxLength": 40,
+						"type": "string",
+						"description": "Payment Card: Issuing Bank"
+					},
+					"IssueDate": {
+						"title": "Issue Date",
+						"type": "string",
+						"description": "Payment Card: Date of Issue",
+						"nullable": true,
+						"example": "2017-04-13T15:51:04Z"
+					},
+					"MaskNumber": {
+						"title": "Card Number",
+						"maxLength": 25,
+						"type": "string",
+						"description": "Masked Payment Card Number If the external encryption is activated for the payment card master, the payment card number is saved and displayed in the partly masked form. Example: A 16 character payment card number saved and displayed in the masked form '4123**********30'. The payment card number, which is encrypted via an external tool, does not provide the user with any clues as to which payment card it is. This can be important when there are two payment cards of the same payment card type for a business partner. With the masked card number, you can differentiate between the two cards without the entire card number having to be displayed."
+					},
+					"PaymentCardType": {
+						"$ref": "#/components/schemas/ERP_FICA_UMC.PaymentCardType"
+					}
+				}
+			},
+			"ERP_FICA_UMC.PaymentCardType": {
+				"title": "PaymentCardType",
+				"type": "object",
+				"properties": {
+					"PaymentCardTypeID": {
+						"title": "Paymnt Card Type",
+						"maxLength": 4,
+						"type": "string",
+						"description": "Payment Card Type"
+					},
+					"Description": {
+						"title": "Description",
+						"maxLength": 30,
+						"type": "string",
+						"description": "Payment Card Type Description"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"apiKeyHeader": {
+				"type": "apiKey",
+				"name": "Ocp-Apim-Subscription-Key",
+				"in": "header"
+			},
+			"apiKeyQuery": {
+				"type": "apiKey",
+				"name": "subscription-key",
+				"in": "query"
+			}
+		}
+	},
+	"security": [
+		{
+			"apiKeyHeader": []
+		},
+		{
+			"apiKeyQuery": []
+		}
+	],
+	"tags": [
+		{
+			"name": "Accounts"
+		},
+		{
+			"name": "BankAccounts"
+		},
+		{
+			"name": "PaymentCards"
+		},
+		{
+			"name": "ContractAccounts"
+		}
+	]
+}

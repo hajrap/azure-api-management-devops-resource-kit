@@ -1,0 +1,428 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "value": "prod"
+    },
+    "resourceGroup_namePrimary":{
+      "value": "rg-coreprod01-prod-integration-04"
+    },
+    "region_primary":{
+      "value": "australiaeast"
+    },
+    "appServicePlan_namePrimary": {
+      "value": "asp-coreprod01-integration-04"
+    },
+    "appServicePlan_sku": {
+      "value": {
+        "name": "D1",
+        "tier": "Shared",
+        "size": "D1",
+        "family": "D",
+        "capacity": 0
+      }
+    },
+    "appServicePlan_properties": {
+      "value": {
+        "perSiteScaling": false,
+        "maximumElasticWorkerCount": 1,
+        "isSpot": false,
+        "reserved": false,
+        "isXenon": false,
+        "hyperV": false,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0
+      }
+    },
+    "appInsights_namePrimary": {
+      "value": "appins-coreprod01-integration-04"
+    },
+    "logAnalatics_namePrimary": {
+      "value": "la-coreprod01-integration-04"
+    },
+    "logAnalatics_retentionDays": {
+      "value": 90
+    },
+    "storageAccount_namePrimary": {
+      "value": "sacoreprod01int04"
+    },
+    "storageAccount_typePrimary": {
+      "value": "Standard_LRS"
+    },
+    "deploy_funcApp": {
+      "value": false
+    },
+    "funcApp_namePrimary": {
+      "value": "func-coreprod01-integration-04"
+    },
+    "funcApp_detailedHealthCheckReports": {
+      "value": true
+    },
+    "funcApp_excludeHealthyReports": {
+      "value": false
+    },
+    "kvBootstrap_name":{
+      "value": "kv-corenonprod01-int-00"
+    },
+    "kvBootstrap_rgName":{
+      "value": "rg-corenonprod01-integration-00"
+    },
+    "kvBootstrap_subscriptionId": {
+      "value": "7fdba8aa-bd1e-4895-aff7-b64589d0a27e"
+    },
+    "keyvault_namePrimary":{
+      "value": "kv-coreprod01-int-04"
+    },
+    "keyvault_skuPropertiesPrimary":{
+      "value": {
+        "name": "standard",
+        "family": "A"
+      }
+    },
+    "keyvault_retentionDays": {
+      "value": 28
+    },
+    "keyvault_secretReaderRoleId" : {
+      "value": "4633458b-17de-408a-b874-0445c86b69e6"
+    },
+    "keyvault_secretOfficerRoleId" : {
+      "value": "b86a8fe4-44ce-4948-aee5-eccb2c155cd7"
+    },
+    "keyvault_expirySeconds": {
+      "value": 1687948601
+    },
+    "keyvault_apimSecrets_nonEnvSpecific" : {
+      "value": [
+        "api-encryptiv",
+        "api-encryptkey",
+        "abn-authenticationguid",          
+        "aem-api-authentication-username",
+        "aem-api-authentication-password"          
+      ]
+    },
+    "keyvault_apimSecrets_envSpecific" : {
+      "value": [
+        "api-authentication-password",
+        "api-authentication-username",
+        "3rd-party-http-proxy-password",
+        "3rd-party-http-proxy-username",
+        "func-cdc-login-key",
+        "func-cdc-sbingest-key",
+        "paypal-password",
+        "paypal-username",
+        "bpoint-merchantnumber",
+        "bpoint-password",
+        "bpoint-username",
+        "waterfix-guid"
+      ]
+    },
+    "ssl_certificate_name": {
+      "value": "dcp-apim-ssl-prod"
+    },   
+    "deploy_public_cert": {
+      "value": true
+    },
+    "public_ssl_certificate_name": {
+      "value": "dcp-apim-public-ssl-prod"
+    },
+    "keyvault_appInsKeyName" : {
+      "value": "appInsKey"
+    },
+    "keyvault_funcAppHostKey" : {
+      "value": "funcHostKey"
+    },
+    "emailActionGroup_name" :{
+      "value": "DevHealthCheckAlert"
+    },
+    "emailActionGroup_displayName" :{
+      "value": "DevHlthCheck"
+    },
+    "emailActionGroup_enabled" :{
+      "value": true
+    },
+    "emalActionGroup_emails" :{
+      "value": [
+        {
+          "name": "paasAdminEmail",
+          "emailAddress": "oysd@sydneywater.com.au"
+        }
+      ]
+    },
+    "apiManagement_namePrimary":{
+      "value": "apim-coreprod01-integration-04"
+    },
+    "apiManagement_skuPropertiesPrimary":{
+      "value": {
+        "name": "Premium",
+        "capacity": 1
+      }
+    },
+    "apiManagement_virtualNetworkType": {
+      "value": "Internal"
+    },
+    "key_certificate_SWCRootCA_base64": {
+      "value": "SWCRootCA-base64"
+    },
+    "key_certificate_SWCIssuingCA1_base64": {
+      "value": "SWCIssuingCA1-base64"
+    },
+    "apiManagement_gatewayCustomDomainName": {
+      "value": "azure-api.swc"
+    },
+    "apiManagement_gatewayPublicCustomDomainName": {
+      "value": "azure-api.sydneywater.com.au"
+    },
+    "apiManagement_developerPortalCustomDomainName": {
+      "value": "developer.azure-api.swc"
+    },
+    "apiManagement_managementCustomDomainName": {
+      "value": "management.azure-api.swc"
+    },
+    "apiManagement_publisherEmail": {
+      "value": "oysd@sydneywater.com.au"
+    },
+    "apiManagement_publisherName": {
+      "value": "Sydney Water"
+    },
+    "apiManagement_customProperties": {
+      "value": {
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168": "true",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "false",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "false",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30": "false",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "false",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "false",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "false",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "true"
+      }
+    },
+    "apiManagement_vnetName": {
+      "value": "vnet-coreprod01-ae-prod-04"
+    },
+    "apiManagement_vnetRGName": {
+      "value": "rg-coreprod01-prod-network-04"
+    },
+    "apiManagement_snetName": {
+      "value": "snet-coreprod01-ae-prod-apim-04"
+    },
+    "dcp_logAnalytics_subscriptionId": {
+      "value": "5aa87077-d316-4744-aa67-b280921fb3df"
+    },
+    "dcp_logAnalytics_rgName": {
+      "value": "rg-dcpprodhub-prod-mgmt-04"
+    },
+    "dcp_logAnalytics_workspaceName": {
+      "value": "log-dcpprodhub-dcpmonitoring-04"
+    },
+    "keyVault_diagnosticSettingName": {
+      "value": "log-coreprod01-ae-kv-04"
+    },
+    "privateEndpoints_snetName": {
+      "value": "snet-coreprod01-ae-prod-pe-04"
+    },
+    "keyvault_privateEndpoint_name":{
+      "value": "pe-coreprod01-ae-kv-04"
+    },
+    "storageAccount_privateEndpoint_name":{
+      "value": "pe-coreprod01-ae-sa-04"
+    },
+    "apiManagement_diagnosticSettingName": {
+      "value": "log-coreprod01-ae-apim-04"
+    },
+    "storageAccount_cmkKeyName": {
+      "value": "cmk-coreprod01-int-04"
+    },
+    "keyvault_cryptoServiceEncryptionUserRoleId": {
+      "value": "e147488a-f6f5-4113-8e2d-b22465e65bf6"
+    },
+    "apiManagement_productsAndsubscriptions" : {
+      "value": [
+        {
+          "product_name": "3rd-party-apis",
+          "product_display_name": "3rd Party APIs",
+          "product_description": "Provides access to 3rd party services.",
+          "product_state": "published",
+          "subcription_name": "adobe-3rd-party-apis",
+          "subcription_display_name": "Adobe 3rd Party APIs subscription",
+          "subcription_state": "active"
+        },
+        {
+          "product_name": "non-self-service-apis",
+          "product_display_name": "Non-Self-Service APIs",
+          "product_description": "Provides access to Sydney Water services that are not for the purpose of providing customer self-service.",
+          "product_state": "published",
+          "subcription_name": "adobe-non-self-service-apis",
+          "subcription_display_name": "Adobe Non-Self-Service APIs subscription",
+          "subcription_state": "active"
+        },
+        {
+          "product_name": "3rd-party-apis",
+          "product_display_name": "3rd Party APIs",
+          "product_description": "Provides access to 3rd party services.",
+          "product_state": "published",
+          "subcription_name": "axway-3rd-party-apis",
+          "subcription_display_name": "Axway 3rd Party APIs subscription",
+          "subcription_state": "active"
+        },
+        {
+          "product_name": "3rd-party-apis",
+          "product_display_name": "3rd Party APIs",
+          "product_description": "Provides access to 3rd party services.",
+          "product_state": "published",
+          "subcription_name": "ssa-3rd-party-apis",
+          "subcription_display_name": "SSA 3rd Party APIs subscription",
+          "subcription_state": "active"
+        },
+        {
+          "product_name": "self-service-apis",
+          "product_display_name": "Self-Service APIs",
+          "product_description": "Provides access to Sydney Water services for providing customer self-service capabilities.",
+          "product_state": "published",
+          "subcription_name": "ssa-self-service-apis",
+          "subcription_display_name": "SSA Self-Service APIs subscription",
+          "subcription_state": "active"
+        },
+        {
+          "product_name": "self-service-apis",
+          "product_display_name": "Self-Service APIs",
+          "product_description": "Provides access to Sydney Water services for providing customer self-service capabilities.",
+          "product_state": "published",
+          "subcription_name": "cdc-self-service-apis",
+          "subcription_display_name": "CDC Self-Service APIs subscription",
+          "subcription_state": "active"
+        },{
+          "product_name":"iot-sewer",
+          "product_display_name":"IOT Sewer",
+          "product_description":"IOT Funtions for Sewer Devices",
+          "product_state":"published",
+          "subcription_name":"IOTFuctions-Subscription",
+          "subcription_display_name":"IOTFuctions-Subscription",
+          "subcription_state":"active"
+        }
+      ]
+    },
+    "jwtTokenKeyEValue": {
+      "value": "AQAB"
+    },
+    "jwtTokenKeyNValue": {
+      "value": "qoQah4MFGYedrbWwFc3UkC1hpZlnB2_E922yRJfHqpq2tTHL_NvjYmssVdJBgSKi36cptKqUJ0Phui9Z_kk8zMPrPfV16h0ZfBzKsvIy6_d7cWnn163BMz46kAHtZXqXhNuj19IZRCDfNoqVVxxCIYvbsgInbzZM82CB86iYPAS7piijYn1S6hueVHGAzQorOetZevKIAvbH3kJXZ4KdY6Ffz5SFDJBxC3bycN4q2JM1qnyD53vcc0MitxyIUF7a06iJb5_xXBiA-3xnTI0FU5hw_k6x-sdB5Rglx13_2aNzdWBSBAnxs1XXtZUt9_2RAUxP1XORkrBGlPg9D7cBtQ"
+    },
+    "cdcLoginSubscription": {
+      "value": "a6f7419b-c75d-4817-91ff-cb9b10b91044"
+    },
+    "cdcLoginResourceGroup": {
+      "value": "rg-coreprod01-prod-cdc-04"
+    },
+    "cdcLoginFunctionName": {
+      "value": "func-coreprod01-cdc-login-04"
+    },
+    "cdcLoginBackendUrl": {
+      "value": "https://func-coreprod01-cdc-login-04.azurewebsites.net/api"
+    },
+    "sapClientValue": {
+      "value": "100"
+    },
+    "serviceBus_namespaces_name": {
+      "value": "sb-coreprod01-integration-04"
+    },
+    "serviceBus_sku": {
+      "value": {
+        "name": "Premium",
+        "tier": "Premium",
+        "capacity": 1
+      }
+    },
+    "privateEndpoints_pe_sb_externalid": {
+      "value": ""
+    },
+    "serviceBusResource_privateEndpointConnections_name": {
+      "value": ""
+    },
+    "serviceBusResource_topic_subscription_maxDeliveryCount": {
+      "value": 10
+
+    },
+    "serviceBus_privateEndpoint_name": {
+      "value": "pe-sb-coreprod01-integration-04"
+
+    },
+    "ServiceBusTopicAndSubscription": {
+      "value": [
+        {
+          "topic_name": "sbt-cdcprofileevent",
+          "subscription_name": "sapfunctionapp"
+        },
+        {
+          "topic_name": "sbt-cdcprofilesapupdated",
+          "subscription_name": "cdcupdatefunctionapp"
+        },
+        {
+          "topic_name": "sbt-cdcprofilecdcupdated",
+          "subscription_name": "cdhupdatefunctionapp"
+        }
+
+      ]
+    },
+    "cdcSbIngestSubscription": {
+      "value": "a6f7419b-c75d-4817-91ff-cb9b10b91044"
+    },
+    "cdcSbIngestResourceGroup": {
+      "value": "rg-coreprod01-prod-cdc-04"
+    },
+    "cdcSbIngestFunctionName": {
+      "value": "func-coreprod01-cdc-sbingest-04"
+    },
+    "cdcSbIngestBackendUrl": {
+      "value": "https://func-coreprod01-cdc-sbingest-04.azurewebsites.net"
+    },
+    "IotSewerSigAllSites": {
+       "value": "7JKuZcSGK1Ya4Wp6MesHMAI81pGic6B2VO4A2KYxOJA"
+      },
+    "IotSewerSigCurrentAlarms": {
+       "value": "_Wv6fpiSlO_aTZxg8RadsskcKzuMJCpMohUgZ0Jp_qM"
+      },
+    "IotSewerSigEventHistory": {
+        "value": "KInEA5eEtNYxOBW6sIEU7vWvJNEXauohsHjeOWJmsgg"
+      },
+    "IotSewerSigStateHistory": {
+        "value": "1Wow8CxADmv7GVjxw6800gJDsF8UffpphmdacOxA2D4"
+      },
+    "IotSewerSigTelemetryHistory": {
+        "value": "KyXfnooYsDWtWpXA9CS0z3117paTmnCKvyD6S8odWuk"
+      },
+    "IotSewerSigTelemetryWithinBounds": {
+        "value": "b4Pm3ejvNacoAheGMnPvy92R05zN4uEcp2TeorG72d4"
+      },
+    "IotSewerSigUpdateAlarm": {
+        "value": "B48FaVf2wFJTpwOwvqql__PG2wB5o4kB0NJOFmdMnjc"
+      },
+    "IotSewerSigWetWeatherRegions": {
+        "value": "oT1yd21Bn7rpMp9XtRBt2bgzOeuHFWGOzeM-ROraCV4"
+      },
+    "IotSewerSigTelemetryForSite":{
+        "value": "KVgVh2JXLefIaynd5kEV5q7JuDpNPiEi80vdqmo2LvE"
+      },
+    "IotSewerSigAllSitesForBounds":{
+        "value": "DQ6SoMlJJd66cqdGkANGy8SbhZFBcgfr2Y93eV-mAiQ"
+      },
+    "bpointBillerCode":{
+      "value": "1200468"
+    },
+    "bpointBackendHost":{
+      "value": "https://bpoint.linkly.com.au"
+    },
+    "deploy_serviceBus": {
+      "value": true
+    },
+    "paypalOrdersUrl":{
+      "value": "https://api-m.paypal.com/v2/checkout"
+    },
+    "paypalTokenUrl":{
+      "value": "https://api-m.paypal.com/v1/oauth2"
+    },
+    "waterfixDB":{
+      "value": "SPOTLESS_SW"
+    }
+  }
+}

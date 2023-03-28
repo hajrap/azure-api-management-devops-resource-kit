@@ -1,0 +1,20 @@
+# azure-pipelines.yml
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+  - task: k6-load-test@0
+    displayName: 'Rate limit test'
+    inputs:
+      filename: $(System.DefaultWorkingDirectory)/cicd/tests/Rate-Limit-Testing.js
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/*.xml'
+      mergeTestResults: true
+      failTaskOnFailedTests: true
+      testRunTitle: 'Test rate limit for Non-Self-Service-APIs'
+    

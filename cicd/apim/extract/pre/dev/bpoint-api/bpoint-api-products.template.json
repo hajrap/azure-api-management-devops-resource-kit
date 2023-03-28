@@ -1,0 +1,119 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "Provides access to 3rd party services.",
+        "subscriptionRequired": true,
+        "approvalRequired": false,
+        "state": "published",
+        "displayName": "3rd Party APIs"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-apis')]",
+      "type": "Microsoft.ApiManagement/service/products",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",
+        "displayName": "Administrators",
+        "type": "system",
+        "builtIn": true
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-apis/administrators')]",
+      "type": "Microsoft.ApiManagement/service/products/groups",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/products', parameters('ApimServiceName'), '3rd-party-apis')]"
+      ]
+    },
+    {
+      "properties": {
+        "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",
+        "displayName": "Developers",
+        "type": "system",
+        "builtIn": true
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-apis/developers')]",
+      "type": "Microsoft.ApiManagement/service/products/groups",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/products', parameters('ApimServiceName'), '3rd-party-apis')]"
+      ]
+    },
+    {
+      "properties": {
+        "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",
+        "displayName": "Guests",
+        "type": "system",
+        "builtIn": true
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-apis/guests')]",
+      "type": "Microsoft.ApiManagement/service/products/groups",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/products', parameters('ApimServiceName'), '3rd-party-apis')]"
+      ]
+    },
+    {
+      "properties": {
+        "description": "Provides access to Sydney Water services for providing customer self-service capabilities.",
+        "subscriptionRequired": true,
+        "approvalRequired": false,
+        "state": "published",
+        "displayName": "Self-Service APIs"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/self-service-apis')]",
+      "type": "Microsoft.ApiManagement/service/products",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",
+        "displayName": "Administrators",
+        "type": "system",
+        "builtIn": true
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/self-service-apis/administrators')]",
+      "type": "Microsoft.ApiManagement/service/products/groups",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/products', parameters('ApimServiceName'), 'self-service-apis')]"
+      ]
+    },
+    {
+      "properties": {
+        "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",
+        "displayName": "Developers",
+        "type": "system",
+        "builtIn": true
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/self-service-apis/developers')]",
+      "type": "Microsoft.ApiManagement/service/products/groups",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/products', parameters('ApimServiceName'), 'self-service-apis')]"
+      ]
+    },
+    {
+      "properties": {
+        "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",
+        "displayName": "Guests",
+        "type": "system",
+        "builtIn": true
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/self-service-apis/guests')]",
+      "type": "Microsoft.ApiManagement/service/products/groups",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/products', parameters('ApimServiceName'), 'self-service-apis')]"
+      ]
+    }
+  ]
+}

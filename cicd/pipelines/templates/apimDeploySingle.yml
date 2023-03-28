@@ -1,0 +1,77 @@
+parameters:
+  - name: azureSubscription
+    type: string
+  - name: resourceGroup
+    type: string
+  - name: apimServiceName
+    type: string
+  - name: versionSetsArmTemplate
+    type: string
+  - name: apisArmTemplate
+    type: string
+  - name: tagsArmTemplate
+    type: string
+  - name: paramsPath
+    type: string
+  - name: apiName
+    type: string
+
+jobs:
+  - job:
+
+    displayName: 'Deploying API ${{ parameters.apiName }} to ${{ parameters.apimServiceName }}'
+
+    variables:
+      - name: DeploymentName
+        value: ${{parameters.apimServiceName}}.$(Get-Date -Format yyyyMMddhhmmss)
+      - name: currentBranch
+        value: $[replace(variables['Build.SourceBranch'], 'refs/heads/','')]
+
+    steps:
+
+      - script: |
+          git --version
+          git config --global user.email "devops@dxc.com"
+          git config --global user.name "Devops Build Service"
+          git switch $(currentBranch)
+        displayName: Switch to the source branch
+
+      - task: AzurePowerShell@5
+        displayName: Test if tags template file ${{parameters.tagsArmTemplate}} exists
+        inputs:
+          azureSubscription: ${{parameters.azureSubscription}}
+          scriptType: 'inlineScript'
+          inline: |
+            $fileExists = Test-Path -Path "${{parameters.tagsArmTemplate}}"
+            Write-Output "##vso[task.setvariable variable=FileExists]$fileExists"
+          FailOnStandardError: true
+          azurePowerShellVersion: "LatestVersion"
+          pwsh: true
+
+      - task: AzureCLI@2
+        displayName: Deploy Optional Tags Template
+        condition: eq(variables['FileExists'], True)
+        inputs:
+          azureSubscription: ${{parameters.azureSubscription}}
+          scriptType: 'pscore'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            az deployment group create --resource-group ${{parameters.resourceGroup}} --name $(DeploymentName) --template-file '"${{parameters.tagsArmTemplate}}"' --parameters ApimServiceName=${{parameters.apimServiceName}} --debug
+
+      - task: AzureCLI@2
+        displayName: Deploy API Depencencies
+        inputs:
+          azureSubscription: ${{parameters.azureSubscription}}
+          scriptType: 'pscore'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            az deployment group create --resource-group ${{parameters.resourceGroup}} --name $(DeploymentName) --template-file '"${{parameters.versionSetsArmTemplate}}"' --parameters ApimServiceName=${{parameters.apimServiceName}} --debug
+              
+      - task: AzureCLI@2
+        displayName: Deploy API
+        inputs:
+          azureSubscription: ${{parameters.azureSubscription}}
+          scriptType: 'pscore'
+          scriptLocation: 'inlineScript'
+          inlineScript: az deployment group create --resource-group ${{parameters.resourceGroup}} --name $(DeploymentName) --template-file '"${{parameters.apisArmTemplate}}"' --parameters ${{parameters.paramsPath}} --debug
+

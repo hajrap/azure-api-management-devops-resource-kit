@@ -1,0 +1,222 @@
+parameters:
+- name: deployAllApis
+  type: boolean
+  default: true
+- name: apiNames
+  type: object
+  default: [
+    'billing-api',
+    'data-feed-api', 
+    'paypal-api',
+    'elastic-address-search-api', 
+    'abn-lookup-api',
+    'leaks-and-outages-api', 
+    'meter-api', 
+    'property-api',
+    'aem-assets-api',
+    'bpoint-api',
+    'waterfix-api',
+    'sap-metadata-api'
+  ]
+- name: environmentParam
+  displayName: API Name
+  type: string
+  default: dev
+  values:
+  - pre
+  - dev
+
+trigger:
+  batch: false
+  branches:
+    include:
+    - develop
+    exclude:
+    - main
+    - master
+    - feature/*
+    - support/*
+    - release/*
+    - hotfix/*
+
+pool:
+  name: Hosted Windows 2019 with VS2019
+  demands: azureps
+
+variables:
+  # global variables
+  system.debug: true
+  nonPrdAzureSubscription: APIM_CoreNonProd01
+  environment: ${{ parameters.environmentParam }}
+  toolsBuildPlatform: 'Any CPU'
+  toolsBuildConfiguration: Release
+  
+  #Infrastructure via Template Spec
+  bicepFilePath: $(System.DefaultWorkingDirectory)\cicd\templatespecs\main.bicep
+  templatesPath: $(System.DefaultWorkingDirectory)\cicd\templatespecs\main.json
+  paramsPath: $(System.DefaultWorkingDirectory)\cicd\templatespecs\params\$(environment).json
+  templateSpecsScriptPath: $(System.DefaultWorkingDirectory)\cicd\scripts\iac.ps1
+  specName: SWIntegration
+
+  #Business Logic via Function App
+  fullSolution: '**/app/Integration.sln'
+  funcBuildPlatform: 'Any CPU'
+  funcBuildConfiguration: Debug
+
+  # GENERATED ARM TEMPLATES EXTRACTED FROM SOURCE ENVIRONMENT
+  publishGlobalPath: $(System.DefaultWorkingDirectory)\cicd\apim\globalconfig
+  # global APIM ARM files
+  globalBackendsArmTemplate: $(publishGlobalPath)\infra-backends.template.json
+  globalNamedValueArmTemplate: $(publishGlobalPath)\infra-namedValues.template.json
+  globalServicePolicyArmTemplate: $(publishGlobalPath)\infra-globalServicePolicy.template.json
+  globalProductsArmTemplate: $(publishGlobalPath)\infra-products.template.json
+  # TARGET APIM ARM PARAMS
+  paramsPathDest: $(System.DefaultWorkingDirectory)\cicd\apim\envparams\$(environment)-api-parameters.json
+  # PULBISHED APIM TEMPLATES
+  publishGitLocation: $(System.DefaultWorkingDirectory)\cicd\apim\extract\pre
+  publishApiPathRoot: $(publishGitLocation)\dev
+  # POSTMAN TESTS
+  postmanCollectionFilepath: cicd\tests\SydneyWater_APIM_TESTS.postman_collection.json
+  postmanEnvironmentFilepath: cicd\tests\params\SydneyWater_$(environment)_APIM_ENV.postman_environment.json
+
+stages:
+
+- stage: ParseParamsQA
+  displayName: 'Parse QA params file ${{ variables.environment }}.json'
+  jobs:
+  - job: ReadParamsFile
+    steps: 
+    - pwsh: |
+        $json = Get-Content $(paramsPath) | ConvertFrom-Json
+        Write-Host "##vso[task.setvariable variable=specResourceGroup;isOutput=true]$($json.parameters.resourceGroup_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=specLocation;isOutput=true]$($json.parameters.region_primary.value)"
+        Write-Host "##vso[task.setvariable variable=functionAppName;isOutput=true]$($json.parameters.funcApp_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=apimServiceNameDest;isOutput=true]$($json.parameters.apiManagement_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=kvServiceNameDest;isOutput=true]$($json.parameters.keyvault_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=storageAccountNameDest;isOutput=true]$($json.parameters.storageAccount_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=cmkKeyName;isOutput=true]$($json.parameters.storageAccount_cmkKeyName.value)"
+        Write-Host "##vso[task.setvariable variable=sslCertificateName;isOutput=true]$($json.parameters.ssl_certificate_name.value)"
+        Write-Host "##vso[task.setvariable variable=kvBootstrap;isOutput=true]$($json.parameters.kvBootstrap_name.value)"
+      displayName: 'Parse ARM template params | pwsh'
+      name: parseJson
+    - script: |
+        echo specResourceGroup=$(parseJson.specResourceGroup)
+        echo specLocation=$(parseJson.specLocation)
+        echo functionAppName=$(parseJson.functionAppName)
+        echo apimServiceNameDest=$(parseJson.apimServiceNameDest)
+        echo kvServiceNameDest=$(parseJson.kvServiceNameDest)
+        echo storageAccountNameDest=$(parseJson.storageAccountNameDest)
+        echo cmkKeyName=$(parseJson.cmkKeyName)
+        echo sslCertificateName=$(sslCertificateName)
+        echo kvBootstrap=$(kvBootstrap)
+      displayName: 'Log macros from $(paramsPath)'
+
+- stage: InfrastructureQA
+  displayName: 'Deploy QA Infrastructure to ${{ variables.environment }}'
+  dependsOn: 
+  - ParseParamsQA
+  variables:
+    specResourceGroup: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.specResourceGroup'] ]
+    specLocation: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.specLocation'] ]
+    kvServiceNameDest: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.kvServiceNameDest'] ]
+    storageAccountNameDest: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.storageAccountNameDest'] ]
+    cmkKeyName: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.cmkKeyName'] ]
+    sslCertificateName: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.sslCertificateName'] ]
+    kvBootstrap: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.kvBootstrap'] ]
+  jobs:
+  - template: ./templates/iac.yml
+    parameters:
+      azureSubscription: $(nonPrdAzureSubscription)
+      scriptPath: $(templateSpecsScriptPath)
+      filePath: $(templatesPath)
+      name: $(specName)
+      resourceGroup: $(specResourceGroup)
+      location: $(specLocation)
+      environment: $(environment)
+      paramsPath: $(paramsPath)
+      bicepFilePath: $(bicepFilePath)
+      storageAccount: $(storageAccountNameDest)
+      keyVault: $(kvServiceNameDest)
+      cmkKeyName: $(cmkKeyName)
+  # - job: UploadSSL
+  #   condition: eq('${{ parameters.environmentParam }}', 'dev')
+  #   steps:
+  #   - task: DownloadSecureFile@1
+  #     displayName: 'Download SSL certificate'
+  #     name: sslCertificate
+  #     inputs:
+  #       secureFile: 'azure-apidev.swcdev.pfx'
+  #   - task: AzureKeyVault@1
+  #     displayName: 'Fetch SSL certificate password'
+  #     inputs:
+  #       azureSubscription: $(nonPrdAzureSubscription)
+  #       KeyVaultName: $(kvBootstrap)
+  #       SecretsFilter: 'dcp-apim-ssl-dev-password'
+  #       RunAsPreJob: false
+  #   - task: AzureCLI@2
+  #     displayName: 'Import SSL certificate'
+  #     inputs:
+  #       azureSubscription: $(nonPrdAzureSubscription)
+  #       scriptType: 'pscore'
+  #       scriptLocation: 'inlineScript'
+  #       inlineScript: |
+  #         az keyvault certificate import --file $(sslCertificate.secureFilePath) --name 'azure-apidev' --vault-name $(kvServiceNameDest) --password $(dcp-apim-ssl-dev-password)
+
+- stage: ApimDeployAPIInfraDepends
+  displayName: 'Deploy API dependencies to ${{ variables.environment }}'
+  dependsOn: 
+  - InfrastructureQA
+  - ParseParamsQA
+  condition: succeeded()
+  variables:
+    specResourceGroup: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.specResourceGroup'] ]
+    specLocation: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.specLocation'] ]
+    apimServiceNameDest: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.apimServiceNameDest'] ]
+    kvServiceNameDest: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.kvServiceNameDest'] ]
+  jobs:
+  - template: ./templates/apimDeployInfraDepends.yml
+    parameters:
+      azureSubscription: $(nonPrdAzureSubscription)
+      resourceGroup: $(specResourceGroup)
+      apimServiceName: $(apimServiceNameDest)
+      kvServiceName: $(kvServiceNameDest)
+      namedValueArmTemplate: $(globalNamedValueArmTemplate)
+      globalServicePolicyArmTemplate: $(globalServicePolicyArmTemplate)
+      productsArmTemplate: $(globalProductsArmTemplate)
+      backendsArmTemplate: $(globalBackendsArmTemplate)
+
+- stage: ApimDeployAllAPIs
+  displayName: 'Deploy all APIs to ${{ variables.environment }}'
+  dependsOn: 
+  - ApimDeployAPIInfraDepends
+  - ParseParamsQA
+  condition: and(succeeded(), eq('${{ parameters.deployAllApis }}', 'true'))
+  variables:
+    specResourceGroup: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.specResourceGroup'] ]
+    apimServiceNameDest: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.apimServiceNameDest'] ]
+  jobs:
+  - ${{ each apiName in parameters.apiNames }} :
+    - template: ./templates/apimDeploySingle.yml
+      parameters:
+        azureSubscription: $(nonPrdAzureSubscription)
+        resourceGroup: $(specResourceGroup)
+        apimServiceName: $(apimServiceNameDest)
+        tagsArmTemplate: $(publishApiPathRoot)\${{apiName}}\${{apiName}}-tags.template.json
+        versionSetsArmTemplate: $(publishApiPathRoot)\${{apiName}}\${{apiName}}-apiVersionSets.template.json
+        apisArmTemplate: $(publishApiPathRoot)\${{apiName}}\${{apiName}}-${{apiName}}-api.template.json
+        paramsPath: $(paramsPathDest)
+        apiName: ${{apiName}}
+
+- stage: RunTestsForAllAPIs
+  displayName: 'Run postman tests for all API against ${{ variables.environment }}'
+  dependsOn:
+  - ApimDeployAllAPIs
+  condition: succeeded()
+  jobs:
+  - ${{ each apiName in parameters.apiNames }} :
+    - template: ./templates/postmanRunTest.yml
+      parameters:
+        apiName: ${{apiName}}
+        azureSubscription: $(nonPrdAzureSubscription)
+        postmanCollectionFilepath: $(postmanCollectionFilepath)
+        postmanEnvironmentFilepath: $(postmanEnvironmentFilepath)

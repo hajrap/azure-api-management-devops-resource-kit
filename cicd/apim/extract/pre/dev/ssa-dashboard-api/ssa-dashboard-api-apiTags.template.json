@@ -1,0 +1,108 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "PaperlessSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-dashboard-api/post-paperlessset/PaperlessSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "displayName": "AccountStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-dashboard-api/get-accountstatusset/AccountStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-dashboard-api', 'post-paperlessset', 'PaperlessSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillPaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-dashboard-api/get-billpaymenthistoryset/BillPaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-dashboard-api', 'get-accountstatusset', 'AccountStatusSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-dashboard-api/get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon/BillHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-dashboard-api', 'get-billpaymenthistoryset', 'BillPaymentHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillPaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-dashboard-api/get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon/BillPaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-dashboard-api', 'get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon', 'BillHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Service_AddressSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-dashboard-api/get-service_addressset/Service_AddressSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-dashboard-api', 'get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon', 'BillPaymentHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "AccountStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-dashboard-api/get-accountstatusset-contractaccount-contractaccount-businesspartner-busines/AccountStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-dashboard-api', 'get-service_addressset', 'Service_AddressSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-dashboard-api/get-paperlessset-paperless/PaperlessSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-dashboard-api', 'get-accountstatusset-contractaccount-contractaccount-businesspartner-busines', 'AccountStatusSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Service_AddressSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-dashboard-api/get-service_addressset-businesspartner/Service_AddressSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-dashboard-api', 'get-paperlessset-paperless', 'PaperlessSet')]"
+      ]
+    }
+  ]
+}

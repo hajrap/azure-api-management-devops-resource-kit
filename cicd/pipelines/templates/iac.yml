@@ -1,0 +1,94 @@
+parameters:
+  - name: azureSubscription
+    type: string
+  - name: scriptPath
+    type: string
+  - name: filePath
+    type: string
+  - name: name
+    type: string
+  - name: resourceGroup
+    type: string
+  - name: location
+    type: string
+  - name: environment
+    type: string
+  - name: paramsPath
+    type: string
+  - name: bicepFilePath
+    type: string
+  - name: storageAccount
+    type: string
+  - name: keyVault
+    type: string
+  - name: cmkKeyName
+    type: string
+  - name: isDryRun
+    type: boolean
+    default: false
+
+jobs:
+  - job:
+
+    ${{if parameters.isDryRun }} :
+      displayName: '[DRY RUN] Deploying IaC for ${{ parameters.environment }} to ${{ parameters.resourceGroup }}.'
+    ${{ else }}:
+      displayName: 'Deploying IaC for ${{ parameters.environment }} to ${{ parameters.resourceGroup }}.'
+
+    steps:
+
+      - task: AzureCLI@2
+        displayName: Transpile Bicep to Json
+        inputs:
+          azureSubscription: ${{parameters.azureSubscription}}
+          scriptType: ps
+          scriptLocation: inlineScript
+          inlineScript: az bicep build --file ${{parameters.bicepFilePath}}
+
+      - task: AzurePowerShell@5
+        displayName: IAC deploy via template spec ${{ parameters.name }} version ${{ parameters.environment }}.$(Build.BuildNumber)
+        inputs:
+          azureSubscription: ${{parameters.azureSubscription}}
+          ScriptType: "FilePath"
+          ScriptPath: ${{parameters.scriptPath}}
+          scriptArguments: -resourceGroup ${{ parameters.resourceGroup }} `
+            -location ${{parameters.location}} `
+            -name ${{parameters.name}} `
+            -filePath ${{parameters.filePath}} `
+            -version ${{parameters.environment}}.$(Build.BuildNumber) `
+            -paramsPath ${{parameters.paramsPath}} `
+            -environment ${{parameters.environment}}
+            -isDryRun ${{parameters.isDryRun}}
+          FailOnStandardError: true
+          azurePowerShellVersion: "LatestVersion"
+          pwsh: true
+
+      # - task: AzureCLI@2
+      #   displayName: 'System assign a managed identity for ${{ parameters.storageAccount }}'
+      #   inputs:
+      #     azureSubscription: ${{ parameters.azureSubscription }}
+      #     scriptType: 'pscore'
+      #     scriptLocation: 'inlineScript'
+      #     inlineScript: az storage account update --name ${{ parameters.storageAccount }} --resource-group ${{ parameters.resourceGroup }} --assign-identity --debug
+
+      # - task: AzureCLI@2
+      #   displayName: 'Set access policy on ${{ parameters.keyVault }}'
+      #   inputs:
+      #     azureSubscription: ${{ parameters.azureSubscription }}
+      #     scriptType: 'pscore'
+      #     scriptLocation: 'inlineScript'
+      #     inlineScript: |
+      #       $storage_account_principal= & az storage account show --name ${{ parameters.storageAccount }} --resource-group ${{ parameters.resourceGroup }} --query identity.principalId --output tsv --debug
+      #       az keyvault set-policy --name ${{ parameters.keyVault }} --resource-group ${{ parameters.resourceGroup }} --object-id $storage_account_principal --key-permissions get unwrapKey wrapKey --debug
+
+      # - task: AzureCLI@2
+      #   displayName: 'Configure CMK on ${{ parameters.storageAccount }}'
+      #   inputs:
+      #     azureSubscription: ${{ parameters.azureSubscription }}
+      #     scriptType: 'pscore'
+      #     scriptLocation: 'inlineScript'
+      #     inlineScript: |
+      #       $key_vault_uri= & az keyvault show --name ${{ parameters.keyVault }} --resource-group ${{ parameters.resourceGroup }} --query properties.vaultUri --output tsv --debug
+      #       az storage account update --name ${{ parameters.storageAccount }} --resource-group ${{ parameters.resourceGroup }} --encryption-key-name ${{ parameters.cmkKeyName }} --encryption-key-source Microsoft.Keyvault --encryption-key-vault $key_vault_uri --debug
+          
+

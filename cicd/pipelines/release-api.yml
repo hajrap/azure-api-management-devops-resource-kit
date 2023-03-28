@@ -1,0 +1,376 @@
+parameters:
+- name: apiName
+  displayName: API Name
+  type: string
+  default: iot-sewer
+  values:
+  - billing-api
+  - data-feed-api
+  - paypal-api
+  - elastic-address-search-api
+  - abn-lookup-api
+  - meter-api
+  - property-api
+  - leaks-and-outages-api
+  - aem-assets-api
+  - waterfix-api
+  - bpoint-api
+  - sap-metadata-api
+  - ssa-account-api
+  - ssa-dashboard-api
+  - cdc-accounts-api
+  - cdc-account-event-api-v2
+  - cdc-login-event-api
+  - ssa-billing-api
+  - sap-digital-bp-api
+  - ssa-interactions-api
+  - ssa-usage-api
+  - ssa-payment-api
+  - iot-sewer
+  - sap-ssa-batch-api
+
+trigger: none
+
+pool:
+  name: Hosted Windows 2019 with VS2019
+  demands: azureps
+
+variables:
+  # global variables
+  system.debug: true
+  nonPrdAzureSubscription: APIM_CoreNonProd01
+  azureSubscription: CoreProd01
+  environmentTST: qa
+  environmentPrePROD: preprod
+  environmentPROD: prod
+  # toolsBuildPlatform: 'Any CPU'
+  # toolsBuildConfiguration: Release
+  
+  #Infrastructure via Template Spec
+  bicepFilePath: $(System.DefaultWorkingDirectory)\cicd\templatespecs\main.bicep
+  templatesPath: $(System.DefaultWorkingDirectory)\cicd\templatespecs\main.json
+  paramsPathTST: $(System.DefaultWorkingDirectory)\cicd\templatespecs\params\$(environmentTST).json
+  paramsPathPrePROD: $(System.DefaultWorkingDirectory)\cicd\templatespecs\params\$(environmentPrePROD).json
+  paramsPathPROD: $(System.DefaultWorkingDirectory)\cicd\templatespecs\params\$(environmentPROD).json
+  templateSpecsScriptPath: $(System.DefaultWorkingDirectory)\cicd\scripts\iac.ps1
+  specName: SWIntegration
+
+  #Business Logic via Function App
+  fullSolution: '**/app/Integration.sln'
+  funcBuildPlatform: 'Any CPU'
+  funcBuildConfiguration: Debug
+
+  # GENERATED ARM TEPMPLATES EXTRACTED FROM SOURCE ENVIRONMENT
+  publishGlobalPath: $(System.DefaultWorkingDirectory)\cicd\apim\globalconfig
+  # global ARM files
+  globalBackendsArmTemplate: $(publishGlobalPath)\infra-backends.template.json
+  globalNamedValueArmTemplate: $(publishGlobalPath)\infra-namedValues.template.json
+  globalServicePolicyArmTemplate: $(publishGlobalPath)\infra-globalServicePolicy.template.json
+  globalProductsArmTemplate: $(publishGlobalPath)\infra-products.template.json
+
+  # TARGET APIM ARM PARAMS
+  paramsPathDestTST: $(System.DefaultWorkingDirectory)\cicd\apim\envparams\$(environmentTST)-api-parameters.json
+  paramsPathDestPrePROD: $(System.DefaultWorkingDirectory)\cicd\apim\envparams\$(environmentPrePROD)-api-parameters.json
+  paramsPathDestPROD: $(System.DefaultWorkingDirectory)\cicd\apim\envparams\$(environmentPROD)-api-parameters.json
+
+  # PULBISHED APIM EXTRACTION 
+  publishGitLocation: $(System.DefaultWorkingDirectory)\cicd\apim\extract\pre
+
+  # GENERATED ARM TEMPLATES EXTRACTED FROM SOURCE ENVIRONMENT
+  publishApiPath: $(publishGitLocation)\dev\${{ parameters.apiName }}
+  # publish api specific ARM files - mandatory
+  publishApiArmTemplate: $(publishApiPath)\${{ parameters.apiName }}-${{ parameters.apiName }}-api.template.json
+  publishApiVersionSetsArmTemplate: $(publishApiPath)\${{ parameters.apiName }}-apiVersionSets.template.json
+  # publish api specific ARM files - optional (apiTags.template.json?)
+  publishApiTagsArmTemplate: $(publishApiPath)\${{ parameters.apiName }}-tags.template.json
+
+  # POSTMAN TESTS
+  postmanCollectionFilepath: cicd\tests\SydneyWater_APIM_TESTS.postman_collection.json
+  postmanEnvironmentFilepathTST: cicd\tests\params\SydneyWater_$(environmentTST)_APIM_ENV.postman_environment.json
+  postmanEnvironmentFilepathPrePROD: cicd\tests\params\SydneyWater_$(environmentPrePROD)_APIM_ENV.postman_environment.json
+
+stages:
+
+- stage: ParseParamsQA
+  displayName: 'Parse QA params file ${{ variables.environmentTST }}.json'
+  jobs:
+  - job: ReadParamsFile
+    steps: 
+    - pwsh: |
+        $json = Get-Content $(paramsPathTST) | ConvertFrom-Json
+        Write-Host "##vso[task.setvariable variable=specResourceGroup;isOutput=true]$($json.parameters.resourceGroup_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=specLocation;isOutput=true]$($json.parameters.region_primary.value)"
+        Write-Host "##vso[task.setvariable variable=functionAppName;isOutput=true]$($json.parameters.funcApp_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=apimServiceNameDest;isOutput=true]$($json.parameters.apiManagement_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=kvServiceNameDest;isOutput=true]$($json.parameters.keyvault_namePrimary.value)"
+      displayName: 'Parse ARM template params | pwsh'
+      name: parseJson
+    - script: |
+        echo specResourceGroup=$(parseJson.specResourceGroup)
+        echo specLocation=$(parseJson.specLocation)
+        echo functionAppName=$(parseJson.functionAppName)
+        echo apimServiceNameDest=$(parseJson.apimServiceNameDest)
+        echo kvServiceNameDest=$(parseJson.kvServiceNameDest)
+  #   displayName: 'Log macros from $(paramsPathTST)'
+  # - job: PassInterjobVars
+  #   dependsOn: ReadParamsFile
+  #   variables:
+  #     a: $[ dependencies.ReadParamsFile.outputs['parseJson.specResourceGroup'] ]
+  #   steps:
+  #   - script: |
+  #       echo specResourceGroup=$(a)
+
+- stage: EchoParamsQA
+  displayName: 'Echo parsed QA params'
+  dependsOn: ParseParamsQA
+  jobs:
+  - job: PassInterstageVars
+    variables:
+      specResourceGroup: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.specResourceGroup'] ]
+    steps:
+    - script: |
+        echo specResourceGroup=$(specResourceGroup)
+      displayName: 'Log macros from $(paramsPathTST)'
+
+- stage: ApimDeploySingleAPIQA
+  displayName: 'Deploy API ${{ parameters.apiName }} to ${{ variables.environmentTST }}'
+  dependsOn: 
+  - ParseParamsQA
+  condition: succeeded()
+  variables:
+    specResourceGroup: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.specResourceGroup'] ]
+    specLocation: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.specLocation'] ]
+    apimServiceNameDest: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.apimServiceNameDest'] ]
+  jobs:
+  - template: ./templates/apimDeploySingle.yml
+    parameters:
+      azureSubscription: $(nonPrdAzureSubscription)
+      resourceGroup: $(specResourceGroup)
+      apimServiceName: $(apimServiceNameDest)
+      tagsArmTemplate: $(publishApiTagsArmTemplate)
+      versionSetsArmTemplate: $(publishApiVersionSetsArmTemplate)
+      apisArmTemplate: $(publishApiArmTemplate)
+      paramsPath: $(paramsPathDestTST)
+      apiName: ${{ parameters.apiName }}
+
+- stage: RunTestForSingleAPIQA
+  displayName: 'Run postman tests for API ${{ parameters.apiName }} against ${{ variables.environmentTST }}'
+  dependsOn: 
+  - ApimDeploySingleAPIPrePROD
+  condition: succeeded()
+  jobs:
+  - template: ./templates/postmanRunTest.yml
+    parameters:
+      apiName: ${{ parameters.apiName }}
+      azureSubscription: $(azureSubscription)
+      postmanCollectionFilepath: $(postmanCollectionFilepath)
+      postmanEnvironmentFilepath: $(postmanEnvironmentFilepathPrePROD)
+
+- stage: APIDevValidateSingleAPIDeployQA
+  displayName: 'Validate deployed API ${{ parameters.apiName }} in ${{ variables.environmentTST }}'
+  dependsOn: 
+  # - RunTestForSingleAPIQA
+  - ApimDeploySingleAPIQA
+  - ParseParamsQA
+  condition: succeeded()
+  variables:
+    apimServiceNameDest: $[ stageDependencies.ParseParamsQA.ReadParamsFile.outputs['parseJson.apimServiceNameDest'] ]
+  jobs:  
+  - job: waitForValidation
+    pool: server
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:
+    - task: ManualValidation@0
+      displayName: 'Wait for validation of deployed single API ${{ parameters.apiName }} deployment in $(apimServiceNameDest)'
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: |
+          spham23@dxc.com
+          oysd@sydneywater.com.au
+          ankur.desaidxc.com
+          ozt8@sydneywater.com.au
+        instructions: 'Wait for validation of deployed single API ${{ parameters.apiName }} in $(apimServiceNameDest) and initiate PR or merge close off feature branch'
+        onTimeout: 'reject'
+
+#UAT
+
+- stage: ParseParamsPrePROD
+  displayName: 'Parse PrePROD params file ${{ variables.environmentPrePROD }}.json'
+  jobs:
+  - job: ReadParamsFile
+    steps: 
+    - pwsh: |
+        $json = Get-Content $(paramsPathPrePROD) | ConvertFrom-Json
+        Write-Host "##vso[task.setvariable variable=specResourceGroup;isOutput=true]$($json.parameters.resourceGroup_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=specLocation;isOutput=true]$($json.parameters.region_primary.value)"
+        Write-Host "##vso[task.setvariable variable=functionAppName;isOutput=true]$($json.parameters.funcApp_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=apimServiceNameDest;isOutput=true]$($json.parameters.apiManagement_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=kvServiceNameDest;isOutput=true]$($json.parameters.keyvault_namePrimary.value)"
+      displayName: 'Parse ARM template params | pwsh'
+      name: parseJson
+    - script: |
+        echo specResourceGroup=$(parseJson.specResourceGroup)
+        echo specLocation=$(parseJson.specLocation)
+        echo functionAppName=$(parseJson.functionAppName)
+        echo apimServiceNameDest=$(parseJson.apimServiceNameDest)
+        echo kvServiceNameDest=$(parseJson.kvServiceNameDest)
+      displayName: 'Log macros from $(paramsPathPrePROD)'
+
+- stage: ApimDeploySingleAPIPrePROD
+  displayName: 'Deploy API ${{ parameters.apiName }} to ${{ variables.environmentPrePROD }}'
+  dependsOn: 
+  - ParseParamsPrePROD
+  # - APIDevValidateSingleAPIDeployQA
+  condition: succeeded()
+  variables:
+    specResourceGroup: $[ stageDependencies.ParseParamsPrePROD.ReadParamsFile.outputs['parseJson.specResourceGroup'] ]
+    specLocation: $[ stageDependencies.ParseParamsPrePROD.ReadParamsFile.outputs['parseJson.specLocation'] ]
+    apimServiceNameDest: $[ stageDependencies.ParseParamsPrePROD.ReadParamsFile.outputs['parseJson.apimServiceNameDest'] ]
+  jobs:
+  - template: ./templates/apimDeploySingle.yml
+    parameters:
+      azureSubscription: $(azureSubscription)
+      resourceGroup: $(specResourceGroup)
+      apimServiceName: $(apimServiceNameDest)
+      tagsArmTemplate: $(publishApiTagsArmTemplate)
+      versionSetsArmTemplate: $(publishApiVersionSetsArmTemplate)
+      apisArmTemplate: $(publishApiArmTemplate)
+      paramsPath: $(paramsPathDestPrePROD)
+      apiName: ${{ parameters.apiName }}
+
+# - stage: RunTestForSingleAPIPrePROD
+#   displayName: 'Run postman tests for API ${{ parameters.apiName }} against ${{ variables.environmentPrePROD }}'
+#   dependsOn: 
+#   - ApimDeploySingleAPIPrePROD
+#   condition: succeeded()
+#   jobs:
+#   - template: ./templates/postmanRunTest.yml
+#     parameters:
+#       apiName: ${{ parameters.apiName }}
+#       azureSubscription: $(azureSubscription)
+#       postmanCollectionFilepath: $(postmanCollectionFilepath)
+#       postmanEnvironmentFilepath: $(postmanEnvironmentFilepathPrePROD)
+
+- stage: APIDevValidateSingleAPIDeployPrePROD
+  displayName: 'Validate deployed API ${{ parameters.apiName }} in ${{ variables.environmentPrePROD }}'
+  dependsOn: 
+  # - RunTestForSingleAPIPrePROD
+  - ApimDeploySingleAPIPrePROD
+  - ParseParamsPrePROD
+  condition: succeeded()
+  variables:
+    apimServiceNameDest: $[ stageDependencies.ParseParamsPrePROD.ReadParamsFile.outputs['parseJson.apimServiceNameDest'] ]
+  jobs:  
+  - job: waitForValidation
+    pool: server
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:
+    - task: ManualValidation@0
+      displayName: 'Wait for validation of deployed single API ${{ parameters.apiName }} deployment in $(apimServiceNameDest)'
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: |
+          spham23@dxc.com
+          oysd@sydneywater.com.au
+          ankur.desai@dxc.com
+          ozt8@sydneywater.com.au
+          3fu@sydneywater.com.au
+        instructions: 'Wait for validation of deployed single API ${{ parameters.apiName }} in $(apimServiceNameDest) and initiate PR or merge close off feature branch'
+        onTimeout: 'reject'
+
+#PROD
+
+- stage: ParseParamsPROD
+  displayName: 'Parse PROD params file ${{ variables.environmentPROD }}.json'
+  jobs:
+  - job: ReadParamsFile
+    steps: 
+    - pwsh: |
+        $json = Get-Content $(paramsPathPROD) | ConvertFrom-Json
+        Write-Host "##vso[task.setvariable variable=specResourceGroup;isOutput=true]$($json.parameters.resourceGroup_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=specLocation;isOutput=true]$($json.parameters.region_primary.value)"
+        Write-Host "##vso[task.setvariable variable=functionAppName;isOutput=true]$($json.parameters.funcApp_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=apimServiceNameDest;isOutput=true]$($json.parameters.apiManagement_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=kvServiceNameDest;isOutput=true]$($json.parameters.keyvault_namePrimary.value)"
+      displayName: 'Parse ARM template params | pwsh'
+      name: parseJson
+    - script: |
+        echo specResourceGroup=$(parseJson.specResourceGroup)
+        echo specLocation=$(parseJson.specLocation)
+        echo functionAppName=$(parseJson.functionAppName)
+        echo apimServiceNameDest=$(parseJson.apimServiceNameDest)
+        echo kvServiceNameDest=$(parseJson.kvServiceNameDest)
+      displayName: 'Log macros from $(paramsPathPROD)'
+
+- stage: StartSingleAPIDeployPROD
+  displayName: 'Start API ${{ parameters.apiName }} deployment to ${{ variables.environmentPROD }}?'
+  dependsOn: 
+   - APIDevValidateSingleAPIDeployPrePROD
+  condition: succeeded()
+  variables:
+    apimServiceNameDest: $[ stageDependencies.ParseParamsPROD.ReadParamsFile.outputs['parseJson.apimServiceNameDest'] ]
+  jobs:  
+  - job: waitForValidation
+    pool: server
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:
+    - task: ManualValidation@0
+      displayName: 'Wait to start single API ${{ parameters.apiName }} deployment in $(apimServiceNameDest)'
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: |
+          spham23@dxc.com
+          oysd@sydneywater.com.au
+          ankur.desai@dxc.com
+          ozt8@sydneywater.com.au
+        instructions: 'Wait to start single API ${{ parameters.apiName }} in $(apimServiceNameDest)'
+        onTimeout: 'reject'
+
+- stage: ApimDeploySingleAPIPROD
+  displayName: 'Deploy API ${{ parameters.apiName }} to ${{ variables.environmentPROD }}'
+  dependsOn: 
+  - ParseParamsPROD
+  - StartSingleAPIDeployPROD
+  condition: succeeded()
+  variables:
+    specResourceGroup: $[ stageDependencies.ParseParamsPROD.ReadParamsFile.outputs['parseJson.specResourceGroup'] ]
+    specLocation: $[ stageDependencies.ParseParamsPROD.ReadParamsFile.outputs['parseJson.specLocation'] ]
+    apimServiceNameDest: $[ stageDependencies.ParseParamsPROD.ReadParamsFile.outputs['parseJson.apimServiceNameDest'] ]
+  jobs:
+  - template: ./templates/apimDeploySingle.yml
+    parameters:
+      azureSubscription: $(azureSubscription)
+      resourceGroup: $(specResourceGroup)
+      apimServiceName: $(apimServiceNameDest)
+      tagsArmTemplate: $(publishApiTagsArmTemplate)
+      versionSetsArmTemplate: $(publishApiVersionSetsArmTemplate)
+      apisArmTemplate: $(publishApiArmTemplate)
+      paramsPath: $(paramsPathDestPROD)
+      apiName: ${{ parameters.apiName }}
+
+# no automated test stage for PROD
+
+- stage: APIDevValidateSingleAPIDeploy
+  displayName: 'Validate deployed API ${{ parameters.apiName }} in ${{ variables.environmentPROD }}'
+  dependsOn: 
+  - ApimDeploySingleAPIPROD
+  - ParseParamsPROD
+  condition: succeeded()
+  variables:
+    apimServiceNameDest: $[ stageDependencies.ParseParamsPROD.ReadParamsFile.outputs['parseJson.apimServiceNameDest'] ]
+  jobs:  
+  - job: waitForValidation
+    pool: server
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:
+    - task: ManualValidation@0
+      displayName: 'Wait for validation of deployed single API ${{ parameters.apiName }} deployment in $(apimServiceNameDest)'
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: |
+          spham23@dxc.com
+          oysd@sydneywater.com.au
+          ankur.desai@dxc.com
+          ozt8@sydneywater.com.au
+        instructions: 'Wait for validation of deployed single API ${{ parameters.apiName }} in $(apimServiceNameDest) and initiate PR or merge close off feature branch'
+        onTimeout: 'reject'

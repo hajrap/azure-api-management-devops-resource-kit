@@ -1,0 +1,70 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "resourceId": "https://management.azure.com/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-cdc-01/providers/Microsoft.Web/sites/func-corenonprod01-cdc-login-01",
+        "credentials": {
+          "query": {},
+          "header": {
+            "x-functions-key": [
+              "{{func-cdc-login-key}}"
+            ]
+          }
+        },
+        "tls": {
+          "validateCertificateChain": true,
+          "validateCertificateName": true
+        },
+        "url": "https://func-corenonprod01-cdc-login-01.azurewebsites.net/api",
+        "protocol": "http"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/func-cdc-login')]",
+      "type": "Microsoft.ApiManagement/service/backends",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "description": "func-corenonprod01-cdc-login-01",
+        "resourceId": "https://management.azure.com/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-cdc-01/providers/Microsoft.Web/sites/func-corenonprod01-cdc-login-01",
+        "credentials": {
+          "query": {},
+          "header": {
+            "x-functions-key": [
+              "{{func-cdc-login-key}}"
+            ]
+          }
+        },
+        "url": "https://func-corenonprod01-cdc-login-01.azurewebsites.net/api",
+        "protocol": "http"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/func-corenonprod01-cdc-login-01')]",
+      "type": "Microsoft.ApiManagement/service/backends",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "description": "func-corenonprod01-integration-00",
+        "credentials": {
+          "query": {},
+          "header": {
+            "x-functions-key": [
+              "{{funcHostKey}}"
+            ]
+          }
+        },
+        "url": "https://func-corenonprod01-integration-00.azurewebsites.net/api",
+        "protocol": "http"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/func-corenonprod01-integration-00')]",
+      "type": "Microsoft.ApiManagement/service/backends",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

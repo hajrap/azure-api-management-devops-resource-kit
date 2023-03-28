@@ -1,0 +1,60 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "value": "apim-corenonprod01-integration-01"
+    },
+    "serviceUrl": {
+      "value": {
+        "abnlookupapirev1": "https://abr.business.gov.au",
+        "abnlookupapi": "https://abr.business.gov.au",
+        "abrxmlsearchsitest1": "https://abr.business.gov.au",
+        "aemassetsapirev1": "https://author1australiaeast.dev.sydneywater.adobecqms.net",
+        "aemassetsapi": "https://author1australiaeast.dev.sydneywater.adobecqms.net",
+        "billingapirev1": "https://apidev.swc:41443/customer/Billing",
+        "billingapi": "https://apidev.swc:41443/customer/Billing",
+        "bpointapi": "https://bpoint-uat.premier.com.au/rest/v5",
+        "cdcaccountapis": "https://accounts.au1.gigya.com",
+        "cdcaccounteventapi": null,
+        "cdcaccountsapirev1": "https://accounts.au1.gigya.com",
+        "cdcaccountsapirev2": "https://accounts.au1.gigya.com",
+        "cdcaccountsapi": "https://accounts.au1.gigya.com",
+        "cdclogineventapi": null,
+        "cdcregistrationeventapi": null,
+        "datafeedapirev1": "https://apidev.swc:41443/common",
+        "datafeedapi": "https://apidev.swc:41443/common",
+        "elasticaddresssearchapi": "https://apidev.swc:41443/customer",
+        "leaksandoutagesapi": "https://apidev.swc:41443/customer",
+        "loginapi": null,
+        "meterapi": "https://apidev.swc:41443/customer/Meter",
+        "paypalapi": "https://api-m.sandbox.paypal.com",
+        "propertyapi": "https://apidev.swc:41443/customer/Property",
+        "sapdashboardapi": "https://localhost/service-root",
+        "sapdigitalbpapi": "https://apidev.swc:41443/customer",
+        "sapmetadataapi": "https://apidev.swc:41443/customer",
+        "pocsap": "https://localhost/service-root",
+        "pocsapv1v2aconly": "https://localhost/service-root",
+        "pocsapsm": "https://localhost/service-root",
+        "pocsapv1": "https://localhost/service-root",
+        "pocsapv1v2": "https://localhost/service-root",
+        "ssaaccountapirev1": "https://apidev.swc:41443/customer/ssa-account/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV",
+        "ssaaccountapirev2": "https://apidev.swc:41443/customer/ssa-account/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV",
+        "ssaaccountapi": "https://apidev.swc:41443/customer/ssa-account/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV",
+        "ssabillingapi": "https://apidev.swc:41443/customer/ssa-billing/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV",
+        "ssadashboardapi": "https://apidev.swc:41443/customer/ssa-dashboard/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV",
+        "exampleapi": null,
+        "exampleapiv1": null,
+        "waterfixapirev1": "https://asap.dataforce.com.au/~spotless-test",
+        "waterfixapi": "https://asap.dataforce.com.au/~spotless-test"
+      }
+    },
+    "LoggerResourceId": {
+      "value": {
+        "appInsightsPrimaryDeploy": null,
+        "azuremonitor": null
+      }
+    }
+  },
+  "resources": []
+}

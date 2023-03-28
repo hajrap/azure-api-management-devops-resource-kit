@@ -1,0 +1,85 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "api-authentication-password",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/api-authentication-password"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-authentication-password')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "api-authentication-username",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/api-authentication-username"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-authentication-username')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "api-encryptiv",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/api-encryptiv"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-encryptiv')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "api-encryptkey",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/api-encryptkey"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-encryptkey')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "encrypt-exception-values",
+        "value": "9999999,0"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/encrypt-exception-values')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "sap-client-value",
+        "value": "200"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-client-value')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

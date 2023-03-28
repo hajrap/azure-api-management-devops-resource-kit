@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "LoggerResourceId": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "loggerType": "applicationInsights",
+        "credentials": {
+          "instrumentationKey": "{{appInsKey}}"
+        },
+        "isBuffered": true,
+        "resourceId": "[parameters('LoggerResourceId').appInsightsPrimaryDeploy]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/appInsightsPrimaryDeploy')]",
+      "type": "Microsoft.ApiManagement/service/loggers",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "loggerType": "azureMonitor",
+        "isBuffered": true,
+        "resourceId": "[parameters('LoggerResourceId').azuremonitor]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/loggers",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

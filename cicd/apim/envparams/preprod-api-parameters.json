@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "value": "apim-coreprod01-integration-03"
+    },
+    "serviceUrl": {
+      "value": {
+        "bpointapiv1": "https://bpoint-uat.premier.com.au/rest/v5",
+        "bpointapi": "https://bpoint.uat.linkly.com.au/rest/v5",
+        "billingapi": "https://apitest.adst.swct:41443/customer/Billing",
+        "datafeedapi": "https://apitest.adst.swct:41443/common",
+        "elasticaddresssearchapi": "https://apitest.adst.swct:41443/customer",
+        "paypalapi": "https://api-m.sandbox.paypal.com",
+        "abnlookupapi": "https://abr.business.gov.au",
+        "meterapi": "https://apitest.adst.swct:41443/customer/Meter",
+        "propertyapi": "https://apitest.adst.swct:41443/customer/Property",
+        "leaksandoutagesapi": "https://apitest.adst.swct:41443/customer",
+        "waterfixapi": "https://asap.dataforce.com.au/~spotless-test",
+        "aemassetsapi": "https://author1australiaeast.stage.sydneywater.adobecqms.net",
+        "sapmetadataapi": "https://apitest.adst.swct:41443/customer",
+        "ssaaccountapi": "https://apitest.adst.swct:41443/customer/ssa-account/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV",
+        "ssadashboardapi": "https://apitest.adst.swct:41443/customer/ssa-account/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV",
+        "cdcaccountsapi": "https://accounts.au1.gigya.com",
+        "cdclogineventapi": null,
+        "cdcaccounteventapi": null,
+        "ssabillingapi": "https://apitest.adst.swct:41443/customer/ssa-billing/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV",
+        "sapdigitalbpapi": "https://apitest.adst.swct:41443/customer",
+        "ssainteractionsapi": "https://apitest.adst.swct:41443/customerutility/ssa-interactions/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV/",
+        "ssausageapi": "https://apitest.adst.swct:41443/customerutility/ssa-usage/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV/",
+        "ssapaymentapi": "https://apitest.adst.swct:41443/customerutility/ssa-payments/sap/opu/odata/SAP/ZERP_ISU_UMC_SRV/",
+        "cdcaccounteventapiv2": null,
+        "iotsewer": "https://logic-swcprod01-ae-preprod-iot-02.azurewebsites.net:443/api",
+        "sapssabatchapi": "https://apitest.adst.swct:41443/customer"
+      }
+    }
+  }
+}

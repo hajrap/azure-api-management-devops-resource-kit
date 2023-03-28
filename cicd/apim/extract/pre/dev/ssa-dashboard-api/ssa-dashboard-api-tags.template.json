@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "AccountStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillPaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillPaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaperlessSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Service_AddressSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Service_AddressSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

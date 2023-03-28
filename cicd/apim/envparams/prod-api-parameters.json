@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "value": "apim-coreprod01-integration-04"
+    },
+    "serviceUrl": {
+      "value": {
+        "bpointapiv1": "https://bpoint.com.au/rest/v5",
+        "bpointapi": "https://bpoint.com.au/rest/v5",
+        "billingapi": "https://apiprod.swc:41443/customer/Billing",
+        "datafeedapi": "https://apiprod.swc:41443/common",
+        "elasticaddresssearchapi": "https://apiprod.swc:41443/customer",
+        "paypalapi": "https://api-m.paypal.com",
+        "abnlookupapi": "https://abr.business.gov.au",
+        "meterapi": "https://apiprod.swc:41443/customer/Meter",
+        "propertyapi": "https://apiprod.swc:41443/customer/Property",
+        "leaksandoutagesapi": "https://apiprod.swc:41443/customer",
+        "waterfixapi": "https://asap.dataforce.com.au/~spotless/asap.PROD",
+        "aemassetsapi" :"https://author1australiaeast.stage.sydneywater.adobecqms.net",
+        "sapmetadataapi": "https://apiprod.swc:41443/customer",
+        "ssaaccountapi": "https://apiprod.swc:41443/customer/ssa-account/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV",
+        "ssadashboardapi": "https://apiprod.swc:41443/customer/ssa-account/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV",
+        "cdcaccountsapi": "https://accounts.au1.gigya.com",
+        "cdclogineventapi": null,
+        "cdcaccounteventapi": null,
+        "cdcaccounteventapiv2": null,
+        "ssabillingapi": "https://apiprod.swc:41443/customer/ssa-billing/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV",
+        "sapdigitalbpapi": "https://apiprod.swc:41443/customer",
+        "ssainteractionsapi": "https://apiprod.swc:41443/customerutility/ssa-interactions/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV/",
+        "ssausageapi": "https://apiprod.swc:41443/customerutility/ssa-usage/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV/",
+        "ssapaymentapi": "https://apiprod.swc:41443/customerutility/ssa-payments/sap/opu/odata/SAP/ZERP_ISU_UMC_SRV/",
+        "iotsewer": "https://logic-swcprod01-ae-prod-iot-02.azurewebsites.net:443/api",
+        "sapssabatchapi": "https://apiprod.swc:41443/customer"
+      }
+    }
+  }
+}

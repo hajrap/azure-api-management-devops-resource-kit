@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "value": "apim-corenonprod01-integration-00"
+    },
+    "serviceUrl": {
+      "value": {
+        "bpointapiv1": "https://bpoint-uat.premier.com.au/rest/v5",
+        "bpointapi": "https://bpoint.uat.linkly.com.au/rest/v5",
+        "billingapi": "https://apidev.swc:41443/customer/Billing",
+        "datafeedapi": "https://apidev.swc:41443/common",
+        "elasticaddresssearchapi": "https://apidev.swc:41443/customer",
+        "paypalapi": "https://api-m.sandbox.paypal.com",
+        "abnlookupapi": "https://abr.business.gov.au",
+        "meterapi": "https://apidev.swc:41443/customer/Meter",
+        "propertyapi": "https://apidev.swc:41443/customer/Property",
+        "leaksandoutagesapi": "https://apidev.swc:41443/customer",
+        "waterfixapi": "https://asap.dataforce.com.au/~spotless-test",
+        "aemassetsapi": "https://author1australiaeast.dev.sydneywater.adobecqms.net",
+        "sapmetadataapi": "https://apidev.swc:41443/customer/sap/opu/odata/sap",
+        "cdcaccounteventapi": null,
+        "cdcaccountsapi": "https://accounts.au1.gigya.com"
+      }
+    }
+  }
+}

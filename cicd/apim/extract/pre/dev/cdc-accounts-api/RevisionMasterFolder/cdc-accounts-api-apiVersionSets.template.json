@@ -1,0 +1,355 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "ABN Lookup API",
+        "description": "ABN Lookup web-based search services.",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60b9d84758d443a559b0b331')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AEM Assets API",
+        "description": "The AEM Assets API provides access to DCP solution’s Adobe AEM Assets HTTP API, allows for create-read-update-delete (CRUD) operations on digital assets, including on metadata, on renditions, and on comments, together with structured content\n using Experience Manager Content Fragments.",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60fa28790a85b33f60c428f8')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Billing API",
+        "description": "Provides access to data and services related to customer billing. ",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60af4f915d97e489bd0d8e88')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Billing API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60af4f85bd01aa54a8b7efe8')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BPoint API",
+        "description": "Provides APIs to BPoint services",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60b830e1839b233270e90fe6')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC Account APIs",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/6108e77ccb9fca874a18395a')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC Account APIs",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/6108e757d8bf1e0c29d589e1')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC Account APIs -Old",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/6108f693c15650d932dc0301')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC Account Event API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/61496fab84d43f71a3ca9838')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC Account Event API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/61496f13ddd9108626822bd7')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC Accounts API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/6149316c54fbbd3e8f026996')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC Accounts API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/6149313b0e625cba6390dacb')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC Login API -Old",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/61307f9f83ba8948ef6809f0')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC Login Event API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/61493ffa4866adc021b1cd50')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC Login Event API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/61493f8e222898e2f5f646b5')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC Registration Event API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/61355f1d2812155d211ef4c6')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Data Feed API",
+        "description": "Call the Data Feed API to post various messages in the format of name value pairs to Sydney Water backend Data Feed services. ",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60aeee99b7e1ef94875851e7')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Data Feed API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60aeee36c43ad4fdcbeff7d6')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "DataFeed API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60af4418d04a5a22321daee9')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Elastic Address Search API",
+        "description": "Provides Australia address search capability.",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60b70b3cfad853fb8f92cd73')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Elastic Cloud API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60ae114174106b455e7d2826')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Leaks and Outages API",
+        "description": "Provides access to information about water leaks and outages.",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60aee5233f5618debd339063')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Login API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/61307f1ed6984b68ac959d75')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Meter API",
+        "description": "Provides access to data and services related to meter equipment.",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60b00efebc8dbb8de7070f5a')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Paypal API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60ebcabc44f81b3f621c1faa')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "POC - SAP Dashboard API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/6125c2ea6ee3a4d9cc69ff33')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "POC SAP",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/6125994600b56f192466ebe1')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Property API",
+        "description": "Provides access to data and services related to properties.",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60b41d12f2e9a61858fc3e3b')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "SAP Digital BP API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/6124901d72047022b30470a3')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "SAP Digital BP API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/611f1d750e7518a52dacf9e8')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "SAP Metadata API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/612727f838b57e1c12292653')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Service for namespace HSSA.SCM_UTILITIES_SRV",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/613855ad642199453435e02e')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "SSA Account API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/61370ee35371f23ab10c0a5c')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "SSA Dashboard API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/6143e6e247ed8242d2dd8996')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "SSA Dashboard API",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/6143e6a766d4614ff1acc74d')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "SW APIM Utility API",
+        "description": "To provide utility capabilities for implementing Sydney Water APIM. This API is for development purpose and should not be published to upper environments.",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/609cbf4d63f6809c34ec1ff1')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "WaterFix API",
+        "description": "Provides functionality related to water fix/repair appointment booking",
+        "versioningScheme": "Segment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/60d1313345b5f9adc65fc3bb')]",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

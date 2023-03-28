@@ -1,0 +1,75 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "CorrespondenceSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-interactions-api/get-correspondenceset/CorrespondenceSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "displayName": "DocumentDisplaySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-interactions-api/get-documentdisplayset/DocumentDisplaySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-interactions-api', 'get-correspondenceset', 'CorrespondenceSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InteractionSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-interactions-api/get-interactionset/InteractionSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-interactions-api', 'get-documentdisplayset', 'DocumentDisplaySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CorrespondenceSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-interactions-api/get-correspondenceset-partnerkey-partnerkey-vkont-vkont-datehigh-datehigh-da/CorrespondenceSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-interactions-api', 'get-interactionset', 'InteractionSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "DocumentDisplaySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-interactions-api/get-documentdisplayset-docid-docid-doccategory-doccategory-mime_type-mime_ty/DocumentDisplaySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-interactions-api', 'get-correspondenceset-partnerkey-partnerkey-vkont-vkont-datehigh-datehigh-da', 'CorrespondenceSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InteractionSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-interactions-api/get-interactionset-partnerkey-partnerkey-vkont-vkont-datehigh-datehigh-datel/InteractionSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-interactions-api', 'get-documentdisplayset-docid-docid-doccategory-doccategory-mime_type-mime_ty', 'DocumentDisplaySet')]"
+      ]
+    }
+  ]
+}

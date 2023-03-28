@@ -1,0 +1,1260 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "The Accounts API provides access to the user account data stored by SAP CDC.",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "apiVersion": "v1",
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/6149316c54fbbd3e8f026996')]",
+        "subscriptionRequired": true,
+        "displayName": "CDC Accounts API",
+        "serviceUrl": "[parameters('serviceUrl').cdcaccountsapirev1]",
+        "path": "cdc-accounts",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cdc-accounts-api;rev=1')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "User": {
+                "title": "User",
+                "required": [
+                  "id",
+                  "firstName",
+                  "lastName",
+                  "email",
+                  "emailVerified"
+                ],
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique identifier for the given user."
+                  },
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "dateOfBirth": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "1997-10-31T00:00:00Z"
+                  },
+                  "emailVerified": {
+                    "type": "boolean",
+                    "description": "Set to true if the user's email has been verified."
+                  },
+                  "createDate": {
+                    "type": "string",
+                    "description": "The date that the user was created.",
+                    "format": "date"
+                  }
+                },
+                "description": "",
+                "x-examples": {
+                  "Alice Smith": {
+                    "id": 142,
+                    "firstName": "Alice",
+                    "lastName": "Smith",
+                    "email": "alice.smith@gmail.com",
+                    "dateOfBirth": "1997-10-31T00:00:00Z",
+                    "emailVerified": true,
+                    "signUpDate": "2019-08-24T00:00:00Z"
+                  }
+                }
+              },
+              "Accounts-getAccountInfoPost200ApplicationJsonResponse": {
+                "required": [
+                  "callId",
+                  "errorCode",
+                  "apiVersion",
+                  "statusCode",
+                  "statusReason",
+                  "time",
+                  "registeredTimestamp",
+                  "UID",
+                  "created",
+                  "createdTimestamp",
+                  "data",
+                  "preferences",
+                  "emails",
+                  "identities",
+                  "isActive",
+                  "isLockedOut",
+                  "isRegistered",
+                  "isVerified",
+                  "lastLogin",
+                  "lastLoginLocation",
+                  "lastLoginTimestamp",
+                  "lastUpdated",
+                  "lastUpdatedTimestamp",
+                  "loginProvider",
+                  "loginIDs",
+                  "rbaPolicy",
+                  "oldestDataUpdated",
+                  "oldestDataUpdatedTimestamp",
+                  "profile",
+                  "registered",
+                  "regSource",
+                  "socialProviders",
+                  "verified",
+                  "verifiedTimestamp",
+                  "userInfo"
+                ],
+                "type": "object",
+                "properties": {
+                  "callId": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "errorCode": {
+                    "type": "number"
+                  },
+                  "apiVersion": {
+                    "type": "number"
+                  },
+                  "statusCode": {
+                    "type": "number"
+                  },
+                  "statusReason": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "time": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "registeredTimestamp": {
+                    "type": "number"
+                  },
+                  "UID": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "created": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "createdTimestamp": {
+                    "type": "number"
+                  },
+                  "data": {
+                    "required": [
+                      "isMigratedUser",
+                      "subscribe",
+                      "terms",
+                      "preferenceChannel",
+                      "mobileNumber",
+                      "alternateContactNumber",
+                      "bpNumber",
+                      "isSSAUser",
+                      "notifications"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "isMigratedUser": {
+                        "type": "boolean"
+                      },
+                      "subscribe": {
+                        "type": "boolean"
+                      },
+                      "terms": {
+                        "type": "boolean"
+                      },
+                      "preferenceChannel": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "mobileNumber": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "alternateContactNumber": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "bpNumber": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "isSSAUser": {
+                        "type": "boolean"
+                      },
+                      "notifications": {
+                        "minItems": 1,
+                        "uniqueItems": true,
+                        "type": "array",
+                        "items": {
+                          "required": [
+                            "actionType",
+                            "propertyAddress",
+                            "subscriptionType",
+                            "propertyNumber"
+                          ],
+                          "properties": {
+                            "actionType": {
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "propertyAddress": {
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "subscriptionType": {
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "propertyNumber": {
+                              "minLength": 1,
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "preferences": {
+                    "type": "object"
+                  },
+                  "emails": {
+                    "required": [
+                      "verified",
+                      "unverified"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "verified": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "unverified": {
+                        "type": "array",
+                        "items": {}
+                      }
+                    }
+                  },
+                  "identities": {
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "type": "array",
+                    "items": {
+                      "required": [
+                        "provider",
+                        "providerUID",
+                        "allowsLogin",
+                        "isLoginIdentity",
+                        "isExpiredSession",
+                        "lastUpdated",
+                        "lastUpdatedTimestamp",
+                        "oldestDataUpdated",
+                        "oldestDataUpdatedTimestamp",
+                        "firstName",
+                        "lastName",
+                        "nickname",
+                        "age",
+                        "birthDay",
+                        "birthMonth",
+                        "birthYear",
+                        "email",
+                        "locale"
+                      ],
+                      "properties": {
+                        "provider": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "providerUID": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "allowsLogin": {
+                          "type": "boolean"
+                        },
+                        "isLoginIdentity": {
+                          "type": "boolean"
+                        },
+                        "isExpiredSession": {
+                          "type": "boolean"
+                        },
+                        "lastUpdated": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "lastUpdatedTimestamp": {
+                          "type": "number"
+                        },
+                        "oldestDataUpdated": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "oldestDataUpdatedTimestamp": {
+                          "type": "number"
+                        },
+                        "firstName": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "lastName": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "nickname": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "age": {
+                          "type": "number"
+                        },
+                        "birthDay": {
+                          "type": "number"
+                        },
+                        "birthMonth": {
+                          "type": "number"
+                        },
+                        "birthYear": {
+                          "type": "number"
+                        },
+                        "email": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "locale": {
+                          "minLength": 1,
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  },
+                  "isLockedOut": {
+                    "type": "boolean"
+                  },
+                  "isRegistered": {
+                    "type": "boolean"
+                  },
+                  "isVerified": {
+                    "type": "boolean"
+                  },
+                  "lastLogin": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "lastLoginLocation": {
+                    "required": [
+                      "country",
+                      "coordinates"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "country": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "coordinates": {
+                        "required": [
+                          "lat",
+                          "lon"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "lat": {
+                            "type": "number"
+                          },
+                          "lon": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "lastLoginTimestamp": {
+                    "type": "number"
+                  },
+                  "lastUpdated": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "lastUpdatedTimestamp": {
+                    "type": "number"
+                  },
+                  "loginProvider": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "loginIDs": {
+                    "required": [
+                      "emails",
+                      "unverifiedEmails"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "emails": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "unverifiedEmails": {
+                        "type": "array",
+                        "items": {}
+                      }
+                    }
+                  },
+                  "rbaPolicy": {
+                    "required": [
+                      "riskPolicyLocked"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "riskPolicyLocked": {
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "oldestDataUpdated": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "oldestDataUpdatedTimestamp": {
+                    "type": "number"
+                  },
+                  "profile": {
+                    "required": [
+                      "firstName",
+                      "lastName",
+                      "age",
+                      "birthDay",
+                      "birthMonth",
+                      "birthYear",
+                      "email",
+                      "locale"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "firstName": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "age": {
+                        "type": "number"
+                      },
+                      "birthDay": {
+                        "type": "number"
+                      },
+                      "birthMonth": {
+                        "type": "number"
+                      },
+                      "birthYear": {
+                        "type": "number"
+                      },
+                      "email": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "locale": {
+                        "minLength": 1,
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "registered": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "regSource": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "socialProviders": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "verified": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "verifiedTimestamp": {
+                    "type": "number"
+                  },
+                  "userInfo": {
+                    "required": [
+                      "UID",
+                      "isSiteUser",
+                      "isConnected",
+                      "isTempUser",
+                      "isLoggedIn",
+                      "loginProvider",
+                      "loginProviderUID",
+                      "isSiteUID",
+                      "identities",
+                      "nickname",
+                      "firstName",
+                      "lastName",
+                      "age",
+                      "birthDay",
+                      "birthMonth",
+                      "birthYear",
+                      "email",
+                      "capabilities",
+                      "locale",
+                      "providers",
+                      "oldestDataUpdatedTimestamp",
+                      "oldestDataAge",
+                      "statusReason",
+                      "statusCode",
+                      "time",
+                      "errorCode"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "UID": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "isSiteUser": {
+                        "type": "boolean"
+                      },
+                      "isConnected": {
+                        "type": "boolean"
+                      },
+                      "isTempUser": {
+                        "type": "boolean"
+                      },
+                      "isLoggedIn": {
+                        "type": "boolean"
+                      },
+                      "loginProvider": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "loginProviderUID": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "isSiteUID": {
+                        "type": "boolean"
+                      },
+                      "identities": {
+                        "minItems": 1,
+                        "uniqueItems": true,
+                        "type": "array",
+                        "items": {
+                          "required": [
+                            "provider",
+                            "providerUID",
+                            "allowsLogin",
+                            "isLoginIdentity",
+                            "isExpiredSession",
+                            "lastUpdated",
+                            "lastUpdatedTimestamp",
+                            "oldestDataUpdated",
+                            "oldestDataUpdatedTimestamp",
+                            "firstName",
+                            "lastName",
+                            "nickname",
+                            "age",
+                            "birthDay",
+                            "birthMonth",
+                            "birthYear",
+                            "email",
+                            "locale"
+                          ],
+                          "properties": {
+                            "provider": {
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "providerUID": {
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "allowsLogin": {
+                              "type": "boolean"
+                            },
+                            "isLoginIdentity": {
+                              "type": "boolean"
+                            },
+                            "isExpiredSession": {
+                              "type": "boolean"
+                            },
+                            "lastUpdated": {
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "lastUpdatedTimestamp": {
+                              "type": "number"
+                            },
+                            "oldestDataUpdated": {
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "oldestDataUpdatedTimestamp": {
+                              "type": "number"
+                            },
+                            "firstName": {
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "lastName": {
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "nickname": {
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "age": {
+                              "type": "number"
+                            },
+                            "birthDay": {
+                              "type": "number"
+                            },
+                            "birthMonth": {
+                              "type": "number"
+                            },
+                            "birthYear": {
+                              "type": "number"
+                            },
+                            "email": {
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "locale": {
+                              "minLength": 1,
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "nickname": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "firstName": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "age": {
+                        "type": "number"
+                      },
+                      "birthDay": {
+                        "type": "number"
+                      },
+                      "birthMonth": {
+                        "type": "number"
+                      },
+                      "birthYear": {
+                        "type": "number"
+                      },
+                      "email": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "capabilities": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "locale": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "providers": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "oldestDataUpdatedTimestamp": {
+                        "type": "number"
+                      },
+                      "oldestDataAge": {
+                        "type": "number"
+                      },
+                      "statusReason": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "statusCode": {
+                        "type": "number"
+                      },
+                      "time": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "errorCode": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "description": "",
+                "x-examples": {
+                  "example-1": {
+                    "callId": "14eec93d544b48e1a7d04a29b12b5b48",
+                    "errorCode": 0,
+                    "apiVersion": 2,
+                    "statusCode": 200,
+                    "statusReason": "OK",
+                    "time": "2021-08-06T04:07:01.542Z",
+                    "registeredTimestamp": 1627618723000.0,
+                    "UID": "ffe179ad5e26401bbecb3c7fc7c9ebdf",
+                    "created": "2021-07-30T04:18:43.683Z",
+                    "createdTimestamp": 1627618723000.0,
+                    "data": {
+                      "isMigratedUser": true,
+                      "subscribe": true,
+                      "terms": true,
+                      "preferenceChannel": "SMS",
+                      "mobileNumber": "0405921468",
+                      "alternateContactNumber": "0405921468",
+                      "bpNumber": "882938774",
+                      "isSSAUser": true,
+                      "notifications": [
+                        {
+                          "actionType": "C",
+                          "propertyAddress": "1, Sydney, 2000",
+                          "subscriptionType": "100",
+                          "propertyNumber": "123"
+                        }
+                      ]
+                    },
+                    "preferences": {},
+                    "emails": {
+                      "verified": [
+                        "srikanthsonti81@gmail.com"
+                      ],
+                      "unverified": []
+                    },
+                    "identities": [
+                      {
+                        "provider": "site",
+                        "providerUID": "ffe179ad5e26401bbecb3c7fc7c9ebdf",
+                        "allowsLogin": true,
+                        "isLoginIdentity": true,
+                        "isExpiredSession": false,
+                        "lastUpdated": "2021-08-06T04:05:25.3051625Z",
+                        "lastUpdatedTimestamp": 1628222725305.0,
+                        "oldestDataUpdated": "2021-07-30T04:18:43.683Z",
+                        "oldestDataUpdatedTimestamp": 1627618723683.0,
+                        "firstName": "Haley",
+                        "lastName": "Sonti",
+                        "nickname": "Haley Sonti",
+                        "age": 42,
+                        "birthDay": 16,
+                        "birthMonth": 8,
+                        "birthYear": 1978,
+                        "email": "srikanthsonti81@gmail.com",
+                        "locale": "en"
+                      }
+                    ],
+                    "isActive": true,
+                    "isLockedOut": false,
+                    "isRegistered": true,
+                    "isVerified": true,
+                    "lastLogin": "2021-08-05T21:52:06.832Z",
+                    "lastLoginLocation": {
+                      "country": "AU",
+                      "coordinates": {
+                        "lat": -27.47,
+                        "lon": 153.01
+                      }
+                    },
+                    "lastLoginTimestamp": 1628200326000.0,
+                    "lastUpdated": "2021-08-06T04:05:25.305Z",
+                    "lastUpdatedTimestamp": 1628222725305.0,
+                    "loginProvider": "site",
+                    "loginIDs": {
+                      "emails": [
+                        "srikanthsonti81@gmail.com"
+                      ],
+                      "unverifiedEmails": []
+                    },
+                    "rbaPolicy": {
+                      "riskPolicyLocked": false
+                    },
+                    "oldestDataUpdated": "2021-07-30T04:18:43.683Z",
+                    "oldestDataUpdatedTimestamp": 1627618723683.0,
+                    "profile": {
+                      "firstName": "Haley",
+                      "lastName": "Sonti",
+                      "age": 42,
+                      "birthDay": 16,
+                      "birthMonth": 8,
+                      "birthYear": 1978,
+                      "email": "srikanthsonti81@gmail.com",
+                      "locale": "en"
+                    },
+                    "registered": "2021-07-30T04:18:43.964Z",
+                    "regSource": "https://swwebsite.azurewebsites.net/CDCWebTestApp/login.html",
+                    "socialProviders": "site",
+                    "verified": "2021-07-30T04:21:16.247Z",
+                    "verifiedTimestamp": 1627618876247.0,
+                    "userInfo": {
+                      "UID": "ffe179ad5e26401bbecb3c7fc7c9ebdf",
+                      "isSiteUser": true,
+                      "isConnected": true,
+                      "isTempUser": false,
+                      "isLoggedIn": true,
+                      "loginProvider": "site",
+                      "loginProviderUID": "ffe179ad5e26401bbecb3c7fc7c9ebdf",
+                      "isSiteUID": true,
+                      "identities": [
+                        {
+                          "provider": "site",
+                          "providerUID": "ffe179ad5e26401bbecb3c7fc7c9ebdf",
+                          "allowsLogin": true,
+                          "isLoginIdentity": true,
+                          "isExpiredSession": false,
+                          "lastUpdated": "2021-08-06T04:05:25.3051625Z",
+                          "lastUpdatedTimestamp": 1628222725305.0,
+                          "oldestDataUpdated": "2021-07-30T04:18:43.683Z",
+                          "oldestDataUpdatedTimestamp": 1627618723683.0,
+                          "firstName": "Haley",
+                          "lastName": "Sonti",
+                          "nickname": "Haley Sonti",
+                          "age": 42,
+                          "birthDay": 16,
+                          "birthMonth": 8,
+                          "birthYear": 1978,
+                          "email": "srikanthsonti81@gmail.com",
+                          "locale": "en"
+                        }
+                      ],
+                      "nickname": "Haley Sonti",
+                      "firstName": "Haley",
+                      "lastName": "Sonti",
+                      "age": 42,
+                      "birthDay": 16,
+                      "birthMonth": 8,
+                      "birthYear": 1978,
+                      "email": "srikanthsonti81@gmail.com",
+                      "capabilities": "None",
+                      "locale": "en",
+                      "providers": "site",
+                      "oldestDataUpdatedTimestamp": 1627618723,
+                      "oldestDataAge": 604098,
+                      "statusReason": "OK",
+                      "statusCode": 200,
+                      "time": "2021-08-06T04:07:01.54Z",
+                      "errorCode": 0
+                    }
+                  }
+                }
+              },
+              "Accounts-setAccountInfoPost200ApplicationJsonResponse": {
+                "required": [
+                  "callId",
+                  "errorCode",
+                  "apiVersion",
+                  "statusCode",
+                  "statusReason",
+                  "time"
+                ],
+                "type": "object",
+                "properties": {
+                  "callId": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "errorCode": {
+                    "type": "number"
+                  },
+                  "apiVersion": {
+                    "type": "number"
+                  },
+                  "statusCode": {
+                    "type": "number"
+                  },
+                  "statusReason": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "time": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "description": "",
+                "x-examples": {
+                  "example-1": {
+                    "callId": "string",
+                    "errorCode": 0,
+                    "apiVersion": 0,
+                    "statusCode": 0,
+                    "statusReason": "string",
+                    "time": "string"
+                  }
+                }
+              },
+              "Accounts-getJWTPublicKeyPost200ApplicationJsonResponse": {
+                "required": [
+                  "callId",
+                  "errorCode",
+                  "apiVersion",
+                  "statusCode",
+                  "statusReason",
+                  "time",
+                  "kty",
+                  "n",
+                  "e",
+                  "alg",
+                  "use",
+                  "kid"
+                ],
+                "type": "object",
+                "properties": {
+                  "callId": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "errorCode": {
+                    "type": "number"
+                  },
+                  "apiVersion": {
+                    "type": "number"
+                  },
+                  "statusCode": {
+                    "type": "number"
+                  },
+                  "statusReason": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "time": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "kty": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "n": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "e": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "alg": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "use": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "kid": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "description": "",
+                "x-examples": {
+                  "example-1": {
+                    "callId": "62f8b3421e1d40cc8033afe336b91d7e",
+                    "errorCode": 0,
+                    "apiVersion": 2,
+                    "statusCode": 200,
+                    "statusReason": "OK",
+                    "time": "2021-08-08T08:50:09.582Z",
+                    "kty": "RSA",
+                    "n": "qoQah4MFGYedrbWwFc3UkC1hpZlnB2_E922yRJfHqpq2tTHL_NvjYmssVdJBgSKi36cptKqUJ0Phui9Z_kk8zMPrPfV16h0ZfBzKsvIy6_d7cWnn163BMz46kAHtZXqXhNuj19IZRCDfNoqVVxxCIYvbsgInbzZM82CB86iYPAS7piijYn1S6hueVHGAzQorOetZevKIAvbH3kJXZ4KdY6Ffz5SFDJBxC3bycN4q2JM1qnyD53vcc0MitxyIUF7a06iJb5_xXBiA-3xnTI0FU5hw_k6x-sdB5Rglx13_2aNzdWBSBAnxs1XXtZUt9_2RAUxP1XORkrBGlPg9D7cBtQ",
+                    "e": "AQAB",
+                    "alg": "RS256",
+                    "use": "sig",
+                    "kid": "REQ0MUQ5N0NCRTJEMzk3M0U1RkNDQ0U0Q0M1REFBRjhDMjdENUFBQg"
+                  }
+                }
+              },
+              "Accounts-getAccountInfoPostRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "Accounts-getAccountInfoPostRequest-1": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "Accounts-setAccountInfoPostRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "Accounts-setAccountInfoPostRequest-1": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "Accounts-getJWTPublicKeyPostRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cdc-accounts-api;rev=1/6149316f0fa20a38f0fbbd15')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cdc-accounts-api;rev=1')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "To get Account Information for a user account from CDC.",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Content-Type",
+              "description": "application/x-www-form-urlencoded",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "Authorization",
+              "description": "Bearer Token",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "OK",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "6149316f0fa20a38f0fbbd15",
+                "typeName": "Accounts-getAccountInfoPost200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get account info",
+        "method": "POST",
+        "urlTemplate": "/accounts.getAccountInfo"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cdc-accounts-api;rev=1/accounts-getAccountInfo')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cdc-accounts-api;rev=1')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cdc-accounts-api;rev=1', '6149316f0fa20a38f0fbbd15')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "To allow retrieval of the public key necessary for validating an id_token returned from the accounts.getJWT API endpoint. As a public endpoint, this API requires no parameters, including a secret or userKey/secret pair, and only the API key of the site for which to retrieve the public key.",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Content-Type",
+              "description": "application/x-www-form-urlencoded",
+              "type": "string",
+              "required": true,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "OK",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"callId\": \"string\",\r\n  \"errorCode\": 0,\r\n  \"apiVersion\": 0,\r\n  \"statusCode\": 0,\r\n  \"statusReason\": \"string\",\r\n  \"time\": \"string\",\r\n  \"kty\": \"string\",\r\n  \"n\": \"string\",\r\n  \"e\": \"string\",\r\n  \"alg\": \"string\",\r\n  \"use\": \"string\",\r\n  \"kid\": \"string\"\r\n}",
+                "schemaId": "6149316f0fa20a38f0fbbd15",
+                "typeName": "Accounts-getJWTPublicKeyPost200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get JWT public key",
+        "method": "POST",
+        "urlTemplate": "/accounts.getJWTPublicKey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cdc-accounts-api;rev=1/accounts-getJWTPublicKey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cdc-accounts-api;rev=1')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cdc-accounts-api;rev=1', '6149316f0fa20a38f0fbbd15')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "To set account data into a user's account. The method accepts a list of optional parameters each defining a field/object in the account. The parameters that are passed in the request modify the relevant fields, and the other fields remain unchanged.",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Content-Type",
+              "description": "application/x-www-form-urlencoded",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "Authorization",
+              "description": "Bearer Token",
+              "type": "string",
+              "required": true,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "OK",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "6149316f0fa20a38f0fbbd15",
+                "typeName": "Accounts-setAccountInfoPost200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Set account info",
+        "method": "POST",
+        "urlTemplate": "/accounts.setAccountInfo"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cdc-accounts-api;rev=1/accounts-setAccountInfo')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cdc-accounts-api;rev=1')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cdc-accounts-api;rev=1', '6149316f0fa20a38f0fbbd15')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/self-service-apis/cdc-accounts-api;rev=1')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cdc-accounts-api;rev=1')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID",
+              "ApplicationID",
+              "UserID",
+              "Version",
+              "apim-correlation-id",
+              "Ocp-Apim-Subscription-Key"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "apim-correlation-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

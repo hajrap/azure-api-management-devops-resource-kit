@@ -1,0 +1,541 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "KvServiceName": {
+      "type": "string"
+    },
+    "JwtTokenKeyEValue": {
+      "type": "string",
+      "defaultvalue": "NotBeUsed"
+    },
+    "JwtTokenKeyNValue": {
+      "type": "string",
+      "defaultvalue": "NotBeUsed"
+    },
+    "SapClientValue":{
+      "type": "string",
+      "defaultvalue": "NotBeUsed"
+    },
+    "IotSewerSigAllSites": {
+      "type": "string"
+    },
+	  "IotSewerSigCurrentAlarms": {
+      "type": "string"
+    },
+	  "IotSewerSigEventHistory": {
+      "type": "string"
+    },
+	  "IotSewerSigStateHistory": {
+      "type": "string"
+    },
+	  "IotSewerSigTelemetryHistory": {
+      "type": "string"
+    },
+	  "IotSewerSigTelemetryWithinBounds": {
+      "type": "string"
+    },
+	  "IotSewerSigUpdateAlarm": {
+      "type": "string"
+    },
+	  "IotSewerSigWetWeatherRegions": {
+      "type": "string"
+    },
+    "IotSewerSigTelemetryForSite": {
+      "type": "string"
+    },
+	  "IotSewerSigAllSitesForBounds": {
+      "type": "string"
+    },
+    "BPointBillerCode":{
+      "type": "string",
+      "defaultValue" : "1200468"
+    },
+    "BPointBackendHost":{
+      "type": "string",
+      "defaultValue" : "https://bpoint.uat.linkly.com.au"
+    },
+    "paypalOrdersUrl":{
+      "type": "string"
+    },
+    "paypalTokenUrl":{
+      "type": "string"
+    },
+    "waterfixDB":{
+      "type": "string"
+    }
+  },
+  "variables": {
+    "kvSecretIdPrefix": "[concat('https://', parameters('KvServiceName'), '.vault.azure.net/secrets')]"
+  },
+  "resources": [
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "3rd-party-http-proxy-password",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/3rd-party-http-proxy-password')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-password')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "3rd-party-http-proxy-username",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/3rd-party-http-proxy-username')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-username')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "3rd-party-http-proxy-url",
+        "value": "http://10.181.128.68:8080"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-url')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "enable-3rd-party-http-proxy",
+        "value": "true"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/enable-3rd-party-http-proxy')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "abn-authenticationguid",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/abn-authenticationguid')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/abn-authenticationguid')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "aem-api-authentication-password",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/aem-api-authentication-password')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/aem-api-authentication-password')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "aem-api-authentication-username",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/aem-api-authentication-username')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/aem-api-authentication-username')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "api-authentication-password",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/api-authentication-password')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-authentication-password')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "api-authentication-username",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/api-authentication-username')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-authentication-username')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "api-encryptiv",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/api-encryptiv')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-encryptiv')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "api-encryptkey",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/api-encryptkey')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-encryptkey')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "appInsKey",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/appInsKey')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/appInsKey')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "encrypt-exception-values",
+        "value": "9999999,0"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/encrypt-exception-values')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "bpoint-billercode",
+        "value": "[parameters('BPointBillerCode')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-billercode')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "bpoint-backend-host",
+        "value": "[parameters('BPointBackendHost')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-backend-host')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "bpoint-merchantnumber",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/bpoint-merchantnumber')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-merchantnumber')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "bpoint-password",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/bpoint-password')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-password')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "bpoint-username",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/bpoint-username')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-username')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "api-backend-url-paypal-orders",
+        "value": "[parameters('paypalOrdersUrl')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-backend-url-paypal-orders')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "api-backend-url-paypal-token",
+        "value": "[parameters('paypalTokenUrl')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-backend-url-paypal-token')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "paypal-password",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/paypal-password')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/paypal-password')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "paypal-username",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/paypal-username')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/paypal-username')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "waterfix-database",
+        "value": "[parameters('waterfixDB')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/waterfix-database')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "waterfix-guid",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/waterfix-guid')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/waterfix-guid')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "func-cdc-login-key",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/func-cdc-login-key')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/func-cdc-login-key')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "jwt-token-key-e-value",
+        "value": "[parameters('JwtTokenKeyEValue')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/jwt-token-key-e-value')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "jwt-token-key-n-value",
+        "value": "[parameters('JwtTokenKeyNValue')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/jwt-token-key-n-value')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "sap-client-value",
+        "value": "[parameters('sapClientValue')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-client-value')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "func-cdc-sbingest-key",
+        "keyVault": {
+          "secretIdentifier": "[concat(variables('kvSecretIdPrefix'), '/func-cdc-sbingest-key')]"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/func-cdc-sbingest-key')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-all-sites",
+        "value": "[parameters('IotSewerSigAllSites')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-all-sites')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-current-alarms",
+        "value": "[parameters('IotSewerSigCurrentAlarms')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-current-alarms')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-eventhistory",
+        "value": "[parameters('IotSewerSigEventHistory')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-eventhistory')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-state-history",
+        "value": "[parameters('IotSewerSigStateHistory')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-state-history')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-telemetry-history",
+        "value": "[parameters('IotSewerSigTelemetryHistory')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-telemetry-history')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-telemetry-within-bounds",
+        "value": "[parameters('IotSewerSigTelemetryWithinBounds')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-telemetry-within-bounds')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-update-alarm",
+        "value": "[parameters('IotSewerSigUpdateAlarm')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-update-alarm')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-wetweatherregions",
+        "value": "[parameters('IotSewerSigWetWeatherRegions')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-wetweatherregions')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-all-sites-for-bounds",
+        "value": "[parameters('IotSewerSigAllSitesForBounds')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-all-sites-for-bounds')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-telemetry-for-site",
+        "value": "[parameters('IotSewerSigTelemetryForSite')]"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-telemetry-for-site')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

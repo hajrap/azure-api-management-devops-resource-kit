@@ -1,0 +1,86 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "Mailing_addressSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-account-api;rev=2/post-mailing_addressset/Mailing_addressSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "displayName": "Mailing_addressSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-account-api;rev=2/get-mailing_addressset/Mailing_addressSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-account-api;rev=2', 'post-mailing_addressset', 'Mailing_addressSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "RegistrationSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-account-api;rev=2/get-registrationset/RegistrationSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-account-api;rev=2', 'get-mailing_addressset', 'Mailing_addressSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Service_AddressSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-account-api;rev=2/get-service_addressset/Service_AddressSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-account-api;rev=2', 'get-registrationset', 'RegistrationSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "RegistrationSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-account-api;rev=2/get-registrationset-businesspartner-businesspartner-contractaccount-contract/RegistrationSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-account-api;rev=2', 'get-service_addressset', 'Service_AddressSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Service_AddressSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-account-api;rev=2/get-service_addressset-businesspartner/Service_AddressSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-account-api;rev=2', 'get-registrationset-businesspartner-businesspartner-contractaccount-contract', 'RegistrationSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "RegistrationSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-account-api;rev=2/patch-registrationset-businesspartner-businesspartner-contractaccount-contra/RegistrationSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-account-api;rev=2', 'get-service_addressset-businesspartner', 'Service_AddressSet')]"
+      ]
+    }
+  ]
+}

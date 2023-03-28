@@ -1,0 +1,59 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "Accounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Accounts')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Banks"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Banks')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCardTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentCardTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

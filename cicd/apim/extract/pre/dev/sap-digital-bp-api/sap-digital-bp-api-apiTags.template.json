@@ -1,0 +1,251 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_newsletterset/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_headerset', 'CDC_HeaderSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_propertyset/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_newsletterset', 'CDC_NewsLetterSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_propertyset', 'CDC_PropertySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter', 'CDC_HeaderSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter', 'CDC_NewsLetterSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property', 'CDC_HeaderSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/delete-cdc_headerset-uniqueid-uniqueid-partner-partner/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property', 'CDC_PropertySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'delete-cdc_headerset-uniqueid-uniqueid-partner-partner', 'CDC_HeaderSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_newsletterset/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset', 'CDC_HeaderSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_propertyset/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_newsletterset', 'CDC_NewsLetterSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_propertyset', 'CDC_PropertySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter', 'CDC_HeaderSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter', 'CDC_NewsLetterSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property', 'CDC_HeaderSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property', 'CDC_PropertySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_newsletterset-uniqueid-uniqueid-partner-partner/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset-uniqueid-uniqueid-partner-partner', 'CDC_HeaderSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_propertyset-uniqueid-uniqueid-partner-partner/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_newsletterset-uniqueid-uniqueid-partner-partner', 'CDC_NewsLetterSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Batch Requests"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-batch/Batch-Requests')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_propertyset-uniqueid-uniqueid-partner-partner', 'CDC_PropertySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/patch-cdc_headerset-uniqueid-uniqueid-partner-partner/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-batch', 'Batch-Requests')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/patch-cdc_newsletterset-uniqueid-uniqueid-partner-partner/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'patch-cdc_headerset-uniqueid-uniqueid-partner-partner', 'CDC_HeaderSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/patch-cdc_propertyset-uniqueid-uniqueid-partner-partner/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'sap-digital-bp-api', 'patch-cdc_newsletterset-uniqueid-uniqueid-partner-partner', 'CDC_NewsLetterSet')]"
+      ]
+    }
+  ]
+}

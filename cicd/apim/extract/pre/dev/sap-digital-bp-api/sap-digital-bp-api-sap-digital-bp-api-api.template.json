@@ -1,0 +1,2166 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "To provide access to the SAP OData service operations of Digital BP data entity.",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/611f1d750e7518a52dacf9e8')]",
+        "subscriptionRequired": true,
+        "displayName": "SAP Digital BP API",
+        "serviceUrl": "[parameters('serviceUrl').sapdigitalbpapi]",
+        "path": "sap-digital-bp",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "ZDCP_CDC_OPERATION_SRV.CDC_Header": {
+                "title": "CDC_Header",
+                "type": "object",
+                "properties": {
+                  "UniqueId": {
+                    "title": "Unique ID",
+                    "maxLength": 32,
+                    "type": "string"
+                  },
+                  "ActionType": {
+                    "title": "Single-Character Flag",
+                    "maxLength": 1,
+                    "type": "string"
+                  },
+                  "FirstName": {
+                    "title": "First Name",
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "LastName": {
+                    "title": "Name at Birth",
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "Email": {
+                    "title": "E-Mail Address",
+                    "maxLength": 241,
+                    "type": "string"
+                  },
+                  "Nickname": {
+                    "title": "Known As",
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "Dob": {
+                    "title": "Date of Birth",
+                    "type": "string",
+                    "nullable": true,
+                    "example": "2017-04-13T15:51:04Z"
+                  },
+                  "MobileNumber": {
+                    "title": "Telephone",
+                    "maxLength": 30,
+                    "type": "string"
+                  },
+                  "AlternateNumber": {
+                    "title": "Telephone",
+                    "maxLength": 30,
+                    "type": "string"
+                  },
+                  "Partner": {
+                    "title": "BusinessPartner",
+                    "maxLength": 10,
+                    "type": "string"
+                  },
+                  "Channel": {
+                    "title": "Comm. Method",
+                    "maxLength": 3,
+                    "type": "string"
+                  },
+                  "UserType": {
+                    "title": "3-Byte field",
+                    "maxLength": 3,
+                    "type": "string"
+                  },
+                  "MsgType": {
+                    "title": "Single-Character Flag",
+                    "maxLength": 1,
+                    "type": "string"
+                  },
+                  "MsgCode": {
+                    "title": "Version Number Component",
+                    "maxLength": 2,
+                    "type": "string"
+                  },
+                  "MsgText": {
+                    "title": "Character 100",
+                    "maxLength": 100,
+                    "type": "string"
+                  },
+                  "HDR_TO_NEWSLETTER": {
+                    "type": "object",
+                    "properties": {
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter"
+                        }
+                      }
+                    }
+                  },
+                  "HDR_TO_PROPERTY": {
+                    "type": "object",
+                    "properties": {
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Property"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "ZDCP_CDC_OPERATION_SRV.CDC_Header-create": {
+                "title": "CDC_Header (for create)",
+                "type": "object",
+                "properties": {
+                  "HDR_TO_NEWSLETTER": {
+                    "type": "object",
+                    "properties": {
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter-create"
+                        }
+                      }
+                    }
+                  },
+                  "HDR_TO_PROPERTY": {
+                    "type": "object",
+                    "properties": {
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Property-create"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "ZDCP_CDC_OPERATION_SRV.CDC_Header-update": {
+                "title": "CDC_Header (for update)",
+                "type": "object"
+              },
+              "ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter": {
+                "title": "CDC_NewsLetter",
+                "type": "object",
+                "properties": {
+                  "UniqueId": {
+                    "title": "Unique ID",
+                    "maxLength": 32,
+                    "type": "string"
+                  },
+                  "Partner": {
+                    "title": "BusinessPartner",
+                    "maxLength": 10,
+                    "type": "string"
+                  },
+                  "Newsletter": {
+                    "title": "30 Characters",
+                    "maxLength": 30,
+                    "type": "string"
+                  },
+                  "Subscribed": {
+                    "title": "Single-Character Flag",
+                    "maxLength": 1,
+                    "type": "string"
+                  }
+                }
+              },
+              "ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter-create": {
+                "title": "CDC_NewsLetter (for create)",
+                "type": "object"
+              },
+              "ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter-update": {
+                "title": "CDC_NewsLetter (for update)",
+                "type": "object"
+              },
+              "ZDCP_CDC_OPERATION_SRV.CDC_Property": {
+                "title": "CDC_Property",
+                "type": "object",
+                "properties": {
+                  "UniqueId": {
+                    "title": "Unique ID",
+                    "maxLength": 32,
+                    "type": "string"
+                  },
+                  "Partner": {
+                    "title": "BusinessPartner",
+                    "maxLength": 10,
+                    "type": "string"
+                  },
+                  "ActionType": {
+                    "title": "Single-Character Flag",
+                    "maxLength": 1,
+                    "type": "string"
+                  },
+                  "SubsType": {
+                    "title": "Relationsh.Cat.",
+                    "maxLength": 6,
+                    "type": "string"
+                  },
+                  "PropertyNo": {
+                    "title": "Functional loc.",
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "PropertyAdd": {
+                    "title": "Char80",
+                    "maxLength": 80,
+                    "type": "string"
+                  }
+                }
+              },
+              "ZDCP_CDC_OPERATION_SRV.CDC_Property-create": {
+                "title": "CDC_Property (for create)",
+                "type": "object"
+              },
+              "ZDCP_CDC_OPERATION_SRV.CDC_Property-update": {
+                "title": "CDC_Property (for update)",
+                "type": "object"
+              },
+              "count": {
+                "type": "string",
+                "description": "The number of entities in the collection. Available when using the [$inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67) query option."
+              },
+              "error": {
+                "required": [
+                  "error"
+                ],
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "required": [
+                      "code",
+                      "message"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "required": [
+                          "lang",
+                          "value"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "lang": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "innererror": {
+                        "type": "object",
+                        "description": "The structure of this object is service-specific"
+                      }
+                    }
+                  }
+                }
+              },
+              "CDC_HeaderSetGetRequest": {
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSetGetRequest-1": {
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "UniqueId",
+                    "ActionType",
+                    "FirstName",
+                    "LastName",
+                    "Email",
+                    "Nickname",
+                    "Dob",
+                    "MobileNumber",
+                    "AlternateNumber",
+                    "Partner",
+                    "Channel",
+                    "UserType",
+                    "MsgType",
+                    "MsgCode",
+                    "MsgText",
+                    "HDR_TO_NEWSLETTER",
+                    "HDR_TO_PROPERTY"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSetGetRequest-2": {
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "HDR_TO_NEWSLETTER",
+                    "HDR_TO_PROPERTY"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSetGet200ApplicationJsonResponse": {
+                "title": "Wrapper",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "title": "Collection of CDC_Header",
+                    "type": "object",
+                    "properties": {
+                      "__count": {
+                        "$ref": "#/components/schemas/count"
+                      },
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Header"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "CDC_HeaderSetPost201ApplicationJsonResponse": {
+                "title": "CDC_Header",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Header"
+                  }
+                }
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-OperationsRequest": {
+                "maxLength": 32,
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-OperationsRequest-1": {
+                "maxLength": 10,
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-GetRequest": {
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "UniqueId",
+                    "ActionType",
+                    "FirstName",
+                    "LastName",
+                    "Email",
+                    "Nickname",
+                    "Dob",
+                    "MobileNumber",
+                    "AlternateNumber",
+                    "Partner",
+                    "Channel",
+                    "UserType",
+                    "MsgType",
+                    "MsgCode",
+                    "MsgText",
+                    "HDR_TO_NEWSLETTER",
+                    "HDR_TO_PROPERTY"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-GetRequest-1": {
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "HDR_TO_NEWSLETTER",
+                    "HDR_TO_PROPERTY"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-Get200ApplicationJsonResponse": {
+                "title": "CDC_Header",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Header"
+                  }
+                }
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-PatchRequest": {
+                "title": "Modified CDC_Header",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Header-update"
+                  }
+                }
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_NEWSLETTEROperationsRequest": {
+                "maxLength": 32,
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_NEWSLETTEROperationsRequest-1": {
+                "maxLength": 10,
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_NEWSLETTERGetRequest": {
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_NEWSLETTERGetRequest-1": {
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "UniqueId",
+                    "Partner",
+                    "Newsletter",
+                    "Subscribed"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_NEWSLETTERGet200ApplicationJsonResponse": {
+                "title": "Wrapper",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "title": "Collection of CDC_NewsLetter",
+                    "type": "object",
+                    "properties": {
+                      "__count": {
+                        "$ref": "#/components/schemas/count"
+                      },
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_NEWSLETTERPost201ApplicationJsonResponse": {
+                "title": "CDC_NewsLetter",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter"
+                  }
+                }
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_PROPERTYOperationsRequest": {
+                "maxLength": 32,
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_PROPERTYOperationsRequest-1": {
+                "maxLength": 10,
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_PROPERTYGetRequest": {
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_PROPERTYGetRequest-1": {
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "UniqueId",
+                    "Partner",
+                    "ActionType",
+                    "SubsType",
+                    "PropertyNo",
+                    "PropertyAdd"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_PROPERTYGet200ApplicationJsonResponse": {
+                "title": "Wrapper",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "title": "Collection of CDC_Property",
+                    "type": "object",
+                    "properties": {
+                      "__count": {
+                        "$ref": "#/components/schemas/count"
+                      },
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Property"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_PROPERTYPost201ApplicationJsonResponse": {
+                "title": "CDC_Property",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Property"
+                  }
+                }
+              },
+              "CDC_NewsLetterSetGetRequest": {
+                "x-apim-inline": true
+              },
+              "CDC_NewsLetterSetGetRequest-1": {
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "UniqueId",
+                    "Partner",
+                    "Newsletter",
+                    "Subscribed"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "CDC_NewsLetterSetGet200ApplicationJsonResponse": {
+                "title": "Wrapper",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "title": "Collection of CDC_NewsLetter",
+                    "type": "object",
+                    "properties": {
+                      "__count": {
+                        "$ref": "#/components/schemas/count"
+                      },
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "CDC_NewsLetterSetPost201ApplicationJsonResponse": {
+                "title": "CDC_NewsLetter",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter"
+                  }
+                }
+              },
+              "CDC_NewsLetterSet-UniqueId-UniqueId-Partner-Partner-OperationsRequest": {
+                "maxLength": 32,
+                "x-apim-inline": true
+              },
+              "CDC_NewsLetterSet-UniqueId-UniqueId-Partner-Partner-OperationsRequest-1": {
+                "maxLength": 10,
+                "x-apim-inline": true
+              },
+              "CDC_NewsLetterSet-UniqueId-UniqueId-Partner-Partner-GetRequest": {
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "UniqueId",
+                    "Partner",
+                    "Newsletter",
+                    "Subscribed"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "CDC_NewsLetterSet-UniqueId-UniqueId-Partner-Partner-Get200ApplicationJsonResponse": {
+                "title": "CDC_NewsLetter",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter"
+                  }
+                }
+              },
+              "CDC_NewsLetterSet-UniqueId-UniqueId-Partner-Partner-PatchRequest": {
+                "title": "Modified CDC_NewsLetter",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter-update"
+                  }
+                }
+              },
+              "CDC_PropertySetGetRequest": {
+                "x-apim-inline": true
+              },
+              "CDC_PropertySetGetRequest-1": {
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "UniqueId",
+                    "Partner",
+                    "ActionType",
+                    "SubsType",
+                    "PropertyNo",
+                    "PropertyAdd"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "CDC_PropertySetGet200ApplicationJsonResponse": {
+                "title": "Wrapper",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "title": "Collection of CDC_Property",
+                    "type": "object",
+                    "properties": {
+                      "__count": {
+                        "$ref": "#/components/schemas/count"
+                      },
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Property"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "CDC_PropertySetPost201ApplicationJsonResponse": {
+                "title": "CDC_Property",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Property"
+                  }
+                }
+              },
+              "CDC_PropertySet-UniqueId-UniqueId-Partner-Partner-OperationsRequest": {
+                "maxLength": 32,
+                "x-apim-inline": true
+              },
+              "CDC_PropertySet-UniqueId-UniqueId-Partner-Partner-OperationsRequest-1": {
+                "maxLength": 10,
+                "x-apim-inline": true
+              },
+              "CDC_PropertySet-UniqueId-UniqueId-Partner-Partner-GetRequest": {
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "UniqueId",
+                    "Partner",
+                    "ActionType",
+                    "SubsType",
+                    "PropertyNo",
+                    "PropertyAdd"
+                  ],
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "CDC_PropertySet-UniqueId-UniqueId-Partner-Partner-Get200ApplicationJsonResponse": {
+                "title": "CDC_Property",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Property"
+                  }
+                }
+              },
+              "CDC_PropertySet-UniqueId-UniqueId-Partner-Partner-PatchRequest": {
+                "title": "Modified CDC_Property",
+                "type": "object",
+                "properties": {
+                  "d": {
+                    "$ref": "#/components/schemas/ZDCP_CDC_OPERATION_SRV.CDC_Property-update"
+                  }
+                }
+              },
+              "batchPostRequest": {
+                "type": "string"
+              },
+              "batchPost202MultipartMixedResponse": {
+                "type": "string"
+              },
+              "errorResponse-json": {
+                "required": [
+                  "error"
+                ],
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "required": [
+                      "code",
+                      "message"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "required": [
+                          "lang",
+                          "value"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "lang": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "innererror": {
+                        "type": "object",
+                        "description": "The structure of this object is service-specific"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/613ff3130fa20a0a9429b083')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Add new entity to CDC_HeaderSet",
+        "request": {
+          "description": "New entity",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"HDR_TO_NEWSLETTER\": {\r\n    \"results\": [\r\n      {}\r\n    ]\r\n  },\r\n  \"HDR_TO_PROPERTY\": {\r\n    \"results\": [\r\n      {}\r\n    ]\r\n  }\r\n}",
+              "schemaId": "613ff3130fa20a0a9429b083",
+              "typeName": "ZDCP_CDC_OPERATION_SRV.CDC_Header-create"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 201,
+            "description": "Created entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"UniqueId\": \"string\",\r\n    \"ActionType\": \"string\",\r\n    \"FirstName\": \"string\",\r\n    \"LastName\": \"string\",\r\n    \"Email\": \"string\",\r\n    \"Nickname\": \"string\",\r\n    \"Dob\": \"2017-04-13T15:51:04Z\",\r\n    \"MobileNumber\": \"string\",\r\n    \"AlternateNumber\": \"string\",\r\n    \"Partner\": \"string\",\r\n    \"Channel\": \"string\",\r\n    \"UserType\": \"string\",\r\n    \"MsgType\": \"string\",\r\n    \"MsgCode\": \"string\",\r\n    \"MsgText\": \"string\",\r\n    \"HDR_TO_NEWSLETTER\": {\r\n      \"results\": [\r\n        {\r\n          \"UniqueId\": \"string\",\r\n          \"Partner\": \"string\",\r\n          \"Newsletter\": \"string\",\r\n          \"Subscribed\": \"string\"\r\n        }\r\n      ]\r\n    },\r\n    \"HDR_TO_PROPERTY\": {\r\n      \"results\": [\r\n        {\r\n          \"UniqueId\": \"string\",\r\n          \"Partner\": \"string\",\r\n          \"ActionType\": \"string\",\r\n          \"SubsType\": \"string\",\r\n          \"PropertyNo\": \"string\",\r\n          \"PropertyAdd\": \"string\"\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_HeaderSetPost201ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Add new entity to CDC_HeaderSet",
+        "method": "POST",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_headerset')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_headerset')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Add new entity to CDC_NewsLetterSet",
+        "request": {
+          "description": "New entity",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{}",
+              "schemaId": "613ff3130fa20a0a9429b083",
+              "typeName": "ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter-create"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 201,
+            "description": "Created entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"UniqueId\": \"string\",\r\n    \"Partner\": \"string\",\r\n    \"Newsletter\": \"string\",\r\n    \"Subscribed\": \"string\"\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_NewsLetterSetPost201ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Add new entity to CDC_NewsLetterSet",
+        "method": "POST",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_newsletterset')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_newsletterset/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_newsletterset')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Add new entity to CDC_PropertySet",
+        "request": {
+          "description": "New entity",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{}",
+              "schemaId": "613ff3130fa20a0a9429b083",
+              "typeName": "ZDCP_CDC_OPERATION_SRV.CDC_Property-create"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 201,
+            "description": "Created entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"UniqueId\": \"string\",\r\n    \"Partner\": \"string\",\r\n    \"ActionType\": \"string\",\r\n    \"SubsType\": \"string\",\r\n    \"PropertyNo\": \"string\",\r\n    \"PropertyAdd\": \"string\"\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_PropertySetPost201ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Add new entity to CDC_PropertySet",
+        "method": "POST",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_propertyset')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_propertyset/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_propertyset')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "UniqueId",
+            "description": "Unique ID",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "Partner",
+            "description": "BusinessPartner",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Add new entity to related HDR_TO_NEWSLETTER",
+        "request": {
+          "description": "New entity",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{}",
+              "schemaId": "613ff3130fa20a0a9429b083",
+              "typeName": "ZDCP_CDC_OPERATION_SRV.CDC_NewsLetter-create"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 201,
+            "description": "Created entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"UniqueId\": \"string\",\r\n    \"Partner\": \"string\",\r\n    \"Newsletter\": \"string\",\r\n    \"Subscribed\": \"string\"\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_NEWSLETTERPost201ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Add new entity to related HDR_TO_NEWSLETTER",
+        "method": "POST",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_HeaderSet(UniqueId='{UniqueId}',Partner='{Partner}')/HDR_TO_NEWSLETTER"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "UniqueId",
+            "description": "Unique ID",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "Partner",
+            "description": "BusinessPartner",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Add new entity to related HDR_TO_PROPERTY",
+        "request": {
+          "description": "New entity",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{}",
+              "schemaId": "613ff3130fa20a0a9429b083",
+              "typeName": "ZDCP_CDC_OPERATION_SRV.CDC_Property-create"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 201,
+            "description": "Created entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"UniqueId\": \"string\",\r\n    \"Partner\": \"string\",\r\n    \"ActionType\": \"string\",\r\n    \"SubsType\": \"string\",\r\n    \"PropertyNo\": \"string\",\r\n    \"PropertyAdd\": \"string\"\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_PROPERTYPost201ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Add new entity to related HDR_TO_PROPERTY",
+        "method": "POST",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_HeaderSet(UniqueId='{UniqueId}',Partner='{Partner}')/HDR_TO_PROPERTY"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "UniqueId",
+            "description": "Unique ID",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "Partner",
+            "description": "BusinessPartner",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Delete entity from CDC_HeaderSet",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 204,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Delete entity from CDC_HeaderSet",
+        "method": "DELETE",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_HeaderSet(UniqueId='{UniqueId}',Partner='{Partner}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/delete-cdc_headerset-uniqueid-uniqueid-partner-partner')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/delete-cdc_headerset-uniqueid-uniqueid-partner-partner/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'delete-cdc_headerset-uniqueid-uniqueid-partner-partner')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Delete entity from CDC_HeaderSet",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 204,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Delete entity from CDC_HeaderSet (clone)",
+        "method": "DELETE",
+        "urlTemplate": "/clone-61404/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/6140486de122bf45ae8ee75b')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/6140486de122bf45ae8ee75b/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', '6140486de122bf45ae8ee75b')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Get entities from CDC_HeaderSet",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$filter",
+              "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$inlinecount",
+              "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+              "type": "string",
+              "required": false,
+              "values": [
+                "allpages",
+                "none"
+              ]
+            },
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$expand",
+              "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entities",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"__count\": \"string\",\r\n    \"results\": [\r\n      {\r\n        \"UniqueId\": \"string\",\r\n        \"ActionType\": \"string\",\r\n        \"FirstName\": \"string\",\r\n        \"LastName\": \"string\",\r\n        \"Email\": \"string\",\r\n        \"Nickname\": \"string\",\r\n        \"Dob\": \"2017-04-13T15:51:04Z\",\r\n        \"MobileNumber\": \"string\",\r\n        \"AlternateNumber\": \"string\",\r\n        \"Partner\": \"string\",\r\n        \"Channel\": \"string\",\r\n        \"UserType\": \"string\",\r\n        \"MsgType\": \"string\",\r\n        \"MsgCode\": \"string\",\r\n        \"MsgText\": \"string\",\r\n        \"HDR_TO_NEWSLETTER\": {\r\n          \"results\": [\r\n            {\r\n              \"UniqueId\": \"string\",\r\n              \"Partner\": \"string\",\r\n              \"Newsletter\": \"string\",\r\n              \"Subscribed\": \"string\"\r\n            }\r\n          ]\r\n        },\r\n        \"HDR_TO_PROPERTY\": {\r\n          \"results\": [\r\n            {\r\n              \"UniqueId\": \"string\",\r\n              \"Partner\": \"string\",\r\n              \"ActionType\": \"string\",\r\n              \"SubsType\": \"string\",\r\n              \"PropertyNo\": \"string\",\r\n              \"PropertyAdd\": \"string\"\r\n            }\r\n          ]\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_HeaderSetGet200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entities from CDC_HeaderSet",
+        "method": "GET",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Get entities from CDC_NewsLetterSet",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$filter",
+              "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$inlinecount",
+              "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+              "type": "string",
+              "required": false,
+              "values": [
+                "allpages",
+                "none"
+              ]
+            },
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entities",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"__count\": \"string\",\r\n    \"results\": [\r\n      {\r\n        \"UniqueId\": \"string\",\r\n        \"Partner\": \"string\",\r\n        \"Newsletter\": \"string\",\r\n        \"Subscribed\": \"string\"\r\n      }\r\n    ]\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_NewsLetterSetGet200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entities from CDC_NewsLetterSet",
+        "method": "GET",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_newsletterset')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_newsletterset/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_newsletterset')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Get entities from CDC_PropertySet",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$filter",
+              "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$inlinecount",
+              "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+              "type": "string",
+              "required": false,
+              "values": [
+                "allpages",
+                "none"
+              ]
+            },
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entities",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"__count\": \"string\",\r\n    \"results\": [\r\n      {\r\n        \"UniqueId\": \"string\",\r\n        \"Partner\": \"string\",\r\n        \"ActionType\": \"string\",\r\n        \"SubsType\": \"string\",\r\n        \"PropertyNo\": \"string\",\r\n        \"PropertyAdd\": \"string\"\r\n      }\r\n    ]\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_PropertySetGet200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entities from CDC_PropertySet",
+        "method": "GET",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_propertyset')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_propertyset/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_propertyset')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "UniqueId",
+            "description": "Unique ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "Partner",
+            "description": "BusinessPartner",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Get entities from related HDR_TO_NEWSLETTER",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$filter",
+              "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$inlinecount",
+              "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+              "type": "string",
+              "required": false,
+              "values": [
+                "allpages",
+                "none"
+              ]
+            },
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entities",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"__count\": \"string\",\r\n    \"results\": [\r\n      {\r\n        \"UniqueId\": \"string\",\r\n        \"Partner\": \"string\",\r\n        \"Newsletter\": \"string\",\r\n        \"Subscribed\": \"string\"\r\n      }\r\n    ]\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_NEWSLETTERGet200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entities from related HDR_TO_NEWSLETTER",
+        "method": "GET",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_HeaderSet(UniqueId='{UniqueId}',Partner='{Partner}')/HDR_TO_NEWSLETTER"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_newsletter')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "UniqueId",
+            "description": "Unique ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "Partner",
+            "description": "BusinessPartner",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Get entities from related HDR_TO_PROPERTY",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$filter",
+              "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$inlinecount",
+              "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+              "type": "string",
+              "required": false,
+              "values": [
+                "allpages",
+                "none"
+              ]
+            },
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entities",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"__count\": \"string\",\r\n    \"results\": [\r\n      {\r\n        \"UniqueId\": \"string\",\r\n        \"Partner\": \"string\",\r\n        \"ActionType\": \"string\",\r\n        \"SubsType\": \"string\",\r\n        \"PropertyNo\": \"string\",\r\n        \"PropertyAdd\": \"string\"\r\n      }\r\n    ]\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-HDR_TO_PROPERTYGet200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entities from related HDR_TO_PROPERTY",
+        "method": "GET",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_HeaderSet(UniqueId='{UniqueId}',Partner='{Partner}')/HDR_TO_PROPERTY"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset-uniqueid-uniqueid-partner-partner-hdr_to_property')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "UniqueId",
+            "description": "Unique ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "Partner",
+            "description": "BusinessPartner",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Get entity from CDC_HeaderSet by key",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "$expand",
+              "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"UniqueId\": \"string\",\r\n    \"ActionType\": \"string\",\r\n    \"FirstName\": \"string\",\r\n    \"LastName\": \"string\",\r\n    \"Email\": \"string\",\r\n    \"Nickname\": \"string\",\r\n    \"Dob\": \"2017-04-13T15:51:04Z\",\r\n    \"MobileNumber\": \"string\",\r\n    \"AlternateNumber\": \"string\",\r\n    \"Partner\": \"string\",\r\n    \"Channel\": \"string\",\r\n    \"UserType\": \"string\",\r\n    \"MsgType\": \"string\",\r\n    \"MsgCode\": \"string\",\r\n    \"MsgText\": \"string\",\r\n    \"HDR_TO_NEWSLETTER\": {\r\n      \"results\": [\r\n        {\r\n          \"UniqueId\": \"string\",\r\n          \"Partner\": \"string\",\r\n          \"Newsletter\": \"string\",\r\n          \"Subscribed\": \"string\"\r\n        }\r\n      ]\r\n    },\r\n    \"HDR_TO_PROPERTY\": {\r\n      \"results\": [\r\n        {\r\n          \"UniqueId\": \"string\",\r\n          \"Partner\": \"string\",\r\n          \"ActionType\": \"string\",\r\n          \"SubsType\": \"string\",\r\n          \"PropertyNo\": \"string\",\r\n          \"PropertyAdd\": \"string\"\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-Get200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entity from CDC_HeaderSet by key",
+        "method": "GET",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_HeaderSet(UniqueId='{UniqueId}',Partner='{Partner}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_headerset-uniqueid-uniqueid-partner-partner/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_headerset-uniqueid-uniqueid-partner-partner')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "UniqueId",
+            "description": "Unique ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "Partner",
+            "description": "BusinessPartner",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Get entity from CDC_NewsLetterSet by key",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"UniqueId\": \"string\",\r\n    \"Partner\": \"string\",\r\n    \"Newsletter\": \"string\",\r\n    \"Subscribed\": \"string\"\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_NewsLetterSet-UniqueId-UniqueId-Partner-Partner-Get200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entity from CDC_NewsLetterSet by key",
+        "method": "GET",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_NewsLetterSet(UniqueId='{UniqueId}',Partner='{Partner}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_newsletterset-uniqueid-uniqueid-partner-partner')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_newsletterset-uniqueid-uniqueid-partner-partner/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_newsletterset-uniqueid-uniqueid-partner-partner')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "UniqueId",
+            "description": "Unique ID",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "Partner",
+            "description": "BusinessPartner",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Get entity from CDC_PropertySet by key",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "$select",
+              "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Retrieved entity",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"d\": {\r\n    \"UniqueId\": \"string\",\r\n    \"Partner\": \"string\",\r\n    \"ActionType\": \"string\",\r\n    \"SubsType\": \"string\",\r\n    \"PropertyNo\": \"string\",\r\n    \"PropertyAdd\": \"string\"\r\n  }\r\n}",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "CDC_PropertySet-UniqueId-UniqueId-Partner-Partner-Get200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get entity from CDC_PropertySet by key",
+        "method": "GET",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_PropertySet(UniqueId='{UniqueId}',Partner='{Partner}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_propertyset-uniqueid-uniqueid-partner-partner')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/get-cdc_propertyset-uniqueid-uniqueid-partner-partner/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'get-cdc_propertyset-uniqueid-uniqueid-partner-partner')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Group multiple requests into a single request payload, see [Batch Requests](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=152).\n\n*Please note that \"Try it out\" is not supported for this request.*",
+        "request": {
+          "description": "Batch request",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "multipart/mixed;boundary=request-separator",
+              "sample": "--request-separator\nContent-Type: application/http\nContent-Transfer-Encoding: binary\n\nGET CDC_HeaderSet HTTP/1.1\nAccept: application/json\n\n\n--request-separator--",
+              "schemaId": "613ff3130fa20a0a9429b083",
+              "typeName": "batchPostRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 202,
+            "description": "Batch response",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "multipart/mixed",
+                "sample": "--response-separator\nContent-Type: application/http\n\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{...}\n--response-separator--",
+                "schemaId": "613ff3130fa20a0a9429b083",
+                "typeName": "batchPost202MultipartMixedResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Send a group of requests",
+        "method": "POST",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/$batch"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-batch')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Batch Requests"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/post-batch/Batch-Requests')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'post-batch')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "UniqueId",
+            "description": "Unique ID",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "Partner",
+            "description": "BusinessPartner",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Update entity in CDC_HeaderSet",
+        "request": {
+          "description": "New property values",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"d\": {}\r\n}",
+              "schemaId": "613ff3130fa20a0a9429b083",
+              "typeName": "CDC_HeaderSet-UniqueId-UniqueId-Partner-Partner-PatchRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 204,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Update entity in CDC_HeaderSet",
+        "method": "PATCH",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_HeaderSet(UniqueId='{UniqueId}',Partner='{Partner}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/patch-cdc_headerset-uniqueid-uniqueid-partner-partner')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/patch-cdc_headerset-uniqueid-uniqueid-partner-partner/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'patch-cdc_headerset-uniqueid-uniqueid-partner-partner')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "UniqueId",
+            "description": "Unique ID",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "Partner",
+            "description": "BusinessPartner",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Update entity in CDC_NewsLetterSet",
+        "request": {
+          "description": "New property values",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"d\": {}\r\n}",
+              "schemaId": "613ff3130fa20a0a9429b083",
+              "typeName": "CDC_NewsLetterSet-UniqueId-UniqueId-Partner-Partner-PatchRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 204,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Update entity in CDC_NewsLetterSet",
+        "method": "PATCH",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_NewsLetterSet(UniqueId='{UniqueId}',Partner='{Partner}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/patch-cdc_newsletterset-uniqueid-uniqueid-partner-partner')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/patch-cdc_newsletterset-uniqueid-uniqueid-partner-partner/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'patch-cdc_newsletterset-uniqueid-uniqueid-partner-partner')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "UniqueId",
+            "description": "Unique ID",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "Partner",
+            "description": "BusinessPartner",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Update entity in CDC_PropertySet",
+        "request": {
+          "description": "New property values",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"d\": {}\r\n}",
+              "schemaId": "613ff3130fa20a0a9429b083",
+              "typeName": "CDC_PropertySet-UniqueId-UniqueId-Partner-Partner-PatchRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 204,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Update entity in CDC_PropertySet",
+        "method": "PATCH",
+        "urlTemplate": "/sap/opu/odata/sap/DIGITAL_BUSINESS_PARTNER/CDC_PropertySet(UniqueId='{UniqueId}',Partner='{Partner}')"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/patch-cdc_propertyset-uniqueid-uniqueid-partner-partner')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'sap-digital-bp-api', '613ff3130fa20a0a9429b083')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/patch-cdc_propertyset-uniqueid-uniqueid-partner-partner/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'sap-digital-bp-api', 'patch-cdc_propertyset-uniqueid-uniqueid-partner-partner')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<authentication-basic username=\"{{api-authentication-username}}\" password=\"{{api-authentication-password}}\" />\r\n\t\t<set-query-parameter name=\"sap-client\" exists-action=\"append\">\r\n\t\t\t<value>{{sap-client-value}}</value>\r\n\t\t</set-query-parameter>\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/sap-digital-bp-api/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/self-service-apis/sap-digital-bp-api')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'sap-digital-bp-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID",
+              "ApplicationID",
+              "UserID",
+              "Version",
+              "apim-correlation-id",
+              "Ocp-Apim-Subscription-Key"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "apim-correlation-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

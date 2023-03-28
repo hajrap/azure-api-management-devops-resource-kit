@@ -1,0 +1,301 @@
+parameters:
+- name: isDryRun
+  displayName: Is this a dry run (what if analysis)?
+  type: boolean
+  default: true
+- name: deployNV
+  displayName: Deploy APIM Named Values?
+  type: boolean
+  default: true
+- name: deployGlobalPolicy
+  displayName: Deploy APIM Global Policy?
+  type: boolean
+  default: true
+- name: deployProducts
+  displayName: Deploy APIM Products?
+  type: boolean
+  default: true
+- name: deployBackends
+  displayName: Deploy APIM Backends?
+  type: boolean
+  default: true
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - feature/*
+    exclude:
+    - main
+    - master
+    - support/*
+    - develop
+    - release/*
+    - hotfix/*
+
+pool:
+  name: Hosted Windows 2019 with VS2019
+  demands: azureps
+
+variables:
+  # GLOBAL VARIABLES
+  system.debug: true
+  # toolsBuildPlatform: 'Any CPU'
+  # toolsBuildConfiguration: Release
+
+  azureSubscription: APIM_CoreNonProd01
+  environment: dev
+  
+  # INFRASTRUCTURE VIA TEMPLATE SPEC
+  bicepFilePath: $(System.DefaultWorkingDirectory)\cicd\templatespecs\main.bicep
+  templatesPath: $(System.DefaultWorkingDirectory)\cicd\templatespecs\main.json
+  paramsPath: $(System.DefaultWorkingDirectory)\cicd\templatespecs\params\$(environment).json
+  templateSpecsScriptPath: $(System.DefaultWorkingDirectory)\cicd\scripts\iac.ps1
+  specName: SWIntegration-PublishInfra
+
+  # BUSINESS LOGIC VIA FUNCTION APP
+  # fullSolution: '**/app/Integration.sln'
+  # funcBuildPlatform: 'Any CPU'
+  # funcBuildConfiguration: Debug
+
+  # GENERATED ARM TEPMPLATES EXTRACTED FROM SOURCE ENVIRONMENT
+  publishGlobalPath: $(System.DefaultWorkingDirectory)\cicd\apim\globalconfig
+  # global ARM files
+  globalBackendsArmTemplate: $(publishGlobalPath)\infra-backends.template.json
+  globalNamedValueArmTemplate: $(publishGlobalPath)\infra-namedValues.template.json
+  globalServicePolicyArmTemplate: $(publishGlobalPath)\infra-globalServicePolicy.template.json
+  globalProductsArmTemplate: $(publishGlobalPath)\infra-products.template.json
+
+stages:
+
+- stage: ParseParamsDEV
+  displayName: 'Parse DEV params file ${{ variables.environment }}.json'
+  jobs:
+  - job: ReadParamsFile
+    steps: 
+    - pwsh: |
+        $json = Get-Content $(paramsPath) | ConvertFrom-Json
+        Write-Host "##vso[task.setvariable variable=specResourceGroup;isOutput=true]$($json.parameters.resourceGroup_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=specLocation;isOutput=true]$($json.parameters.region_primary.value)"
+        Write-Host "##vso[task.setvariable variable=functionAppName;isOutput=true]$($json.parameters.funcApp_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=apimServiceNameDest;isOutput=true]$($json.parameters.apiManagement_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=kvServiceNameDest;isOutput=true]$($json.parameters.keyvault_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=storageAccountNameDest;isOutput=true]$($json.parameters.storageAccount_namePrimary.value)"
+        Write-Host "##vso[task.setvariable variable=cmkKeyName;isOutput=true]$($json.parameters.storageAccount_cmkKeyName.value)"
+        Write-Host "##vso[task.setvariable variable=sslCertificateName;isOutput=true]$($json.parameters.ssl_certificate_name.value)"
+        Write-Host "##vso[task.setvariable variable=kvBootstrap;isOutput=true]$($json.parameters.kvBootstrap_name.value)"
+        Write-Host "##vso[task.setvariable variable=jwtTokenKeyEValue;isOutput=true]$($json.parameters.jwtTokenKeyEValue.value)"
+        Write-Host "##vso[task.setvariable variable=jwtTokenKeyNValue;isOutput=true]$($json.parameters.jwtTokenKeyNValue.value)"
+        Write-Host "##vso[task.setvariable variable=cdcLoginSubscription;isOutput=true]$($json.parameters.cdcLoginSubscription.value)"
+        Write-Host "##vso[task.setvariable variable=cdcLoginResourceGroup;isOutput=true]$($json.parameters.cdcLoginResourceGroup.value)"
+        Write-Host "##vso[task.setvariable variable=cdcLoginFunctionName;isOutput=true]$($json.parameters.cdcLoginFunctionName.value)"
+        Write-Host "##vso[task.setvariable variable=cdcLoginBackendUrl;isOutput=true]$($json.parameters.cdcLoginBackendUrl.value)"
+        Write-Host "##vso[task.setvariable variable=cdcSbIngestSubscription;isOutput=true]$($json.parameters.cdcSbIngestSubscription.value)"
+        Write-Host "##vso[task.setvariable variable=cdcSbIngestResourceGroup;isOutput=true]$($json.parameters.cdcSbIngestResourceGroup.value)"
+        Write-Host "##vso[task.setvariable variable=cdcSbIngestFunctionName;isOutput=true]$($json.parameters.cdcSbIngestFunctionName.value)"
+        Write-Host "##vso[task.setvariable variable=cdcSbIngestBackendUrl;isOutput=true]$($json.parameters.cdcSbIngestBackendUrl.value)"
+        Write-Host "##vso[task.setvariable variable=IotSewerSigAllSites;isOutput=true]$($json.parameters.IotSewerSigAllSites.value)"
+        Write-Host "##vso[task.setvariable variable=IotSewerSigCurrentAlarms;isOutput=true]$($json.parameters.IotSewerSigCurrentAlarms.value)"
+        Write-Host "##vso[task.setvariable variable=IotSewerSigEventHistory;isOutput=true]$($json.parameters.IotSewerSigEventHistory.value)"
+        Write-Host "##vso[task.setvariable variable=IotSewerSigStateHistory;isOutput=true]$($json.parameters.IotSewerSigStateHistory.value)"
+        Write-Host "##vso[task.setvariable variable=IotSewerSigTelemetryHistory;isOutput=true]$($json.parameters.IotSewerSigTelemetryHistory.value)"
+        Write-Host "##vso[task.setvariable variable=IotSewerSigTelemetryWithinBounds;isOutput=true]$($json.parameters.IotSewerSigTelemetryWithinBounds.value)"
+        Write-Host "##vso[task.setvariable variable=IotSewerSigUpdateAlarm;isOutput=true]$($json.parameters.IotSewerSigUpdateAlarm.value)"
+        Write-Host "##vso[task.setvariable variable=IotSewerSigWetWeatherRegions;isOutput=true]$($json.parameters.IotSewerSigWetWeatherRegions.value)"
+        Write-Host "##vso[task.setvariable variable=IotSewerSigTelemetryForSite;isOutput=true]$($json.parameters.IotSewerSigTelemetryForSite.value)"
+        Write-Host "##vso[task.setvariable variable=IotSewerSigAllSitesForBounds;isOutput=true]$($json.parameters.IotSewerSigAllSitesForBounds.value)"
+        Write-Host "##vso[task.setvariable variable=sapClientValue;isOutput=true]$($json.parameters.sapClientValue.value)"
+        Write-Host "##vso[task.setvariable variable=bpointBillerCode;isOutput=true]$($json.parameters.bpointBillerCode.value)"
+        Write-Host "##vso[task.setvariable variable=bpointBackendHost;isOutput=true]$($json.parameters.bpointBackendHost.value)"
+        Write-Host "##vso[task.setvariable variable=paypalOrdersUrl;isOutput=true]$($json.parameters.paypalOrdersUrl.value)"
+        Write-Host "##vso[task.setvariable variable=paypalTokenUrl;isOutput=true]$($json.parameters.paypalTokenUrl.value)"
+        Write-Host "##vso[task.setvariable variable=waterfixDB;isOutput=true]$($json.parameters.waterfixDB.value)"
+      displayName: 'Parse ARM template params | pwsh'
+      name: parseJson
+    - script: |
+        echo specResourceGroup=$(parseJson.specResourceGroup)
+        echo specLocation=$(parseJson.specLocation)
+        echo functionAppName=$(parseJson.functionAppName)
+        echo apimServiceNameDest=$(parseJson.apimServiceNameDest)
+        echo kvServiceNameDest=$(parseJson.kvServiceNameDest)
+        echo storageAccountNameDest=$(parseJson.storageAccountNameDest)
+        echo cmkKeyName=$(parseJson.cmkKeyName)
+        echo sslCertificateName=$(parseJson.sslCertificateName)
+        echo kvBootstrap=$(parseJson.kvBootstrap)
+        echo jwtTokenKeyNValue=$(parseJson.jwtTokenKeyNValue)
+        echo cdcLoginSubscription=$(parseJson.cdcLoginSubscription)
+        echo cdcLoginResourceGroup=$(parseJson.cdcLoginResourceGroup)
+        echo cdcLoginFunctionName=$(parseJson.cdcLoginFunctionName)
+        echo cdcLoginBackendUrl=$(parseJson.cdcLoginBackendUrl)
+        echo sapClientValue=$(parseJson.sapClientValue)
+        echo bpointBillerCode=$(parseJson.bpointBillerCode)
+        echo bpointBackendHost=$(parseJson.bpointBackendHost)
+        echo IotSewerSigAllSites=$(parseJson.IotSewerSigAllSites)
+        echo IotSewerSigCurrentAlarms=$(parseJson.IotSewerSigCurrentAlarms)
+        echo IotSewerSigEventHistory=$(parseJson.IotSewerSigEventHistory)
+        echo IotSewerSigStateHistory=$(parseJson.IotSewerSigStateHistory)
+        echo IotSewerSigTelemetryHistory=$(parseJson.IotSewerSigTelemetryHistory)
+        echo IotSewerSigTelemetryWithinBounds=$(parseJson.IotSewerSigTelemetryWithinBounds)
+        echo IotSewerSigUpdateAlarm=$(parseJson.IotSewerSigUpdateAlarm)
+        echo IotSewerSigWetWeatherRegions=$(parseJson.IotSewerSigWetWeatherRegions)
+        echo IotSewerSigTelemetryForSite=$(parseJson.IotSewerSigTelemetryForSite)
+        echo IotSewerSigAllSitesForBounds=$(parseJson.IotSewerSigAllSitesForBounds)
+        echo paypalOrdersUrl=$(parseJson.paypalOrdersUrl)
+        echo paypalTokenUrl=$(parseJson.paypalTokenUrl)
+        echo waterfixDB=$(parseJson.waterfixDB)
+      displayName: 'Log macros from $(paramsPath)'
+
+- stage: InfrastructureDEV
+  ${{if parameters.isDryRun }} :
+    displayName: '[DRY RUN] Deploy APIM Infrastructure to ${{ variables.environment }}'
+  ${{ else }}:
+    displayName: 'Deploy APIM Infrastructure to ${{ variables.environment }}'
+  dependsOn: ParseParamsDEV
+  variables:
+    specResourceGroup: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.specResourceGroup'] ]
+    specLocation: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.specLocation'] ]
+    apimServiceNameDest: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.apimServiceNameDest'] ]
+    kvServiceNameDest: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.kvServiceNameDest'] ]
+    storageAccountNameDest: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.storageAccountNameDest'] ]
+    cmkKeyName: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.cmkKeyName'] ]
+  jobs:
+  - template: ./templates/iac.yml
+    parameters:
+      azureSubscription: $(azureSubscription)
+      scriptPath: $(templateSpecsScriptPath)
+      filePath: $(templatesPath)
+      name: $(specName)
+      resourceGroup: $(specResourceGroup)
+      location: $(specLocation)
+      environment: $(environment)
+      paramsPath: $(paramsPath)
+      bicepFilePath: $(bicepFilePath)
+      storageAccount: $(storageAccountNameDest)
+      keyVault: $(kvServiceNameDest)
+      cmkKeyName: $(cmkKeyName)
+      isDryRun: ${{parameters.isDryRun}}
+  # - job: UploadSSL
+  #   steps:
+  #   - task: DownloadSecureFile@1
+  #     displayName: 'Download SSL certificate'
+  #     name: sslCertificate
+  #     inputs:
+  #       secureFile: 'azure-apidev.swcdev.pfx'
+  #   - task: AzureKeyVault@1
+  #     displayName: 'Fetch SSL certificate password'
+  #     inputs:
+  #       azureSubscription: $(azureSubscription)
+  #       KeyVaultName: $(kvBootstrap)
+  #       SecretsFilter: 'dcp-apim-ssl-dev-password'
+  #       RunAsPreJob: false
+  #   - task: AzureCLI@2
+  #     displayName: 'Import SSL certificate'
+  #     inputs:
+  #       azureSubscription: $(azureSubscription)
+  #       scriptType: 'pscore'
+  #       scriptLocation: 'inlineScript'
+  #       inlineScript: |
+  #         az keyvault certificate import --file $(sslCertificate.secureFilePath) --name 'azure-apidev' --vault-name $(kvServiceNameDest) --password $(dcp-apim-ssl-dev-password)
+
+- stage: ApimDeployAPIInfraDepends
+  ${{if parameters.isDryRun }} :
+    displayName: '[DRY RUN] Deploy API dependencies to ${{ variables.environment }}'
+  ${{ else }}:
+    displayName: 'Deploy API dependencies to ${{ variables.environment }}'
+  dependsOn: 
+  - InfrastructureDEV
+  - ParseParamsDEV
+  condition: succeeded()
+  variables:
+    specResourceGroup: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.specResourceGroup'] ]
+    specLocation: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.specLocation'] ]
+    apimServiceNameDest: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.apimServiceNameDest'] ]
+    kvServiceNameDest: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.kvServiceNameDest'] ]
+    jwtTokenKeyEValue : $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.jwtTokenKeyEValue'] ]
+    jwtTokenKeyNValue : $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.jwtTokenKeyNValue'] ]
+    cdcLoginSubscription: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.cdcLoginSubscription'] ]
+    cdcLoginResourceGroup: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.cdcLoginResourceGroup'] ]
+    cdcLoginFunctionName: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.cdcLoginFunctionName'] ]
+    cdcLoginBackendUrl: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.cdcLoginBackendUrl'] ]
+    sapClientValue: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.sapClientValue'] ]
+    cdcSbIngestSubscription: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.cdcSbIngestSubscription'] ]
+    cdcSbIngestResourceGroup: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.cdcSbIngestResourceGroup'] ]
+    cdcSbIngestFunctionName: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.cdcSbIngestFunctionName'] ]
+    cdcSbIngestBackendUrl: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.cdcSbIngestBackendUrl'] ]
+    IotSewerSigAllSites: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.IotSewerSigAllSites'] ]
+    IotSewerSigCurrentAlarms: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.IotSewerSigCurrentAlarms'] ]
+    IotSewerSigEventHistory: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.IotSewerSigEventHistory'] ]
+    IotSewerSigStateHistory: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.IotSewerSigStateHistory'] ]
+    IotSewerSigTelemetryHistory: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.IotSewerSigTelemetryHistory'] ]
+    IotSewerSigTelemetryWithinBounds: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.IotSewerSigTelemetryWithinBounds'] ]
+    IotSewerSigUpdateAlarm: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.IotSewerSigUpdateAlarm'] ]
+    IotSewerSigWetWeatherRegions: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.IotSewerSigWetWeatherRegions'] ]
+    IotSewerSigTelemetryForSite: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.IotSewerSigTelemetryForSite'] ]
+    IotSewerSigAllSitesForBounds: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.IotSewerSigAllSitesForBounds'] ]
+    bpointBillerCode: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.bpointBillerCode'] ]
+    bpointBackendHost: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.bpointBackendHost'] ]
+    paypalOrdersUrl: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.paypalOrdersUrl'] ]
+    paypalTokenUrl: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.paypalTokenUrl'] ]
+    waterfixDB: $[ stageDependencies.ParseParamsDEV.ReadParamsFile.outputs['parseJson.waterfixDB'] ]
+  jobs:
+  - template: ./templates/apimDeployInfraDepends.yml
+    parameters:
+      azureSubscription: $(azureSubscription)
+      resourceGroup: $(specResourceGroup)
+      apimServiceName: $(apimServiceNameDest)
+      kvServiceName: $(kvServiceNameDest)
+      namedValueArmTemplate: $(globalNamedValueArmTemplate)
+      globalServicePolicyArmTemplate: $(globalServicePolicyArmTemplate)
+      productsArmTemplate: $(globalProductsArmTemplate)
+      backendsArmTemplate: $(globalBackendsArmTemplate)
+      jwtTokenKeyEValue : $(jwtTokenKeyEValue)
+      jwtTokenKeyNValue : $(jwtTokenKeyNValue)
+      cdcLoginSubscription: $(cdcLoginSubscription)
+      cdcLoginResourceGroup: $(cdcLoginResourceGroup)
+      cdcLoginFunctionName: $(cdcLoginFunctionName)
+      cdcLoginBackendUrl: $(cdcLoginBackendUrl)
+      cdcSbIngestSubscription: $(cdcSbIngestSubscription)
+      cdcSbIngestResourceGroup: $(cdcSbIngestResourceGroup)
+      cdcSbIngestFunctionName: $(cdcSbIngestFunctionName)
+      cdcSbIngestBackendUrl: $(cdcSbIngestBackendUrl)
+      sapClientValue: $(sapClientValue)
+      bpointBillerCode: $(bpointBillerCode)
+      bpointBackendHost: $(bpointBackendHost)
+      IotSewerSigAllSites: $(IotSewerSigAllSites)
+      IotSewerSigCurrentAlarms: $(IotSewerSigCurrentAlarms)
+      IotSewerSigEventHistory: $(IotSewerSigEventHistory)
+      IotSewerSigStateHistory: $(IotSewerSigStateHistory)
+      IotSewerSigTelemetryHistory: $(IotSewerSigTelemetryHistory)
+      IotSewerSigTelemetryWithinBounds: $(IotSewerSigTelemetryWithinBounds)
+      IotSewerSigUpdateAlarm: $(IotSewerSigUpdateAlarm)
+      IotSewerSigWetWeatherRegions: $(IotSewerSigWetWeatherRegions)
+      IotSewerSigTelemetryForSite: $(IotSewerSigTelemetryForSite)
+      IotSewerSigAllSitesForBounds: $(IotSewerSigAllSitesForBounds)
+      isDryRun: ${{parameters.isDryRun}}
+      paypalOrdersUrl: $(paypalOrdersUrl)
+      paypalTokenUrl: $(paypalTokenUrl)
+      waterfixDB: $(waterfixDB)
+      deployNV: ${{parameters.deployNV}}
+      deployGlobalPolicy: ${{parameters.deployGlobalPolicy}}
+      deployProducts: ${{parameters.deployProducts}}
+      deployBackends: ${{parameters.deployBackends}}
+
+- stage: InfraDevValidateDependsDeploy
+  displayName: 'DEV deployed infra changes prior to single API in ${{ variables.environment }}'
+  dependsOn: 
+  - ApimDeployAPIInfraDepends
+  condition: succeeded()
+  jobs:  
+  - job: waitForValidation
+    pool: server
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:
+    - task: ManualValidation@0
+      displayName: 'Wait for validation of deployed infra changes'
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: |
+          spham23@dxc.com
+          ankur.desai@dxc.com
+        instructions: 'Wait for validation of deployed infra changes and resume pipeline execution'
+        onTimeout: 'reject'

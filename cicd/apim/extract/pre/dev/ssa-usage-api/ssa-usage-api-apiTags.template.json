@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "UsageHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-usage-api/get-usagehistoryset/UsageHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "displayName": "UsageHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-usage-api/get-usagehistoryset-partnerkey-partnerkey-vkont-vkont-datehigh-datehigh-date/UsageHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-usage-api', 'get-usagehistoryset', 'UsageHistorySet')]"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "3rd-party-http-proxy-password",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/3rd-party-http-proxy-password"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-password')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "3rd-party-http-proxy-url",
+        "value": "http://10.181.128.68:8080"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-url')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "3rd-party-http-proxy-username",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/3rd-party-http-proxy-username"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-username')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "api-encryptiv",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/api-encryptiv"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-encryptiv')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "api-encryptkey",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/api-encryptkey"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/api-encryptkey')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "enable-3rd-party-http-proxy",
+        "value": "false"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/enable-3rd-party-http-proxy')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "encrypt-exception-values",
+        "value": "9999999,0"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/encrypt-exception-values')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "waterfix-database",
+        "value": "SPOTLESS_SW_TEST"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/waterfix-database')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "waterfix-guid",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/waterfix-guid"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/waterfix-guid')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

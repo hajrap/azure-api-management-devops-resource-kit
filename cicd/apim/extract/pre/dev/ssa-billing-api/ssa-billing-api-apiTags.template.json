@@ -1,0 +1,801 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "BankpaySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/post-bankpayset/BankpaySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/post-paperlessset/PaperlessSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'post-bankpayset', 'BankpaySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PayenrollSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/post-payenrollset/PayenrollSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'post-paperlessset', 'PaperlessSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "AccntStatus"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-accntstatus/AccntStatus')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'post-payenrollset', 'PayenrollSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "AccountBalanceSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-accountbalanceset/AccountBalanceSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-accntstatus', 'AccntStatus')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "AccountStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-accountstatusset/AccountStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-accountbalanceset', 'AccountBalanceSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankpaySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-bankpayset/BankpaySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-accountstatusset', 'AccountStatusSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billhistoryset/BillHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-bankpayset', 'BankpaySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillPayHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billpayhistoryset/BillPayHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billhistoryset', 'BillHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillPaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billpaymenthistoryset/BillPaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billpayhistoryset', 'BillPayHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillSummaryAmtSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billsummaryamtset/BillSummaryAmtSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billpaymenthistoryset', 'BillPaymentHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillSummaryDetailsSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billsummarydetailsset/BillSummaryDetailsSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billsummaryamtset', 'BillSummaryAmtSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BPSearchSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-bpsearchset/BPSearchSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billsummarydetailsset', 'BillSummaryDetailsSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "FormSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-formset/FormSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-bpsearchset', 'BPSearchSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanASet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanaset/InstallmentPlanASet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-formset', 'FormSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanLSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanlset/InstallmentPlanLSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanaset', 'InstallmentPlanASet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanset/InstallmentPlanSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanlset', 'InstallmentPlanLSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplansset/InstallmentPlanSSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanset', 'InstallmentPlanSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InvIDSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-invidset/InvIDSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplansset', 'InstallmentPlanSSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InvoicePDFSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-invoicepdfset/InvoicePDFSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-invidset', 'InvIDSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessAccountsSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-paperlessaccountsset/PaperlessAccountsSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-invoicepdfset', 'InvoicePDFSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-paperlessset/PaperlessSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-paperlessaccountsset', 'PaperlessAccountsSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PayenrollMsgSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-payenrollmsgset/PayenrollMsgSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-paperlessset', 'PaperlessSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PayenrollSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-payenrollset/PayenrollSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-payenrollmsgset', 'PayenrollMsgSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-paymenthistoryset/PaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-payenrollset', 'PayenrollSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PEEligibilitySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-peeligibilityset/PEEligibilitySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-paymenthistoryset', 'PaymentHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PEEligStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-peeligstatusset/PEEligStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-peeligibilityset', 'PEEligibilitySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon/BillHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-peeligstatusset', 'PEEligStatusSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillPaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon/BillPaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon', 'BillHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillPaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-2/BillPaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon', 'BillPaymentHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InvIDSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-2/InvIDSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-2', 'BillPaymentHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "FormItemSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-formset-formid-formid-accountid-accountid-contractaccount-contractaccoun-1/FormItemSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-2', 'InvIDSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "FormSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-formset-formid-formid-accountid-accountid-contractaccount-contractaccoun-1/FormSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-formset-formid-formid-accountid-accountid-contractaccount-contractaccoun-1', 'FormItemSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanASet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanset-contractaccount-navinstplantoamt/InstallmentPlanASet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-formset-formid-formid-accountid-accountid-contractaccount-contractaccoun-1', 'FormSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanset-contractaccount-navinstplantoamt/InstallmentPlanSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanset-contractaccount-navinstplantoamt', 'InstallmentPlanASet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanLSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanset-contractaccount-navinstplantolist/InstallmentPlanLSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanset-contractaccount-navinstplantoamt', 'InstallmentPlanSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanset-contractaccount-navinstplantolist/InstallmentPlanSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanset-contractaccount-navinstplantolist', 'InstallmentPlanLSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanset-contractaccount-navinstplantostatus/InstallmentPlanSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanset-contractaccount-navinstplantolist', 'InstallmentPlanSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanset-contractaccount-navinstplantostatus/InstallmentPlanSSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanset-contractaccount-navinstplantostatus', 'InstallmentPlanSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessAccountsSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-paperlessset-paperless-navpaperless/PaperlessAccountsSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanset-contractaccount-navinstplantostatus', 'InstallmentPlanSSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-paperlessset-paperless-navpaperless/PaperlessSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-paperlessset-paperless-navpaperless', 'PaperlessAccountsSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PayenrollMsgSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-payenrollset-ca-navpayenrolltomsg/PayenrollMsgSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-paperlessset-paperless-navpaperless', 'PaperlessSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PayenrollSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-payenrollset-ca-navpayenrolltomsg/PayenrollSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-payenrollset-ca-navpayenrolltomsg', 'PayenrollMsgSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PEEligibilitySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-peeligibilityset-contractaccount-navpayexteligtostatus/PEEligibilitySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-payenrollset-ca-navpayenrolltomsg', 'PayenrollSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PEEligStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-peeligibilityset-contractaccount-navpayexteligtostatus/PEEligStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-peeligibilityset-contractaccount-navpayexteligtostatus', 'PEEligibilitySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillPaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-1/BillPaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-peeligibilityset-contractaccount-navpayexteligtostatus', 'PEEligStatusSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-1/PaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-1', 'BillPaymentHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "AccntStatus"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-accntstatus-contractaccount/AccntStatus')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-1', 'PaymentHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "AccountBalanceSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-accountbalanceset-partnerkey/AccountBalanceSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-accntstatus-contractaccount', 'AccntStatus')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "AccountStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-accountstatusset-contractaccount-contractaccount-businesspartner-busines/AccountStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-accountbalanceset-partnerkey', 'AccountBalanceSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankpaySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-bankpayset-contractaccount/BankpaySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-accountstatusset-contractaccount-contractaccount-businesspartner-busines', 'AccountStatusSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billhistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkont-vkont/BillHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-bankpayset-contractaccount', 'BankpaySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillPayHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billpayhistoryset-businesspartner-businesspartner-contractaccount-contra/BillPayHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billhistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkont-vkont', 'BillHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillPaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-3/BillPaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billpayhistoryset-businesspartner-businesspartner-contractaccount-contra', 'BillPayHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillSummaryAmtSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billsummaryamtset-contractaccount/BillSummaryAmtSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-3', 'BillPaymentHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BillSummaryDetailsSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-billsummarydetailsset-contractaccount/BillSummaryDetailsSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billsummaryamtset-contractaccount', 'BillSummaryAmtSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BPSearchSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-bpsearchset-contractaccount/BPSearchSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-billsummarydetailsset-contractaccount', 'BillSummaryDetailsSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "FormSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-formset-formid-formid-accountid-accountid-contractaccount-contractaccoun/FormSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-bpsearchset-contractaccount', 'BPSearchSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanASet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanaset-inst_plan/InstallmentPlanASet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-formset-formid-formid-accountid-accountid-contractaccount-contractaccoun', 'FormSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanLSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanlset-instno/InstallmentPlanLSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanaset-inst_plan', 'InstallmentPlanASet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplanset-contractaccount/InstallmentPlanSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanlset-instno', 'InstallmentPlanLSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-installmentplansset-ssa_code/InstallmentPlanSSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplanset-contractaccount', 'InstallmentPlanSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InvIDSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-invidset-duedatehigh-duedatehigh-duedatelow-duedatelow-invid-invid-vkont/InvIDSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-installmentplansset-ssa_code', 'InstallmentPlanSSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "InvoicePDFSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-invoicepdfset-invid/InvoicePDFSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-invidset-duedatehigh-duedatehigh-duedatelow-duedatelow-invid-invid-vkont', 'InvIDSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessAccountsSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-paperlessaccountsset-vkont-vkont-gpart-gpart/PaperlessAccountsSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-invoicepdfset-invid', 'InvoicePDFSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-paperlessset-paperless/PaperlessSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-paperlessaccountsset-vkont-vkont-gpart-gpart', 'PaperlessAccountsSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PayenrollMsgSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-payenrollmsgset-msgtype/PayenrollMsgSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-paperlessset-paperless', 'PaperlessSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PayenrollSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-payenrollset-ca/PayenrollSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-payenrollmsgset-msgtype', 'PayenrollMsgSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-paymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkont-vk/PaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-payenrollset-ca', 'PayenrollSet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PEEligibilitySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-peeligibilityset-contractaccount/PEEligibilitySet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-paymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkont-vk', 'PaymentHistorySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PEEligStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/get-peeligstatusset-ssa_code/PEEligStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-peeligibilityset-contractaccount', 'PEEligibilitySet')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Batch Requests"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-billing-api/post-batch/Batch-Requests')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-billing-api', 'get-peeligstatusset-ssa_code', 'PEEligStatusSet')]"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,505 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "Provides Australia address search capability.",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/60b70b3cfad853fb8f92cd73')]",
+        "subscriptionRequired": true,
+        "displayName": "Elastic Address Search API",
+        "serviceUrl": "[parameters('serviceUrl').elasticaddresssearchapi]",
+        "path": "elastic-address-search",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/elastic-address-search-api')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "PostalAddressSearchAPIPostRequest": {
+                "x-apim-inline": true
+              },
+              "PostalAddressSearchAPIPostRequest-1": {
+                "x-apim-inline": true
+              },
+              "PostalAddressSearchAPIPostRequest-2": {
+                "x-apim-inline": true
+              },
+              "PostalAddressSearchAPIPostRequest-3": {
+                "x-apim-inline": true
+              },
+              "PostalAddressSearchAPIPostRequest-4": {
+                "x-apim-inline": true
+              },
+              "PostalAddressSearchAPIPost200ApplicationJsonResponse": {
+                "type": "object"
+              },
+              "AddressSearch": {
+                "type": "object",
+                "properties": {
+                  "size": {
+                    "type": "integer"
+                  },
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "bool": {
+                        "type": "object",
+                        "properties": {
+                          "must": {
+                            "type": "object",
+                            "properties": {
+                              "match": {
+                                "type": "object",
+                                "properties": {
+                                  "formattedAddress": {
+                                    "type": "object",
+                                    "properties": {
+                                      "query": {
+                                        "type": "string"
+                                      },
+                                      "analyzer": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "should": {
+                            "type": "object",
+                            "properties": {
+                              "match": {
+                                "type": "object",
+                                "properties": {
+                                  "formattedAddress.raw": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "Suburb": {
+                "x-apim-inline": true
+              },
+              "Street": {
+                "x-apim-inline": true
+              },
+              "Postal": {
+                "x-apim-inline": true
+              },
+              "Address": {
+                "x-apim-inline": true
+              },
+              "Address Latitude Longitude": {
+                "x-apim-inline": true
+              },
+              "Address Response": {
+                "x-apim-inline": true
+              },
+              "Postal Response": {
+                "x-apim-inline": true
+              },
+              "Suburb Response": {
+                "x-apim-inline": true
+              },
+              "Street Response": {
+                "x-apim-inline": true
+              },
+              "Address Latitude Longitude Response": {
+                "x-apim-inline": true
+              },
+              "ElasticAddressSearchPost-RequestPostCode": {
+                "type": "object",
+                "example": {
+                  "size": 0,
+                  "query": {
+                    "bool": {
+                      "must": [
+                        {
+                          "term": {
+                            "addressType": "postal"
+                          }
+                        },
+                        {
+                          "term": {
+                            "suburbFull.keyword": "SYDNEY NSW 2001"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "aggs": {
+                    "results": {
+                      "terms": {
+                        "field": "resultFull.keyword",
+                        "order": {
+                          "_term": "asc"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/elastic-address-search-api/60ad6b6ad7e96917686e86e7')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'elastic-address-search-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Performs postal and national address search, street search, suburb search.",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "ApplicationID",
+              "description": "Send System APP ID – All interaction from source system should have same Application ID.",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "TransactionContextID",
+              "description": "Supply GUID – It is generated once at the initiation point of the transaction and is propagated throughout the transaction lifecycle through the service execution.",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "UserID",
+              "description": "End user initiating the transaction.",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "Version",
+              "description": "Version of the API to be called. Use the value specified in example (highest version)",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "MessageTraceID",
+              "description": "This element is a unique identifier associated with each message. Response and Fault messages should have a distinct MessageTraceID from request messages. Element can be used to achieve idempotent behaviour on server side.",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"size\": 10,\r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": {\r\n        \"match\": {\r\n          \"formattedAddress\": {\r\n            \"query\": \"1 smith street Parramatta\",\r\n            \"analyzer\": \"standard\"\r\n          }\r\n        }\r\n      },\r\n      \"should\": {\r\n        \"match\": {\r\n          \"formattedAddress.raw\": \"1 smith street Parramatta\"\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+              "schemaId": "60ad6b6ad7e96917686e86e7",
+              "typeName": "Address"
+            },
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"size\": 0,\r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": [\r\n        {\r\n          \"prefix\": {\r\n            \"resultFull.keyword\": \"PI\"\r\n          }\r\n        },\r\n        {\r\n          \"term\": {\r\n            \"addressType\": \"street\"\r\n          }\r\n        },\r\n        {\r\n          \"term\": {\r\n            \"suburbFull.keyword\": \"SYDNEY NSW 2000\"\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  },\r\n  \"aggs\": {\r\n    \"results\": {\r\n      \"terms\": {\r\n        \"field\": \"resultFull.keyword\",\r\n        \"order\": {\r\n          \"_term\": \"asc\"\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+              "schemaId": "60ad6b6ad7e96917686e86e7",
+              "typeName": "Street"
+            },
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"size\": 0,\r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": [\r\n        {\r\n          \"prefix\": {\r\n            \"resultFull.keyword\": \"CO\"\r\n          }\r\n        },\r\n        {\r\n          \"term\": {\r\n            \"addressType\": \"street\"\r\n          }\r\n        },\r\n        {\r\n          \"term\": {\r\n            \"suburbFull.keyword\": \"PARRAMATTA NSW 2150\"\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  },\r\n  \"aggs\": {\r\n    \"results\": {\r\n      \"terms\": {\r\n        \"field\": \"resultFull.keyword\",\r\n        \"order\": {\r\n          \"_term\": \"asc\"\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+              "schemaId": "60ad6b6ad7e96917686e86e7",
+              "typeName": "Postal"
+            },
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"size\": 0,\r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": [\r\n        {\r\n          \"term\": {\r\n            \"addressType\": \"street\"\r\n          }\r\n        },\r\n        {\r\n          \"bool\": {\r\n            \"should\": [\r\n              {\r\n                \"term\": {\r\n                  \"C11_Postcode\": \"SYDN\"\r\n                }\r\n              },\r\n              {\r\n                \"prefix\": {\r\n                  \"suburbFull.keyword\": \"SYDN\"\r\n                }\r\n              }\r\n            ]\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  },\r\n  \"aggs\": {\r\n    \"suburbs\": {\r\n      \"terms\": {\r\n        \"field\": \"suburbFull.keyword\",\r\n        \"order\": {\r\n          \"_term\": \"asc\"\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+              "schemaId": "60ad6b6ad7e96917686e86e7",
+              "typeName": "Suburb"
+            },
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"size\": \"10\",\r\n  \"sort\": {\r\n    \"_geo_distance\": {\r\n      \"centroid\": {\r\n        \"lat\": -33.83296,\r\n        \"lon\": 151.0735872\r\n      },\r\n      \"order\": \"asc\",\r\n      \"unit\": \"m\"\r\n    }\r\n  }\r\n}",
+              "schemaId": "60ad6b6ad7e96917686e86e7",
+              "typeName": "Address Latitude Longitude"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Successful Operation",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"took\": 1250,\r\n  \"timed_out\": false,\r\n  \"_shards\": {\r\n    \"total\": 1,\r\n    \"successful\": 1,\r\n    \"failed\": 0\r\n  },\r\n  \"hits\": {\r\n    \"total\": 11042077,\r\n    \"max_score\": 35.74309,\r\n    \"hits\": [\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUO6Cyv8lvY-bOH6aV\",\r\n        \"_score\": 35.74309,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"Lot 1 Smith Street, Parramatta NSW 2150\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"\",\r\n          \"flatUnitNumber\": \"\",\r\n          \"P41_FlatUnitDetails\": \"\",\r\n          \"houseNumber1\": \"0\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"0\",\r\n          \"lotNumber\": \"LOT 1\",\r\n          \"P13_LotNumberString\": \"LOT LOT 1\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"SMITH\",\r\n          \"S112_StreetType\": \"ST\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"PARRAMATTA\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2150\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"00000000\",\r\n          \"printableAddress\": \"Lot 1 Smith St~PARRAMATTA NSW 2150\",\r\n          \"propertyNumber\": \"iDuir0z2ieBZNeo1yJe6BA%3D%3D\",\r\n          \"parentPropertyNumber\": \"iDuir0z2ieBZNeo1yJe6BA%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_PROSPECT_EAST\",\r\n          \"deliverySystemDescription\": \"Prospect East Water Delivery System\",\r\n          \"catchmentArea\": \"Clay Cliff Creek Catchment\",\r\n          \"propertyType\": \"Occupied Land\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.00637233,\r\n                -33.81627979\r\n              ],\r\n              [\r\n                151.00607835,\r\n                -33.81583665\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.81605822,\r\n            \"lon\": 151.00622534000002\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"PARRAMATTA NSW 2150\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"SMITH ST\"\r\n        }\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUO6Cyv8lvY-bOH6aj\",\r\n        \"_score\": 35.74309,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"1 Smith Street, Parramatta NSW 2150\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"\",\r\n          \"flatUnitNumber\": \"\",\r\n          \"P41_FlatUnitDetails\": \"\",\r\n          \"houseNumber1\": \"1\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"1\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"SMITH\",\r\n          \"S112_StreetType\": \"ST\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"PARRAMATTA\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2150\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"91731061\",\r\n          \"printableAddress\": \"1 Smith St~PARRAMATTA NSW 2150\",\r\n          \"propertyNumber\": \"9bkO3DG2tTsed%2FVU2v82IQ%3D%3D\",\r\n          \"parentPropertyNumber\": \"9bkO3DG2tTsed%2FVU2v82IQ%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_PROSPECT_EAST\",\r\n          \"deliverySystemDescription\": \"Prospect East Water Delivery System\",\r\n          \"catchmentArea\": \"Clay Cliff Creek Catchment\",\r\n          \"propertyType\": \"Commercial\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.00584591,\r\n                -33.81704617\r\n              ],\r\n              [\r\n                151.00508255,\r\n                -33.81655849\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.81680233,\r\n            \"lon\": 151.00546423\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"PARRAMATTA NSW 2150\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"SMITH ST\"\r\n        }\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUO6Cyv8lvY-bOH6b3\",\r\n        \"_score\": 35.74309,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"1/37 Smith Street, Parramatta NSW 2150\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"F\",\r\n          \"flatUnitNumber\": \"1\",\r\n          \"P41_FlatUnitDetails\": \"F 1\",\r\n          \"houseNumber1\": \"37\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"37\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"SMITH\",\r\n          \"S112_StreetType\": \"ST\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"PARRAMATTA\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2150\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"00000000\",\r\n          \"printableAddress\": \"1/37 Smith St~PARRAMATTA NSW 2150\",\r\n          \"propertyNumber\": \"aRL2hct4%2F0%2Ft%2BukT4CwJFQ%3D%3D\",\r\n          \"parentPropertyNumber\": \"NMchYylHQrZT6lDDGlbjKw%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_PROSPECT_EAST\",\r\n          \"deliverySystemDescription\": \"Prospect East Water Delivery System\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"Com Strata Unit\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.00646017,\r\n                -33.81371847\r\n              ],\r\n              [\r\n                151.00582557,\r\n                -33.8132528\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.813485635,\r\n            \"lon\": 151.00614287000002\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"PARRAMATTA NSW 2150\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"SMITH ST\"\r\n        }\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUO6Cyv8lvY-bOH6ae\",\r\n        \"_score\": 33.953766,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"Smith Street, Parramatta NSW 2150\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"\",\r\n          \"flatUnitNumber\": \"\",\r\n          \"P41_FlatUnitDetails\": \"\",\r\n          \"houseNumber1\": \"0\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"0\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"SMITH\",\r\n          \"S112_StreetType\": \"ST\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"PARRAMATTA\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2150\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"00000000\",\r\n          \"printableAddress\": \"Smith St~PARRAMATTA NSW 2150\",\r\n          \"propertyNumber\": \"JOb3k2VFkVMmuG8lbeoaPw%3D%3D\",\r\n          \"parentPropertyNumber\": \"JOb3k2VFkVMmuG8lbeoaPw%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_PROSPECT_EAST\",\r\n          \"deliverySystemDescription\": \"Prospect East Water Delivery System\",\r\n          \"catchmentArea\": \"Clay Cliff Creek Catchment\",\r\n          \"propertyType\": \"School(State)\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.00784713,\r\n                -33.81607907\r\n              ],\r\n              [\r\n                151.0067378,\r\n                -33.81532725\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.81570316,\r\n            \"lon\": 151.00729246499998\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"PARRAMATTA NSW 2150\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"SMITH ST\"\r\n        }\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUO6Cyv8lvY-bOH6ah\",\r\n        \"_score\": 33.56201,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"Shop 1  1 Smith Street, Parramatta NSW 2150\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"SHOP\",\r\n          \"flatUnitNumber\": \"1\",\r\n          \"P41_FlatUnitDetails\": \"SHOP 1\",\r\n          \"houseNumber1\": \"1\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"1\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"SMITH\",\r\n          \"S112_StreetType\": \"ST\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"PARRAMATTA\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2150\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"38092867\",\r\n          \"printableAddress\": \"Shop 1  1 Smith St~PARRAMATTA NSW 2150\",\r\n          \"propertyNumber\": \"SrUYncbqwk0HseRNii1%2FJw%3D%3D\",\r\n          \"parentPropertyNumber\": \"SrUYncbqwk0HseRNii1%2FJw%3D%3D\",\r\n          \"deliverySystemCode\": \"\",\r\n          \"deliverySystemDescription\": \"\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                0,\r\n                0\r\n              ],\r\n              [\r\n                0,\r\n                0\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": 0,\r\n            \"lon\": 0\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"PARRAMATTA NSW 2150\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"SMITH ST\"\r\n        }\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUO6Cyv8lvY-bOH6bD\",\r\n        \"_score\": 33.56201,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"Suite 1 Level 1  20 Smith Street, Parramatta NSW 2150\",\r\n          \"floorLevelType\": \"L\",\r\n          \"floorLevelNumber\": \"1\",\r\n          \"P31_FloorLevelDetails\": \"L 1\",\r\n          \"flatUnitType\": \"SE\",\r\n          \"flatUnitNumber\": \"1\",\r\n          \"P41_FlatUnitDetails\": \"SE 1\",\r\n          \"houseNumber1\": \"20\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"20\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"SMITH\",\r\n          \"S112_StreetType\": \"ST\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"PARRAMATTA\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2150\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"91684114\",\r\n          \"printableAddress\": \"Suite 1~Level 1  20 Smith St~PARRAMATTA NSW 2150\",\r\n          \"propertyNumber\": \"SrUYncbqwk0HseRNii1%2FJw%3D%3D\",\r\n          \"parentPropertyNumber\": \"SrUYncbqwk0HseRNii1%2FJw%3D%3D\",\r\n          \"deliverySystemCode\": \"\",\r\n          \"deliverySystemDescription\": \"\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                0,\r\n                0\r\n              ],\r\n              [\r\n                0,\r\n                0\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": 0,\r\n            \"lon\": 0\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"PARRAMATTA NSW 2150\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"SMITH ST\"\r\n        }\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUO6Cyv8lvY-bOH6af\",\r\n        \"_score\": 33.102448,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"1A Smith Street, Parramatta NSW 2150\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"\",\r\n          \"flatUnitNumber\": \"\",\r\n          \"P41_FlatUnitDetails\": \"\",\r\n          \"houseNumber1\": \"1\",\r\n          \"houseNumber1Suffix\": \"A\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"1A\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"SMITH\",\r\n          \"S112_StreetType\": \"ST\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"PARRAMATTA\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2150\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"78111084\",\r\n          \"printableAddress\": \"1A Smith St~PARRAMATTA NSW 2150\",\r\n          \"propertyNumber\": \"SrUYncbqwk0HseRNii1%2FJw%3D%3D\",\r\n          \"parentPropertyNumber\": \"SrUYncbqwk0HseRNii1%2FJw%3D%3D\",\r\n          \"deliverySystemCode\": \"\",\r\n          \"deliverySystemDescription\": \"\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                0,\r\n                0\r\n              ],\r\n              [\r\n                0,\r\n                0\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": 0,\r\n            \"lon\": 0\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"PARRAMATTA NSW 2150\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"SMITH ST\"\r\n        }\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUO6Cyv8lvY-bOH6ag\",\r\n        \"_score\": 33.102448,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"1B Smith Street, Parramatta NSW 2150\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"\",\r\n          \"flatUnitNumber\": \"\",\r\n          \"P41_FlatUnitDetails\": \"\",\r\n          \"houseNumber1\": \"1\",\r\n          \"houseNumber1Suffix\": \"B\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"1B\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"SMITH\",\r\n          \"S112_StreetType\": \"ST\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"PARRAMATTA\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2150\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"63687640\",\r\n          \"printableAddress\": \"1B Smith St~PARRAMATTA NSW 2150\",\r\n          \"propertyNumber\": \"SrUYncbqwk0HseRNii1%2FJw%3D%3D\",\r\n          \"parentPropertyNumber\": \"SrUYncbqwk0HseRNii1%2FJw%3D%3D\",\r\n          \"deliverySystemCode\": \"\",\r\n          \"deliverySystemDescription\": \"\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                0,\r\n                0\r\n              ],\r\n              [\r\n                0,\r\n                0\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": 0,\r\n            \"lon\": 0\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"PARRAMATTA NSW 2150\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"SMITH ST\"\r\n        }\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUO6Cyv8lvY-bOH6a2\",\r\n        \"_score\": 33.102448,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"10 Smith Street, Parramatta NSW 2150\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"\",\r\n          \"flatUnitNumber\": \"\",\r\n          \"P41_FlatUnitDetails\": \"\",\r\n          \"houseNumber1\": \"10\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"10\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"SMITH\",\r\n          \"S112_StreetType\": \"ST\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"PARRAMATTA\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2150\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"85370843\",\r\n          \"printableAddress\": \"10 Smith St~PARRAMATTA NSW 2150\",\r\n          \"propertyNumber\": \"2tp2tjdNdRezCxeFZkzhtg%3D%3D\",\r\n          \"parentPropertyNumber\": \"2tp2tjdNdRezCxeFZkzhtg%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_PROSPECT_EAST\",\r\n          \"deliverySystemDescription\": \"Prospect East Water Delivery System\",\r\n          \"catchmentArea\": \"Clay Cliff Creek Catchment\",\r\n          \"propertyType\": \"Commercial\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.00680902,\r\n                -33.8158278\r\n              ],\r\n              [\r\n                151.00604183,\r\n                -33.8151207\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.81547425,\r\n            \"lon\": 151.00642542499998\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"PARRAMATTA NSW 2150\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"SMITH ST\"\r\n        }\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUO6Cyv8lvY-bOH6bB\",\r\n        \"_score\": 33.102448,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"18 Smith Street, Parramatta NSW 2150\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"\",\r\n          \"flatUnitNumber\": \"\",\r\n          \"P41_FlatUnitDetails\": \"\",\r\n          \"houseNumber1\": \"18\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"18\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"SMITH\",\r\n          \"S112_StreetType\": \"ST\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"PARRAMATTA\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2150\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"98958336\",\r\n          \"printableAddress\": \"18 Smith St~PARRAMATTA NSW 2150\",\r\n          \"propertyNumber\": \"SpbKY%2Fr5hzdz9ikne6AgZg%3D%3D\",\r\n          \"parentPropertyNumber\": \"SpbKY%2Fr5hzdz9ikne6AgZg%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_PROSPECT_EAST\",\r\n          \"deliverySystemDescription\": \"Prospect East Water Delivery System\",\r\n          \"catchmentArea\": \"Clay Cliff Creek Catchment\",\r\n          \"propertyType\": \"Commercial\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.00680113,\r\n                -33.81533905\r\n              ],\r\n              [\r\n                151.00616407,\r\n                -33.81472688\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.815032965,\r\n            \"lon\": 151.00648260000003\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"PARRAMATTA NSW 2150\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"SMITH ST\"\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}",
+                "schemaId": "60ad6b6ad7e96917686e86e7",
+                "typeName": "Address Response"
+              },
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"took\": 375,\r\n  \"timed_out\": false,\r\n  \"_shards\": {\r\n    \"total\": 1,\r\n    \"successful\": 1,\r\n    \"failed\": 0\r\n  },\r\n  \"hits\": {\r\n    \"total\": 18460782,\r\n    \"max_score\": null,\r\n    \"hits\": [\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUPVpNv8lvY-bOIujy\",\r\n        \"_score\": null,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"101/2 The Piazza, Wentworth Point NSW 2127\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"U\",\r\n          \"flatUnitNumber\": \"101\",\r\n          \"P41_FlatUnitDetails\": \"U 101\",\r\n          \"houseNumber1\": \"2\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"2\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"THE PIAZZA\",\r\n          \"S112_StreetType\": \"\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"WENTWORTH POINT\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2127\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"73579371\",\r\n          \"printableAddress\": \"101/2 The Piazza~WENTWORTH POINT NSW 2127\",\r\n          \"propertyNumber\": \"5UBH8g%2BMbLIjqXNu1cxEQQ%3D%3D\",\r\n          \"parentPropertyNumber\": \"roeN7nTPWFb%2B5Cd3ctt2PQ%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_POTTS_HILL\",\r\n          \"deliverySystemDescription\": \"Potts Hill Water Delivery System\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"Strata Unit\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.07424496,\r\n                -33.83291308\r\n              ],\r\n              [\r\n                151.07339315,\r\n                -33.83215806\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.83253557,\r\n            \"lon\": 151.073819055\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"WENTWORTH POINT NSW 2127\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"THE PIAZZA\"\r\n        },\r\n        \"sort\": [\r\n          51.823607868614232\r\n        ]\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUPVpNv8lvY-bOIujz\",\r\n        \"_score\": null,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"Unit 101  2 The Piazza, Wentworth Point NSW 2127\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"U\",\r\n          \"flatUnitNumber\": \"101\",\r\n          \"P41_FlatUnitDetails\": \"U 101\",\r\n          \"houseNumber1\": \"2\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"2\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"THE PIAZZA\",\r\n          \"S112_StreetType\": \"\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"WENTWORTH POINT\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2127\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"73579371\",\r\n          \"printableAddress\": \"101/2 The Piazza~WENTWORTH POINT NSW 2127\",\r\n          \"propertyNumber\": \"5UBH8g%2BMbLIjqXNu1cxEQQ%3D%3D\",\r\n          \"parentPropertyNumber\": \"roeN7nTPWFb%2B5Cd3ctt2PQ%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_POTTS_HILL\",\r\n          \"deliverySystemDescription\": \"Potts Hill Water Delivery System\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"Strata Unit\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.07424496,\r\n                -33.83291308\r\n              ],\r\n              [\r\n                151.07339315,\r\n                -33.83215806\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.83253557,\r\n            \"lon\": 151.073819055\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"WENTWORTH POINT NSW 2127\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"THE PIAZZA\"\r\n        },\r\n        \"sort\": [\r\n          51.823607868614232\r\n        ]\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUPVpNv8lvY-bOIuj0\",\r\n        \"_score\": null,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"102/2 The Piazza, Wentworth Point NSW 2127\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"U\",\r\n          \"flatUnitNumber\": \"102\",\r\n          \"P41_FlatUnitDetails\": \"U 102\",\r\n          \"houseNumber1\": \"2\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"2\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"THE PIAZZA\",\r\n          \"S112_StreetType\": \"\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"WENTWORTH POINT\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2127\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"41745329\",\r\n          \"printableAddress\": \"102/2 The Piazza~WENTWORTH POINT NSW 2127\",\r\n          \"propertyNumber\": \"mwO1EBN%2BSQ8Qvdg3F81Anw%3D%3D\",\r\n          \"parentPropertyNumber\": \"roeN7nTPWFb%2B5Cd3ctt2PQ%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_POTTS_HILL\",\r\n          \"deliverySystemDescription\": \"Potts Hill Water Delivery System\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"Strata Unit\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.07424496,\r\n                -33.83291308\r\n              ],\r\n              [\r\n                151.07339315,\r\n                -33.83215806\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.83253557,\r\n            \"lon\": 151.073819055\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"WENTWORTH POINT NSW 2127\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"THE PIAZZA\"\r\n        },\r\n        \"sort\": [\r\n          51.823607868614232\r\n        ]\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUPVpNv8lvY-bOIuj1\",\r\n        \"_score\": null,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"Unit 102  2 The Piazza, Wentworth Point NSW 2127\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"U\",\r\n          \"flatUnitNumber\": \"102\",\r\n          \"P41_FlatUnitDetails\": \"U 102\",\r\n          \"houseNumber1\": \"2\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"2\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"THE PIAZZA\",\r\n          \"S112_StreetType\": \"\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"WENTWORTH POINT\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2127\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"41745329\",\r\n          \"printableAddress\": \"102/2 The Piazza~WENTWORTH POINT NSW 2127\",\r\n          \"propertyNumber\": \"mwO1EBN%2BSQ8Qvdg3F81Anw%3D%3D\",\r\n          \"parentPropertyNumber\": \"roeN7nTPWFb%2B5Cd3ctt2PQ%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_POTTS_HILL\",\r\n          \"deliverySystemDescription\": \"Potts Hill Water Delivery System\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"Strata Unit\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.07424496,\r\n                -33.83291308\r\n              ],\r\n              [\r\n                151.07339315,\r\n                -33.83215806\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.83253557,\r\n            \"lon\": 151.073819055\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"WENTWORTH POINT NSW 2127\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"THE PIAZZA\"\r\n        },\r\n        \"sort\": [\r\n          51.823607868614232\r\n        ]\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUPVpNv8lvY-bOIuj2\",\r\n        \"_score\": null,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"103/2 The Piazza, Wentworth Point NSW 2127\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"U\",\r\n          \"flatUnitNumber\": \"103\",\r\n          \"P41_FlatUnitDetails\": \"U 103\",\r\n          \"houseNumber1\": \"2\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"2\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"THE PIAZZA\",\r\n          \"S112_StreetType\": \"\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"WENTWORTH POINT\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2127\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"97575067\",\r\n          \"printableAddress\": \"103/2 The Piazza~WENTWORTH POINT NSW 2127\",\r\n          \"propertyNumber\": \"yThaHCpD4%2FLdROwDOzqNcw%3D%3D\",\r\n          \"parentPropertyNumber\": \"roeN7nTPWFb%2B5Cd3ctt2PQ%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_POTTS_HILL\",\r\n          \"deliverySystemDescription\": \"Potts Hill Water Delivery System\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"Strata Unit\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.07424496,\r\n                -33.83291308\r\n              ],\r\n              [\r\n                151.07339315,\r\n                -33.83215806\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.83253557,\r\n            \"lon\": 151.073819055\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"WENTWORTH POINT NSW 2127\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"THE PIAZZA\"\r\n        },\r\n        \"sort\": [\r\n          51.823607868614232\r\n        ]\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUPVpNv8lvY-bOIuj3\",\r\n        \"_score\": null,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"Unit 103  2 The Piazza, Wentworth Point NSW 2127\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"U\",\r\n          \"flatUnitNumber\": \"103\",\r\n          \"P41_FlatUnitDetails\": \"U 103\",\r\n          \"houseNumber1\": \"2\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"2\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"THE PIAZZA\",\r\n          \"S112_StreetType\": \"\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"WENTWORTH POINT\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2127\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"97575067\",\r\n          \"printableAddress\": \"103/2 The Piazza~WENTWORTH POINT NSW 2127\",\r\n          \"propertyNumber\": \"yThaHCpD4%2FLdROwDOzqNcw%3D%3D\",\r\n          \"parentPropertyNumber\": \"roeN7nTPWFb%2B5Cd3ctt2PQ%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_POTTS_HILL\",\r\n          \"deliverySystemDescription\": \"Potts Hill Water Delivery System\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"Strata Unit\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.07424496,\r\n                -33.83291308\r\n              ],\r\n              [\r\n                151.07339315,\r\n                -33.83215806\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.83253557,\r\n            \"lon\": 151.073819055\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"WENTWORTH POINT NSW 2127\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"THE PIAZZA\"\r\n        },\r\n        \"sort\": [\r\n          51.823607868614232\r\n        ]\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUPVpNv8lvY-bOIuj4\",\r\n        \"_score\": null,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"104/2 The Piazza, Wentworth Point NSW 2127\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"U\",\r\n          \"flatUnitNumber\": \"104\",\r\n          \"P41_FlatUnitDetails\": \"U 104\",\r\n          \"houseNumber1\": \"2\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"2\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"THE PIAZZA\",\r\n          \"S112_StreetType\": \"\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"WENTWORTH POINT\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2127\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"36815762\",\r\n          \"printableAddress\": \"104/2 The Piazza~WENTWORTH POINT NSW 2127\",\r\n          \"propertyNumber\": \"5k5PhbEKMpvDXT3ma5hfVA%3D%3D\",\r\n          \"parentPropertyNumber\": \"roeN7nTPWFb%2B5Cd3ctt2PQ%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_POTTS_HILL\",\r\n          \"deliverySystemDescription\": \"Potts Hill Water Delivery System\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"Strata Unit\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.07424496,\r\n                -33.83291308\r\n              ],\r\n              [\r\n                151.07339315,\r\n                -33.83215806\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.83253557,\r\n            \"lon\": 151.073819055\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"WENTWORTH POINT NSW 2127\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"THE PIAZZA\"\r\n        },\r\n        \"sort\": [\r\n          51.823607868614232\r\n        ]\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUPVpNv8lvY-bOIuj5\",\r\n        \"_score\": null,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"Unit 104  2 The Piazza, Wentworth Point NSW 2127\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"U\",\r\n          \"flatUnitNumber\": \"104\",\r\n          \"P41_FlatUnitDetails\": \"U 104\",\r\n          \"houseNumber1\": \"2\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"2\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"THE PIAZZA\",\r\n          \"S112_StreetType\": \"\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"WENTWORTH POINT\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2127\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"36815762\",\r\n          \"printableAddress\": \"104/2 The Piazza~WENTWORTH POINT NSW 2127\",\r\n          \"propertyNumber\": \"5k5PhbEKMpvDXT3ma5hfVA%3D%3D\",\r\n          \"parentPropertyNumber\": \"roeN7nTPWFb%2B5Cd3ctt2PQ%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_POTTS_HILL\",\r\n          \"deliverySystemDescription\": \"Potts Hill Water Delivery System\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"Strata Unit\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.07424496,\r\n                -33.83291308\r\n              ],\r\n              [\r\n                151.07339315,\r\n                -33.83215806\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.83253557,\r\n            \"lon\": 151.073819055\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"WENTWORTH POINT NSW 2127\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"THE PIAZZA\"\r\n        },\r\n        \"sort\": [\r\n          51.823607868614232\r\n        ]\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUPVpNv8lvY-bOIuj6\",\r\n        \"_score\": null,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"105/2 The Piazza, Wentworth Point NSW 2127\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"U\",\r\n          \"flatUnitNumber\": \"105\",\r\n          \"P41_FlatUnitDetails\": \"U 105\",\r\n          \"houseNumber1\": \"2\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"2\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"THE PIAZZA\",\r\n          \"S112_StreetType\": \"\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"WENTWORTH POINT\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2127\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"51534298\",\r\n          \"printableAddress\": \"105/2 The Piazza~WENTWORTH POINT NSW 2127\",\r\n          \"propertyNumber\": \"xorzJghQRAtcALnOs7ncZA%3D%3D\",\r\n          \"parentPropertyNumber\": \"roeN7nTPWFb%2B5Cd3ctt2PQ%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_POTTS_HILL\",\r\n          \"deliverySystemDescription\": \"Potts Hill Water Delivery System\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"Strata Unit\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.07424496,\r\n                -33.83291308\r\n              ],\r\n              [\r\n                151.07339315,\r\n                -33.83215806\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.83253557,\r\n            \"lon\": 151.073819055\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"WENTWORTH POINT NSW 2127\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"THE PIAZZA\"\r\n        },\r\n        \"sort\": [\r\n          51.823607868614232\r\n        ]\r\n      },\r\n      {\r\n        \"_index\": \"national\",\r\n        \"_type\": \"address\",\r\n        \"_id\": \"AXlUPVpNv8lvY-bOIuj7\",\r\n        \"_score\": null,\r\n        \"_source\": {\r\n          \"formattedAddress\": \"Unit 105  2 The Piazza, Wentworth Point NSW 2127\",\r\n          \"floorLevelType\": \"\",\r\n          \"floorLevelNumber\": \"\",\r\n          \"P31_FloorLevelDetails\": \"\",\r\n          \"flatUnitType\": \"U\",\r\n          \"flatUnitNumber\": \"105\",\r\n          \"P41_FlatUnitDetails\": \"U 105\",\r\n          \"houseNumber1\": \"2\",\r\n          \"houseNumber1Suffix\": \"\",\r\n          \"houseNumber2\": \"0\",\r\n          \"houseNumber2Suffix\": \"\",\r\n          \"P11_HouseNumberString\": \"2\",\r\n          \"lotNumber\": \"\",\r\n          \"P13_LotNumberString\": \"\",\r\n          \"B101_PostalDeliveryType\": \"\",\r\n          \"postalDeliveryNumberPrefix\": \"\",\r\n          \"postalDeliveryNumber\": \"0\",\r\n          \"postalDeliveryNumberSuffix\": \"\",\r\n          \"B102_PostalDeliveryNumberString\": \"\",\r\n          \"S111_StreetName\": \"THE PIAZZA\",\r\n          \"S112_StreetType\": \"\",\r\n          \"S113_StreetTypeSuffix\": \"\",\r\n          \"L21_Suburb\": \"WENTWORTH POINT\",\r\n          \"L11_State\": \"NSW\",\r\n          \"C11_Postcode\": \"2127\",\r\n          \"P21_BuildingName\": \"\",\r\n          \"A11_DPID\": \"51534298\",\r\n          \"printableAddress\": \"105/2 The Piazza~WENTWORTH POINT NSW 2127\",\r\n          \"propertyNumber\": \"xorzJghQRAtcALnOs7ncZA%3D%3D\",\r\n          \"parentPropertyNumber\": \"roeN7nTPWFb%2B5Cd3ctt2PQ%3D%3D\",\r\n          \"deliverySystemCode\": \"DEL_POTTS_HILL\",\r\n          \"deliverySystemDescription\": \"Potts Hill Water Delivery System\",\r\n          \"catchmentArea\": \"\",\r\n          \"propertyType\": \"Strata Unit\",\r\n          \"boundingBox\": {\r\n            \"type\": \"envelope\",\r\n            \"coordinates\": [\r\n              [\r\n                151.07424496,\r\n                -33.83291308\r\n              ],\r\n              [\r\n                151.07339315,\r\n                -33.83215806\r\n              ]\r\n            ]\r\n          },\r\n          \"centroid\": {\r\n            \"lat\": -33.83253557,\r\n            \"lon\": 151.073819055\r\n          },\r\n          \"X12_Country\": \"AUSTRALIA\",\r\n          \"P12_BuildingName2\": \"\",\r\n          \"AUSBSP_SortPLan\": \"\",\r\n          \"suburbFull\": \"WENTWORTH POINT NSW 2127\",\r\n          \"addressType\": \"Street\",\r\n          \"resultFull\": \"THE PIAZZA\"\r\n        },\r\n        \"sort\": [\r\n          51.823607868614232\r\n        ]\r\n      }\r\n    ]\r\n  }\r\n}",
+                "schemaId": "60ad6b6ad7e96917686e86e7",
+                "typeName": "Address Latitude Longitude Response"
+              },
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"took\": 1,\r\n  \"timed_out\": false,\r\n  \"_shards\": {\r\n    \"total\": 1,\r\n    \"successful\": 1,\r\n    \"failed\": 0\r\n  },\r\n  \"hits\": {\r\n    \"total\": 7003,\r\n    \"max_score\": 0,\r\n    \"hits\": []\r\n  },\r\n  \"aggregations\": {\r\n    \"results\": {\r\n      \"doc_count_error_upper_bound\": 0,\r\n      \"sum_other_doc_count\": 0,\r\n      \"buckets\": [\r\n        {\r\n          \"key\": \"PIER ST\",\r\n          \"doc_count\": 4\r\n        },\r\n        {\r\n          \"key\": \"PITT ST\",\r\n          \"doc_count\": 6999\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}",
+                "schemaId": "60ad6b6ad7e96917686e86e7",
+                "typeName": "Street Response"
+              },
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"took\": 1,\r\n  \"timed_out\": false,\r\n  \"_shards\": {\r\n    \"total\": 1,\r\n    \"successful\": 1,\r\n    \"failed\": 0\r\n  },\r\n  \"hits\": {\r\n    \"total\": 1598,\r\n    \"max_score\": 0,\r\n    \"hits\": []\r\n  },\r\n  \"aggregations\": {\r\n    \"results\": {\r\n      \"doc_count_error_upper_bound\": 0,\r\n      \"sum_other_doc_count\": 0,\r\n      \"buckets\": [\r\n        {\r\n          \"key\": \"COLLETT PDE\",\r\n          \"doc_count\": 26\r\n        },\r\n        {\r\n          \"key\": \"COWPER ST\",\r\n          \"doc_count\": 1572\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}",
+                "schemaId": "60ad6b6ad7e96917686e86e7",
+                "typeName": "Postal Response"
+              },
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"took\": 15,\r\n  \"timed_out\": false,\r\n  \"_shards\": {\r\n    \"total\": 1,\r\n    \"successful\": 1,\r\n    \"failed\": 0\r\n  },\r\n  \"hits\": {\r\n    \"total\": 68347,\r\n    \"max_score\": 0,\r\n    \"hits\": []\r\n  },\r\n  \"aggregations\": {\r\n    \"suburbs\": {\r\n      \"doc_count_error_upper_bound\": 0,\r\n      \"sum_other_doc_count\": 0,\r\n      \"buckets\": [\r\n        {\r\n          \"key\": \"SYDNEY AIRPORT NSW 2020\",\r\n          \"doc_count\": 1\r\n        },\r\n        {\r\n          \"key\": \"SYDNEY DOMESTIC AIRPORT NSW 2020\",\r\n          \"doc_count\": 1\r\n        },\r\n        {\r\n          \"key\": \"SYDNEY NSW 2000\",\r\n          \"doc_count\": 60967\r\n        },\r\n        {\r\n          \"key\": \"SYDNEY NSW 2001\",\r\n          \"doc_count\": 3\r\n        },\r\n        {\r\n          \"key\": \"SYDNEY OLYMPIC PARK NSW 2127\",\r\n          \"doc_count\": 7375\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}",
+                "schemaId": "60ad6b6ad7e96917686e86e7",
+                "typeName": "Suburb Response"
+              }
+            ]
+          }
+        ],
+        "displayName": "Postal address search",
+        "method": "POST",
+        "urlTemplate": "/postalAddressSearchAPI"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/elastic-address-search-api/postalAddressSearchAPI')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'elastic-address-search-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'elastic-address-search-api', '60ad6b6ad7e96917686e86e7')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t\t<choose>\r\n\t\t\t<when condition=\"@(context.Response.StatusCode == 200)\">\r\n\t\t\t\t<set-body>@{\n                    JObject o = context.Response.Body.As<JObject>(preserveContent: true);\n                    var items = o.SelectTokens(\"$.hits.._source\");\n                    if (items != null)\n                    {\n                        byte[] IV = Convert.FromBase64String(\"{{api-encryptiv}}\");\n                        byte[] key = Convert.FromBase64String(\"{{api-encryptkey}}\");\n                        string encryptExcpetions = \"{{encrypt-exception-values}}\";\n                        string[] arrEncryptExceptions = encryptExcpetions.Split(',');\n\n                        foreach (JToken item in items)\n                        {\n                            JToken propertyNumber = item[\"propertyNumber\"];\n                            if (propertyNumber != null)\n                            {\n                                if (propertyNumber.ToString().Trim().Length > 0)\n                                {\n                                    bool toEncrypt = (Array.Exists(arrEncryptExceptions, e => e.Trim() == propertyNumber.ToString().Trim())) ? false : true;\n                                    if (toEncrypt)\n                                    {\n                                        string propertyNumberValue = propertyNumber.ToString();\n                                        byte[] responseByte = Encoding.UTF8.GetBytes(propertyNumberValue);                                    \n                                        byte[] encryptedBytes = responseByte.Encrypt(\"Aes\", key, IV);\n                                        string encryptedvalue = Convert.ToBase64String(encryptedBytes);\n                                        string encodedurlvalue =  System.Net.WebUtility.UrlEncode(encryptedvalue);\n                                        item[\"propertyNumber\"] = encodedurlvalue;\n                                    }\n                                }\n                            }\n                            JToken parentPropertyNumber = item[\"parentPropertyNumber\"];\n                            if (parentPropertyNumber != null)\n                            {\n                                if (parentPropertyNumber.ToString().Trim().Length > 0)\n                                {\n                                    bool toEncrypt = (Array.Exists(arrEncryptExceptions, e => e.Trim() == parentPropertyNumber.ToString().Trim())) ? false : true;\n                                    if (toEncrypt)\n                                    {\n                                        string parentPropertyNumberValue = parentPropertyNumber.ToString();\n                                        byte[] responseByte = Encoding.UTF8.GetBytes(parentPropertyNumberValue);\n                                        byte[] encryptedBytes = responseByte.Encrypt(\"Aes\", key, IV);\n                                        string encryptedvalue = Convert.ToBase64String(encryptedBytes);\n                                        string encodedurlvalue =  System.Net.WebUtility.UrlEncode(encryptedvalue);\n                                        item[\"parentPropertyNumber\"] = encodedurlvalue;\n                                    }                                    \n                                }\n                            }\n                        }\n                    }\n                    return o.ToString();                \n                }</set-body>\r\n\t\t\t</when>\r\n\t\t</choose>\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/elastic-address-search-api/postalAddressSearchAPI/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'elastic-address-search-api', 'postalAddressSearchAPI')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<authentication-basic username=\"{{api-authentication-username}}\" password=\"{{api-authentication-password}}\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/elastic-address-search-api/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'elastic-address-search-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Elastic"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/elastic-address-search-api/elastic')]",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'elastic-address-search-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Search"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/elastic-address-search-api/search')]",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'elastic-address-search-api')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/non-self-service-apis/elastic-address-search-api')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'elastic-address-search-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "ApplicationID",
+              "UserID",
+              "TransactionContextID",
+              "Version"
+            ],
+            "body": {
+              "bytes": 0
+            }
+          },
+          "response": {
+            "headers": [
+              "ApplicationID",
+              "UserID",
+              "TransactionContextID",
+              "Version"
+            ],
+            "body": {
+              "bytes": 0
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [
+              "ApplicationID",
+              "UserID",
+              "TransactionContextID",
+              "Version"
+            ],
+            "body": {
+              "bytes": 0
+            }
+          },
+          "response": {
+            "headers": [
+              "ApplicationID",
+              "UserID",
+              "TransactionContextID",
+              "Version"
+            ],
+            "body": {
+              "bytes": 0
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/elastic-address-search-api/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/apis/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'elastic-address-search-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID",
+              "ApplicationID",
+              "UserID",
+              "Version",
+              "apim-correlation-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "apim-correlation-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

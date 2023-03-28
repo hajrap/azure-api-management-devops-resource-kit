@@ -1,0 +1,631 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "Provides access to data and services related to properties.",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/60b41d12f2e9a61858fc3e3b')]",
+        "subscriptionRequired": true,
+        "displayName": "Property API",
+        "serviceUrl": "[parameters('serviceUrl').propertyapi]",
+        "path": "property",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/property-api')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "PropertyGetByPropertyNumber-PropertyNumber-Get200ApplicationJsonResponse": {
+                "type": "object"
+              },
+              "PropertyGetServiceConnections-PropertyNumber-Get200ApplicationJsonResponse": {
+                "type": "object"
+              },
+              "PropertyGetByPropertyNumber-PropertyNumber-GetRequest": {
+                "x-apim-inline": true
+              },
+              "PropertyGetByPropertyNumber-PropertyNumber-GetRequest-1": {
+                "x-apim-inline": true
+              },
+              "PropertyGetByPropertyNumber-PropertyNumber-GetRequest-2": {
+                "x-apim-inline": true
+              },
+              "PropertyGetByPropertyNumber-PropertyNumber-GetRequest-3": {
+                "x-apim-inline": true
+              },
+              "PropertyGetServiceConnections-PropertyNumber-GetRequest": {
+                "x-apim-inline": true
+              },
+              "PropertyGetServiceConnections-PropertyNumber-GetRequest-1": {
+                "x-apim-inline": true
+              },
+              "PropertyGetServiceConnections-PropertyNumber-GetRequest-2": {
+                "x-apim-inline": true
+              },
+              "PropertyGetServiceConnections-PropertyNumber-GetRequest-3": {
+                "x-apim-inline": true
+              },
+              "PropertyGetByPropertyNumber-PropertyNumber-Get200ApplicationJsonResponse2": {
+                "type": "object",
+                "properties": {
+                  "GetByPropertyNumberResponse": {
+                    "type": "object",
+                    "properties": {
+                      "ListOfProperties": {
+                        "type": "object",
+                        "properties": {
+                          "Property": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "PropertyNumber": {
+                                  "type": "integer"
+                                },
+                                "OwnerNames": {
+                                  "type": "string"
+                                },
+                                "Location": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Status": {
+                                      "type": "object",
+                                      "properties": {
+                                        "Code": {
+                                          "type": "string"
+                                        },
+                                        "Description": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    },
+                                    "AreaLocation": {
+                                      "type": "object",
+                                      "properties": {
+                                        "LocalGovernmentArea": {
+                                          "type": "object",
+                                          "properties": {
+                                            "AreaName": {
+                                              "type": "object",
+                                              "properties": {
+                                                "Code": {
+                                                  "type": "string"
+                                                },
+                                                "Description": {
+                                                  "type": "string"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "PreviousPropertyNumberIdentifier": {
+                                  "type": "string"
+                                },
+                                "MasterPropertyNumberIdentifier": {
+                                  "type": "string"
+                                },
+                                "PropertyAddress": {
+                                  "type": "object",
+                                  "properties": {
+                                    "FloorLevelNumber": {
+                                      "type": "string"
+                                    },
+                                    "FloorLevelType": {
+                                      "type": "object",
+                                      "properties": {
+                                        "Code": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    },
+                                    "FlatUnitType": {
+                                      "type": "object",
+                                      "properties": {
+                                        "Description": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    },
+                                    "BuildingName1": {
+                                      "type": "string"
+                                    },
+                                    "BuildingName2": {
+                                      "type": "string"
+                                    },
+                                    "PropertyKnownasName": {
+                                      "type": "string"
+                                    },
+                                    "UnitNumber": {
+                                      "type": "string"
+                                    },
+                                    "StreetName": {
+                                      "type": "string"
+                                    },
+                                    "PostCode": {
+                                      "type": "string"
+                                    },
+                                    "StreetType": {
+                                      "type": "object",
+                                      "properties": {
+                                        "StreetType": {},
+                                        "StreetSuffixType": {}
+                                      }
+                                    },
+                                    "SuburbName": {
+                                      "type": "string"
+                                    },
+                                    "StateName": {
+                                      "type": "string"
+                                    },
+                                    "RMBNumber": {
+                                      "type": "string"
+                                    },
+                                    "StreetAddressFormatted": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "MailingAddress": {
+                                  "type": "object",
+                                  "properties": {
+                                    "StreetName": {
+                                      "type": "string"
+                                    },
+                                    "PostCode": {
+                                      "type": "string"
+                                    },
+                                    "StreetType": {
+                                      "type": "object",
+                                      "properties": {
+                                        "StreetType": {},
+                                        "StreetSuffixType": {}
+                                      }
+                                    },
+                                    "SuburbName": {
+                                      "type": "string"
+                                    },
+                                    "StateName": {
+                                      "type": "string"
+                                    },
+                                    "RMBNumber": {
+                                      "type": "string"
+                                    },
+                                    "StreetAddressFormatted": {
+                                      "type": "string"
+                                    },
+                                    "ListOfFreeFormatAddressLines": {
+                                      "type": "object",
+                                      "properties": {
+                                        "FreeFormatAddressLine": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "AddressFreeFormatLineNumber": {
+                                                "type": "string"
+                                              },
+                                              "AddressFreeFormatDescription": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "AddressFreeFormatDescription"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "ServiceLocation": {
+                                  "type": "object",
+                                  "properties": {
+                                    "ServiceLocationDescription": {
+                                      "type": "string"
+                                    },
+                                    "MeteredIndicator": {
+                                      "type": "boolean"
+                                    },
+                                    "MeteredStatus": {
+                                      "type": "string"
+                                    },
+                                    "ServiceLocationType": {},
+                                    "PropertyType": {
+                                      "type": "object",
+                                      "properties": {
+                                        "PropertyType": {
+                                          "type": "object",
+                                          "properties": {
+                                            "Code": {
+                                              "type": "string"
+                                            },
+                                            "Description": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        },
+                                        "SuperiorPropertyType": {
+                                          "type": "object",
+                                          "properties": {
+                                            "Code": {
+                                              "type": "string"
+                                            },
+                                            "Description": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "ListOfServiceLocationRelationships": {
+                                      "type": "array",
+                                      "items": {}
+                                    }
+                                  }
+                                },
+                                "ListOfLots": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "LotNumberIdentifier": {
+                                        "type": "string"
+                                      },
+                                      "PropertyPlan": {
+                                        "type": "object",
+                                        "properties": {
+                                          "PropertyPlanNumber": {
+                                            "type": "string"
+                                          },
+                                          "PropertyPlanType": {
+                                            "type": "object",
+                                            "properties": {
+                                              "Code": {
+                                                "type": "string"
+                                              },
+                                              "Description": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "required": [
+                                      "LotNumberIdentifier",
+                                      "PropertyPlan"
+                                    ]
+                                  }
+                                },
+                                "isTradeWasteCustomer": {
+                                  "type": "boolean"
+                                },
+                                "isCancelledPropertyType": {
+                                  "type": "boolean"
+                                },
+                                "isNotSuitableForCertificateProcessing": {
+                                  "type": "boolean"
+                                }
+                              },
+                              "required": [
+                                "PropertyNumber",
+                                "OwnerNames",
+                                "Location",
+                                "PreviousPropertyNumberIdentifier",
+                                "MasterPropertyNumberIdentifier",
+                                "PropertyAddress",
+                                "MailingAddress",
+                                "ServiceLocation",
+                                "ListOfLots",
+                                "isTradeWasteCustomer",
+                                "isCancelledPropertyType",
+                                "isNotSuitableForCertificateProcessing"
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "OperationResponse": {
+                        "type": "object",
+                        "properties": {
+                          "OperationStatus": {
+                            "type": "string"
+                          },
+                          "OperationDesc": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/property-api/60b05b3cd7e96917686e8811')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'property-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "PropertyNumber",
+            "description": "Enter Encrypted value of property number. For property number 6199957, encrypted value is  A7nnd8YXgYeDRcXYtmE8XA%3D%3D. \nSamples:\n6150034 - %2Fjr6davtm3BOUZRD1tPXUg%3D%3D | \n6171199 - %2FtIb1HjvcO7ZAnaVmTcvSQ%3D%3D | \n6185776 - WpRB%2Bwc0zulVN%2FdH17rDSg%3D%3D | \n6154879 - UzSPvF9O0nS5FflaMfFoKA%3D%3D | \n3320181 - EAdIc9MMfs1p1lP3e5PxGQ%3D%3D | ",
+            "type": "string",
+            "required": true,
+            "values": [
+              "A7nnd8YXgYeDRcXYtmE8XA%3D%3D",
+              "%2Fjr6davtm3BOUZRD1tPXUg%3D%3D",
+              "%2FtIb1HjvcO7ZAnaVmTcvSQ%3D%3D",
+              "WpRB%2Bwc0zulVN%2FdH17rDSg%3D%3D",
+              "UzSPvF9O0nS5FflaMfFoKA%3D%3D",
+              "EAdIc9MMfs1p1lP3e5PxGQ%3D%3D"
+            ]
+          }
+        ],
+        "description": "GetByPropertyNumber",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "ApplicationId",
+              "description": "Send System APP ID – All interaction from source system should have same Application ID.",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "TransactionContextID",
+              "description": "Supply GUID – It is generated once at the initiation point of the transaction and is propagated throughout the transaction lifecycle through the service execution.",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "UserId",
+              "description": "End user initiating the transaction.",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Successful Operation",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"GetByPropertyNumberResponse\": {\r\n    \"ListOfProperties\": {\r\n      \"Property\": [\r\n        {\r\n          \"PropertyNumber\": 6185776,\r\n          \"OwnerNames\": \"MRS BISKY MARSHEL\",\r\n          \"Location\": {\r\n            \"Status\": {\r\n              \"Code\": \"E001\",\r\n              \"Description\": \"Activated\"\r\n            },\r\n            \"AreaLocation\": {\r\n              \"LocalGovernmentArea\": {\r\n                \"AreaName\": {\r\n                  \"Code\": \"089\",\r\n                  \"Description\": \"Parramatta\"\r\n                }\r\n              }\r\n            }\r\n          },\r\n          \"PreviousPropertyNumberIdentifier\": \"6185776\",\r\n          \"MasterPropertyNumberIdentifier\": \"6185776\",\r\n          \"PropertyAddress\": {\r\n            \"FloorLevelNumber\": \"floorle\",\r\n            \"FloorLevelType\": {\r\n              \"Code\": \"FL\"\r\n            },\r\n            \"FlatUnitType\": {\r\n              \"Description\": \"F\"\r\n            },\r\n            \"BuildingName1\": \"buildingname1\",\r\n            \"BuildingName2\": \"buildingname2\",\r\n            \"PropertyKnownasName\": \"proeprtyknownas\",\r\n            \"UnitNumber\": \"flatno\",\r\n            \"StreetName\": \"BLAXCELL ST\",\r\n            \"PostCode\": \"2161\",\r\n            \"StreetType\": {\r\n              \"StreetType\": null,\r\n              \"StreetSuffixType\": null\r\n            },\r\n            \"SuburbName\": \"GUILDFORD\",\r\n            \"StateName\": \"NSW\",\r\n            \"RMBNumber\": \"RMB 345\",\r\n            \"StreetAddressFormatted\": \"Buildingname1 Buildingname2 RMB 345 F Flatno Fl Floorle Blaxcell St Guildford NS\"\r\n          },\r\n          \"MailingAddress\": {\r\n            \"StreetName\": \"EBONY AVE\",\r\n            \"PostCode\": \"2151\",\r\n            \"StreetType\": {\r\n              \"StreetType\": null,\r\n              \"StreetSuffixType\": null\r\n            },\r\n            \"SuburbName\": \"NORTH ROCKS\",\r\n            \"StateName\": \"NSW\",\r\n            \"RMBNumber\": \" \",\r\n            \"StreetAddressFormatted\": \"Ebony Ave North Rocks NSW 2151\",\r\n            \"ListOfFreeFormatAddressLines\": {\r\n              \"FreeFormatAddressLine\": [\r\n                {\r\n                  \"AddressFreeFormatLineNumber\": \"1\",\r\n                  \"AddressFreeFormatDescription\": \"MRS B MARSHEL\"\r\n                },\r\n                {\r\n                  \"AddressFreeFormatLineNumber\": \"2\",\r\n                  \"AddressFreeFormatDescription\": \"EBONY AVE\"\r\n                },\r\n                {\r\n                  \"AddressFreeFormatLineNumber\": \"3\",\r\n                  \"AddressFreeFormatDescription\": \"NORTH ROCKS NSW 2151\"\r\n                },\r\n                {\r\n                  \"AddressFreeFormatDescription\": \"Ebony Ave North Rocks NSW 2151\"\r\n                }\r\n              ]\r\n            }\r\n          },\r\n          \"ServiceLocation\": {\r\n            \"ServiceLocationDescription\": \"LOT 1 DP TC01_001\",\r\n            \"MeteredIndicator\": true,\r\n            \"MeteredStatus\": \"Metered\",\r\n            \"ServiceLocationType\": null,\r\n            \"PropertyType\": {\r\n              \"PropertyType\": {\r\n                \"Code\": \"070\",\r\n                \"Description\": \"SINGLE DWELLING\"\r\n              },\r\n              \"SuperiorPropertyType\": {\r\n                \"Code\": \"Z902\",\r\n                \"Description\": \"RESIDENTIAL\"\r\n              }\r\n            },\r\n            \"ListOfServiceLocationRelationships\": [\r\n              null,\r\n              null\r\n            ]\r\n          },\r\n          \"ListOfLots\": [\r\n            {\r\n              \"LotNumberIdentifier\": \"1\",\r\n              \"PropertyPlan\": {\r\n                \"PropertyPlanNumber\": \"TC01_001\",\r\n                \"PropertyPlanType\": {\r\n                  \"Code\": \"DP\",\r\n                  \"Description\": \"Deposited Plan\"\r\n                }\r\n              }\r\n            }\r\n          ],\r\n          \"isTradeWasteCustomer\": false,\r\n          \"isCancelledPropertyType\": false,\r\n          \"isNotSuitableForCertificateProcessing\": false\r\n        }\r\n      ]\r\n    },\r\n    \"OperationResponse\": {\r\n      \"OperationStatus\": \"0\",\r\n      \"OperationDesc\": \"Success\"\r\n    }\r\n  }\r\n}",
+                "schemaId": "60b05b3cd7e96917686e8811",
+                "typeName": "PropertyGetByPropertyNumber-PropertyNumber-Get200ApplicationJsonResponse2"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get by property number",
+        "method": "GET",
+        "urlTemplate": "/GetByPropertyNumber/{PropertyNumber}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/property-api/GetByPropertyNumber')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'property-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'property-api', '60b05b3cd7e96917686e8811')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-variable name=\"DecryptedPropertyNumber\" value=\"@{\n            byte[] IV = Convert.FromBase64String(\"{{api-encryptiv}}\");\n\t\t\tbyte[] key = Convert.FromBase64String(\"{{api-encryptkey}}\");\n            string encryptExcpetions = \"{{encrypt-exception-values}}\";\n\n\t\t\tstring encryptedValue = context.Request.MatchedParameters.GetValueOrDefault(\"PropertyNumber\");\n            string[] arrEncryptExceptions = encryptExcpetions.Split(',');\n            bool toDecrypt = (Array.Exists(arrEncryptExceptions, e => e.Trim() == encryptedValue.Trim())) ? false : true;\n            \n            if (!toDecrypt)\n            {\n                return encryptedValue;\n            }\n\t\t\tstring urlDecodedValue =  System.Net.WebUtility.UrlDecode(encryptedValue);\n\t\t\tbyte[] urlDecodedByte = Convert.FromBase64String(urlDecodedValue);\n\t\t\tbyte[] decryptedBytes = urlDecodedByte.Decrypt(\"Aes\", key, IV);\n\t\t\tchar[] convertedBytesToChar = Encoding.UTF8.GetString(decryptedBytes).ToCharArray();\n\t\t\tstring decryptedValue = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(convertedBytesToChar));\n            return decryptedValue;\n        }\" />\r\n\t\t<rewrite-uri template=\"@{\n            return \"/GetByPropertyNumber/\" + context.Variables.GetValueOrDefault<string>(\"DecryptedPropertyNumber\");\n        }\" copy-unmatched-params=\"true\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/property-api/GetByPropertyNumber/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'property-api', 'GetByPropertyNumber')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "PropertyNumber",
+            "description": "Enter Encrypted value of property number. For property number 6185776, encrypted value is WpRB%2Bwc0zulVN%2FdH17rDSg%3D%3D \nSamples:\n6150034 - %2Fjr6davtm3BOUZRD1tPXUg%3D%3D | \n6171199 - %2FtIb1HjvcO7ZAnaVmTcvSQ%3D%3D | \n6185776 - WpRB%2Bwc0zulVN%2FdH17rDSg%3D%3D | \n6154879 - UzSPvF9O0nS5FflaMfFoKA%3D%3D | \n3320181 - EAdIc9MMfs1p1lP3e5PxGQ%3D%3D | ",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "GetServiceConnections",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "ApplicationId",
+              "description": "Send System APP ID – All interaction from source system should have same Application ID.",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "TransactionContextID",
+              "description": "Supply GUID – It is generated once at the initiation point of the transaction and is propagated throughout the transaction lifecycle through the service execution.",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "UserId",
+              "description": "End user initiating the transaction.",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Successful Operation",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"GetServiceConnectionsResponseEDMEnvelope\": {\r\n    \"MessageHeader\": {\r\n      \"EMFVersion\": null,\r\n      \"MessageContext\": {\r\n        \"DateTimeStamp\": \"2021-06-28T23:20:31.425Z\"\r\n      },\r\n      \"ServiceContext\": {\r\n        \"ServiceName\": \"Property\",\r\n        \"OperationName\": \"GetServiceConnections\",\r\n        \"ServiceVersion\": \"2.0\"\r\n      },\r\n      \"TransactionContext\": {\r\n        \"TransactionContextID\": \"7fdba8aa-bd1e-4895-aff7-b64589d0a27e\",\r\n        \"ApplicationID\": \"7fdba8aa-bd1e-4895-aff7-b64589d0a27e\"\r\n      },\r\n      \"UserDetail\": {\r\n        \"UserID\": \"7fdba8aa-bd1e-4895-aff7-b64589d0a27e\"\r\n      }\r\n    },\r\n    \"GetServiceConnectionsResponse\": {\r\n      \"ServiceLocationConnection\": {\r\n        \"ServiceLocationIdentifier\": \"6185776\"\r\n      },\r\n      \"ServiceConnections\": {\r\n        \"ServiceConnection\": [\r\n          {\r\n            \"ServiceType\": {\r\n              \"Description\": \"WATER FACILITY\"\r\n            },\r\n            \"ServiceConnectionType\": {\r\n              \"Description\": \"WATER\"\r\n            },\r\n            \"ServiceConnectionStatus\": {\r\n              \"Description\": \"CONNECTED\"\r\n            },\r\n            \"ServiceSupplier\": {\r\n              \"Code\": \"01\",\r\n              \"Description\": \"WATER FACILITY\"\r\n            },\r\n            \"SystemArea\": null\r\n          }\r\n        ]\r\n      },\r\n      \"OperationResponse\": {\r\n        \"OperationStatus\": \"0\",\r\n        \"OperationDesc\": \"Success\"\r\n      }\r\n    }\r\n  }\r\n}",
+                "schemaId": "60b05b3cd7e96917686e8811",
+                "typeName": "PropertyGetServiceConnections-PropertyNumber-Get200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get service connections",
+        "method": "GET",
+        "urlTemplate": "/GetServiceConnections/{PropertyNumber}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/property-api/GetServiceConnections')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'property-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'property-api', '60b05b3cd7e96917686e8811')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-variable name=\"DecryptedPropertyNumber\" value=\"@{\n            byte[] IV = Convert.FromBase64String(\"{{api-encryptiv}}\");\n\t\t\tbyte[] key = Convert.FromBase64String(\"{{api-encryptkey}}\");\n            string encryptExcpetions = \"{{encrypt-exception-values}}\";\n\n\t\t\tstring encryptedValue = context.Request.MatchedParameters.GetValueOrDefault(\"PropertyNumber\");\n            string[] arrEncryptExceptions = encryptExcpetions.Split(',');\n            bool toDecrypt = (Array.Exists(arrEncryptExceptions, e => e.Trim() == encryptedValue.Trim())) ? false : true;\n            \n            if (!toDecrypt)\n            {\n                return encryptedValue;\n            }\n\n\t\t\tstring urlDecodedValue =  System.Net.WebUtility.UrlDecode(encryptedValue);\n\t\t\tbyte[] urlDecodedByte = Convert.FromBase64String(urlDecodedValue);\n\t\t\tbyte[] decryptedBytes = urlDecodedByte.Decrypt(\"Aes\", key, IV);\n\t\t\tchar[] convertedBytesToChar = Encoding.UTF8.GetString(decryptedBytes).ToCharArray();\n\t\t\tstring decryptedValue = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(convertedBytesToChar));\n            return decryptedValue;\n        }\" />\r\n\t\t<rewrite-uri template=\"@{\n            return \"/GetServiceConnections/\" + context.Variables.GetValueOrDefault<string>(\"DecryptedPropertyNumber\");\n        }\" copy-unmatched-params=\"true\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/property-api/GetServiceConnections/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'property-api', 'GetServiceConnections')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<authentication-basic username=\"{{api-authentication-username}}\" password=\"{{api-authentication-password}}\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/property-api/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'property-api')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/non-self-service-apis/property-api')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'property-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

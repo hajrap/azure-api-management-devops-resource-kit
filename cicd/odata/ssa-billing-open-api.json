@@ -1,0 +1,4533 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "SSA Billing API",
+    "description": "TBD",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://apidev.swc:41443/customer/ssa-billing/sap/opu/odata/SAP/ZHSSA_SCM_UTILITIES_SRV"
+    }
+  ],
+  "tags": [
+    {
+      "name": "AccntStatus"
+    },
+    {
+      "name": "AccountBalanceSet"
+    },
+    {
+      "name": "AccountStatusSet"
+    },
+    {
+      "name": "BankpaySet"
+    },
+    {
+      "name": "BillHistorySet"
+    },
+    {
+      "name": "BillPayHistorySet"
+    },
+    {
+      "name": "BillPaymentHistorySet"
+    },
+    {
+      "name": "BillSummaryAmtSet"
+    },
+    {
+      "name": "BPSearchSet"
+    },
+    {
+      "name": "FormSet"
+    },
+    {
+      "name": "InstallmentPlanASet"
+    },
+    {
+      "name": "InstallmentPlanLSet"
+    },
+    {
+      "name": "InstallmentPlanSet"
+    },
+    {
+      "name": "InstallmentPlanSSet"
+    },
+    {
+      "name": "InvIDSet"
+    },
+    {
+      "name": "InvoicePDFSet"
+    },
+    {
+      "name": "PaperlessAccountsSet"
+    },
+    {
+      "name": "PaperlessSet"
+    },
+    {
+      "name": "PayenrollMsgSet"
+    },
+    {
+      "name": "PayenrollSet"
+    },
+    {
+      "name": "PaymentHistorySet"
+    },
+    {
+      "name": "PEEligibilitySet"
+    },
+    {
+      "name": "PEEligStatusSet"
+    }
+  ],
+  "paths": {
+    "/AccountBalanceSet": {
+      "get": {
+        "tags": [
+          "AccountBalanceSet"
+        ],
+        "summary": "Get entities from AccountBalanceSet",
+        "description": "Get entities from AccountBalanceSet",
+        "operationId": "get-accountbalanceset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "Balancedue": "0",
+                        "Partnerkey": "string",
+                        "Message": "string",
+                        "Vkont": "string",
+                        "Messagetype": "string",
+                        "Persona": "string",
+                        "Messagecode": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AccountBalanceSet('{Partnerkey}')": {
+      "get": {
+        "tags": [
+          "AccountBalanceSet"
+        ],
+        "summary": "Get entity from AccountBalanceSet by key",
+        "description": "Get entity from AccountBalanceSet by key",
+        "operationId": "get-accountbalanceset-partnerkey",
+        "parameters": [
+          {
+            "name": "Partnerkey",
+            "in": "path",
+            "description": "key: Partnerkey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "Balancedue": "0",
+                    "Partnerkey": "string",
+                    "Message": "string",
+                    "Vkont": "string",
+                    "Messagetype": "string",
+                    "Persona": "string",
+                    "Messagecode": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillPayHistorySet": {
+      "get": {
+        "tags": [
+          "BillPayHistorySet"
+        ],
+        "summary": "Get entities from BillPayHistorySet",
+        "description": "Get entities from BillPayHistorySet",
+        "operationId": "get-billpayhistoryset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "BusinessPartner": "string",
+                        "DueDateHigh": "2017-04-13T15:51:04.0000000+00:00",
+                        "DueDateLow": "2017-04-13T15:51:04.0000000+00:00",
+                        "ContractAccount": "string",
+                        "Contract": "string",
+                        "BillPay": "string",
+                        "Status": "string",
+                        "Invid": "string",
+                        "InvDate": "2017-04-13T15:51:04.0000000+00:00",
+                        "Amount": "0",
+                        "Currency": "string",
+                        "DueDate": "2017-04-13T15:51:04.0000000+00:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillPayHistorySet(BusinessPartner='{BusinessPartner}',ContractAccount='{ContractAccount}')": {
+      "get": {
+        "tags": [
+          "BillPayHistorySet"
+        ],
+        "summary": "Get entity from BillPayHistorySet by key",
+        "description": "Get entity from BillPayHistorySet by key",
+        "operationId": "get-billpayhistoryset-businesspartner-businesspartner-contractaccount-contra",
+        "parameters": [
+          {
+            "name": "BusinessPartner",
+            "in": "path",
+            "description": "BusPartner",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "BusinessPartner": "string",
+                    "DueDateHigh": "2017-04-13T15:51:04.0000000+00:00",
+                    "DueDateLow": "2017-04-13T15:51:04.0000000+00:00",
+                    "ContractAccount": "string",
+                    "Contract": "string",
+                    "BillPay": "string",
+                    "Status": "string",
+                    "Invid": "string",
+                    "InvDate": "2017-04-13T15:51:04.0000000+00:00",
+                    "Amount": "0",
+                    "Currency": "string",
+                    "DueDate": "2017-04-13T15:51:04.0000000+00:00"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AccntStatus": {
+      "get": {
+        "tags": [
+          "AccntStatus"
+        ],
+        "summary": "Get entities from AccntStatus",
+        "description": "Get entities from AccntStatus",
+        "operationId": "get-accntstatus",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "ContractAccount": "string",
+                        "Premise": "string",
+                        "Description": "string",
+                        "EStatus": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AccntStatus('{ContractAccount}')": {
+      "get": {
+        "tags": [
+          "AccntStatus"
+        ],
+        "summary": "Get entity from AccntStatus by key",
+        "description": "Get entity from AccntStatus by key",
+        "operationId": "get-accntstatus-contractaccount",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "Contract Account",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "ContractAccount": "string",
+                    "Premise": "string",
+                    "Description": "string",
+                    "EStatus": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PaperlessAccountsSet": {
+      "get": {
+        "tags": [
+          "PaperlessAccountsSet"
+        ],
+        "summary": "Get entities from PaperlessAccountsSet",
+        "description": "Get entities from PaperlessAccountsSet",
+        "operationId": "get-paperlessaccountsset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "VKONT": "string",
+                        "GPART": "string",
+                        "PAPERLESS": "string",
+                        "SENDCONTROL_GP": "string",
+                        "Message": "string",
+                        "MessageType": "string",
+                        "MessageCode": "string",
+                        "EligibilityFlag": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PaperlessAccountsSet(VKONT='{VKONT}',GPART='{GPART}')": {
+      "get": {
+        "tags": [
+          "PaperlessAccountsSet"
+        ],
+        "summary": "Get entity from PaperlessAccountsSet by key",
+        "description": "Get entity from PaperlessAccountsSet by key",
+        "operationId": "get-paperlessaccountsset-vkont-vkont-gpart-gpart",
+        "parameters": [
+          {
+            "name": "VKONT",
+            "in": "path",
+            "description": "Contract Account",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "GPART",
+            "in": "path",
+            "description": "Business Partner",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "VKONT": "string",
+                    "GPART": "string",
+                    "PAPERLESS": "string",
+                    "SENDCONTROL_GP": "string",
+                    "Message": "string",
+                    "MessageType": "string",
+                    "MessageCode": "string",
+                    "EligibilityFlag": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PaperlessSet": {
+      "post": {
+        "tags": [
+          "PaperlessSet"
+        ],
+        "summary": "Add new entity to PaperlessSet",
+        "description": "Add new entity to PaperlessSet",
+        "operationId": "post-paperlessset",
+        "requestBody": {
+          "description": "New entity",
+          "content": {
+            "application/json": {
+              "example": {
+                "NavPaperless": {
+                  "results": [
+                    {}
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "PAPERLESS": "string",
+                    "NavPaperless": {
+                      "results": [
+                        {
+                          "VKONT": "string",
+                          "GPART": "string",
+                          "PAPERLESS": "string",
+                          "SENDCONTROL_GP": "string",
+                          "Message": "string",
+                          "MessageType": "string",
+                          "MessageCode": "string",
+                          "EligibilityFlag": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "PaperlessSet"
+        ],
+        "summary": "Get entities from PaperlessSet",
+        "description": "Get entities from PaperlessSet",
+        "operationId": "get-paperlessset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "PAPERLESS": "string",
+                        "NavPaperless": {
+                          "results": [
+                            {
+                              "VKONT": "string",
+                              "GPART": "string",
+                              "PAPERLESS": "string",
+                              "SENDCONTROL_GP": "string",
+                              "Message": "string",
+                              "MessageType": "string",
+                              "MessageCode": "string",
+                              "EligibilityFlag": "string"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PaperlessSet('{PAPERLESS}')": {
+      "get": {
+        "tags": [
+          "PaperlessSet"
+        ],
+        "summary": "Get entity from PaperlessSet by key",
+        "description": "Get entity from PaperlessSet by key",
+        "operationId": "get-paperlessset-paperless",
+        "parameters": [
+          {
+            "name": "PAPERLESS",
+            "in": "path",
+            "description": "Paperless",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "PAPERLESS": "string",
+                    "NavPaperless": {
+                      "results": [
+                        {
+                          "VKONT": "string",
+                          "GPART": "string",
+                          "PAPERLESS": "string",
+                          "SENDCONTROL_GP": "string",
+                          "Message": "string",
+                          "MessageType": "string",
+                          "MessageCode": "string",
+                          "EligibilityFlag": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PaperlessSet('{PAPERLESS}')/NavPaperless": {
+      "get": {
+        "tags": [
+          "PaperlessSet",
+          "PaperlessAccountsSet"
+        ],
+        "summary": "Get entities from related NavPaperless",
+        "description": "Get entities from related NavPaperless",
+        "operationId": "get-paperlessset-paperless-navpaperless",
+        "parameters": [
+          {
+            "name": "PAPERLESS",
+            "in": "path",
+            "description": "Paperless",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "VKONT": "string",
+                        "GPART": "string",
+                        "PAPERLESS": "string",
+                        "SENDCONTROL_GP": "string",
+                        "Message": "string",
+                        "MessageType": "string",
+                        "MessageCode": "string",
+                        "EligibilityFlag": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillPaymentHistorySet": {
+      "get": {
+        "tags": [
+          "BillPaymentHistorySet"
+        ],
+        "summary": "Get entities from BillPaymentHistorySet",
+        "description": "Get entities from BillPaymentHistorySet",
+        "operationId": "get-billpaymenthistoryset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "Partnerkey": "string",
+                        "DueDateHigh": "string",
+                        "DueDateLow": "string",
+                        "Vkont": "string",
+                        "Invid": "string",
+                        "BillHistorySet": {
+                          "results": [
+                            {
+                              "DueDateHigh": "string",
+                              "DueDateLow": "string",
+                              "Vkont": "string",
+                              "Vtref": "string",
+                              "Text": "string",
+                              "Status": "string",
+                              "Invid": "string",
+                              "InvDate": "string",
+                              "Amount": "0",
+                              "Currency": "string",
+                              "DueDate": "string",
+                              "Billstartdate": "string",
+                              "Billenddate": "string",
+                              "Billdays": 0,
+                              "Currentcharge": "0",
+                              "BillPeriod": "string",
+                              "PropertyAddress": "string"
+                            }
+                          ]
+                        },
+                        "PaymentHistorySet": {
+                          "results": [
+                            {
+                              "DueDateHigh": "string",
+                              "DueDateLow": "string",
+                              "Vkont": "string",
+                              "Vtref": "string",
+                              "Text": "string",
+                              "Status": "string",
+                              "InvDate": "string",
+                              "Amount": "0",
+                              "Currency": "string",
+                              "DueDate": "string",
+                              "Invid": "string",
+                              "Paymentdate": "string",
+                              "Paymenttype": "string",
+                              "Channel": "string",
+                              "PropertyAddress": "string"
+                            }
+                          ]
+                        },
+                        "InvIDSet": {
+                          "results": [
+                            {
+                              "BillPerEnd": "string",
+                              "BillPerStart": "string",
+                              "CurrCharges": "0",
+                              "Currency": "string",
+                              "DueDateHigh": "string",
+                              "DueDateLow": "string",
+                              "Energyshare": "0",
+                              "Invid": "string",
+                              "InvoiceDate": "string",
+                              "LateCharges": "0",
+                              "NetDueDate": "string",
+                              "PaymentRec": "0",
+                              "Payrecdate": "string",
+                              "PreBal": "0",
+                              "RemBal": "0",
+                              "TotAmtDue": "0",
+                              "Vkont": "string",
+                              "PayPlanAmt": "0",
+                              "PayPlanOverDueAmt": "0",
+                              "PayPlanDueDate": "string"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillPaymentHistorySet(DueDateHigh='{DueDateHigh}',DueDateLow='{DueDateLow}',Vkont='{Vkont}')/BillHistorySet": {
+      "get": {
+        "tags": [
+          "BillPaymentHistorySet",
+          "BillHistorySet"
+        ],
+        "summary": "Get entities from related BillHistorySet",
+        "description": "Get entities from related BillHistorySet",
+        "operationId": "get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-1",
+        "parameters": [
+          {
+            "name": "DueDateHigh",
+            "in": "path",
+            "description": "Due Date High",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DueDateLow",
+            "in": "path",
+            "description": "Due Date Low",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Vkont",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "DueDateHigh": "string",
+                        "DueDateLow": "string",
+                        "Vkont": "string",
+                        "Vtref": "string",
+                        "Text": "string",
+                        "Status": "string",
+                        "Invid": "string",
+                        "InvDate": "string",
+                        "Amount": "0",
+                        "Currency": "string",
+                        "DueDate": "string",
+                        "Billstartdate": "string",
+                        "Billenddate": "string",
+                        "Billdays": 0,
+                        "Currentcharge": "0",
+                        "BillPeriod": "string",
+                        "PropertyAddress": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillPaymentHistorySet(DueDateHigh='{DueDateHigh}',DueDateLow='{DueDateLow}',Vkont='{Vkont}')/PaymentHistorySet": {
+      "get": {
+        "tags": [
+          "PaymentHistorySet",
+          "BillPaymentHistorySet"
+        ],
+        "summary": "Get entities from related PaymentHistorySet",
+        "description": "Get entities from related PaymentHistorySet",
+        "operationId": "get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-2",
+        "parameters": [
+          {
+            "name": "DueDateHigh",
+            "in": "path",
+            "description": "Due Date High",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DueDateLow",
+            "in": "path",
+            "description": "Due Date Low",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Vkont",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "DueDateHigh": "string",
+                        "DueDateLow": "string",
+                        "Vkont": "string",
+                        "Vtref": "string",
+                        "Text": "string",
+                        "Status": "string",
+                        "InvDate": "string",
+                        "Amount": "0",
+                        "Currency": "string",
+                        "DueDate": "string",
+                        "Invid": "string",
+                        "Paymentdate": "string",
+                        "Paymenttype": "string",
+                        "Channel": "string",
+                        "PropertyAddress": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillPaymentHistorySet(DueDateHigh='{DueDateHigh}',DueDateLow='{DueDateLow}',Vkont='{Vkont}')/InvIDSet": {
+      "get": {
+        "tags": [
+          "BillPaymentHistorySet",
+          "InvIDSet"
+        ],
+        "summary": "Get entities from related InvIDSet",
+        "description": "Get entities from related InvIDSet",
+        "operationId": "get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon-3",
+        "parameters": [
+          {
+            "name": "DueDateHigh",
+            "in": "path",
+            "description": "Due Date High",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DueDateLow",
+            "in": "path",
+            "description": "Due Date Low",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Vkont",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "BillPerEnd": "string",
+                        "BillPerStart": "string",
+                        "CurrCharges": "0",
+                        "Currency": "string",
+                        "DueDateHigh": "string",
+                        "DueDateLow": "string",
+                        "Energyshare": "0",
+                        "Invid": "string",
+                        "InvoiceDate": "string",
+                        "LateCharges": "0",
+                        "NetDueDate": "string",
+                        "PaymentRec": "0",
+                        "Payrecdate": "string",
+                        "PreBal": "0",
+                        "RemBal": "0",
+                        "TotAmtDue": "0",
+                        "Vkont": "string",
+                        "PayPlanAmt": "0",
+                        "PayPlanOverDueAmt": "0",
+                        "PayPlanDueDate": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillPaymentHistorySet(DueDateHigh='{DueDateHigh}',DueDateLow='{DueDateLow}',Vkont='{Vkont}')": {
+      "get": {
+        "tags": [
+          "BillPaymentHistorySet"
+        ],
+        "summary": "Get entity from BillPaymentHistorySet by key",
+        "description": "Get entity from BillPaymentHistorySet by key",
+        "operationId": "get-billpaymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkon",
+        "parameters": [
+          {
+            "name": "DueDateHigh",
+            "in": "path",
+            "description": "Due Date High",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DueDateLow",
+            "in": "path",
+            "description": "Due Date Low",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Vkont",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "Partnerkey": "string",
+                    "DueDateHigh": "string",
+                    "DueDateLow": "string",
+                    "Vkont": "string",
+                    "Invid": "string",
+                    "BillHistorySet": {
+                      "results": [
+                        {
+                          "DueDateHigh": "string",
+                          "DueDateLow": "string",
+                          "Vkont": "string",
+                          "Vtref": "string",
+                          "Text": "string",
+                          "Status": "string",
+                          "Invid": "string",
+                          "InvDate": "string",
+                          "Amount": "0",
+                          "Currency": "string",
+                          "DueDate": "string",
+                          "Billstartdate": "string",
+                          "Billenddate": "string",
+                          "Billdays": 0,
+                          "Currentcharge": "0",
+                          "BillPeriod": "string",
+                          "PropertyAddress": "string"
+                        }
+                      ]
+                    },
+                    "PaymentHistorySet": {
+                      "results": [
+                        {
+                          "DueDateHigh": "string",
+                          "DueDateLow": "string",
+                          "Vkont": "string",
+                          "Vtref": "string",
+                          "Text": "string",
+                          "Status": "string",
+                          "InvDate": "string",
+                          "Amount": "0",
+                          "Currency": "string",
+                          "DueDate": "string",
+                          "Invid": "string",
+                          "Paymentdate": "string",
+                          "Paymenttype": "string",
+                          "Channel": "string",
+                          "PropertyAddress": "string"
+                        }
+                      ]
+                    },
+                    "InvIDSet": {
+                      "results": [
+                        {
+                          "BillPerEnd": "string",
+                          "BillPerStart": "string",
+                          "CurrCharges": "0",
+                          "Currency": "string",
+                          "DueDateHigh": "string",
+                          "DueDateLow": "string",
+                          "Energyshare": "0",
+                          "Invid": "string",
+                          "InvoiceDate": "string",
+                          "LateCharges": "0",
+                          "NetDueDate": "string",
+                          "PaymentRec": "0",
+                          "Payrecdate": "string",
+                          "PreBal": "0",
+                          "RemBal": "0",
+                          "TotAmtDue": "0",
+                          "Vkont": "string",
+                          "PayPlanAmt": "0",
+                          "PayPlanOverDueAmt": "0",
+                          "PayPlanDueDate": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillHistorySet": {
+      "get": {
+        "tags": [
+          "BillHistorySet"
+        ],
+        "summary": "Get entities from BillHistorySet",
+        "description": "Get entities from BillHistorySet",
+        "operationId": "get-billhistoryset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "DueDateHigh": "string",
+                        "DueDateLow": "string",
+                        "Vkont": "string",
+                        "Vtref": "string",
+                        "Text": "string",
+                        "Status": "string",
+                        "Invid": "string",
+                        "InvDate": "string",
+                        "Amount": "0",
+                        "Currency": "string",
+                        "DueDate": "string",
+                        "Billstartdate": "string",
+                        "Billenddate": "string",
+                        "Billdays": 0,
+                        "Currentcharge": "0",
+                        "BillPeriod": "string",
+                        "PropertyAddress": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillHistorySet(DueDateHigh='{DueDateHigh}',DueDateLow='{DueDateLow}',Vkont='{Vkont}')": {
+      "get": {
+        "tags": [
+          "BillHistorySet"
+        ],
+        "summary": "Get entity from BillHistorySet by key",
+        "description": "Get entity from BillHistorySet by key",
+        "operationId": "get-billhistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkont-vkont",
+        "parameters": [
+          {
+            "name": "DueDateHigh",
+            "in": "path",
+            "description": "Due Date High",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DueDateLow",
+            "in": "path",
+            "description": "Due Date Low",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Vkont",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "DueDateHigh": "string",
+                    "DueDateLow": "string",
+                    "Vkont": "string",
+                    "Vtref": "string",
+                    "Text": "string",
+                    "Status": "string",
+                    "Invid": "string",
+                    "InvDate": "string",
+                    "Amount": "0",
+                    "Currency": "string",
+                    "DueDate": "string",
+                    "Billstartdate": "string",
+                    "Billenddate": "string",
+                    "Billdays": 0,
+                    "Currentcharge": "0",
+                    "BillPeriod": "string",
+                    "PropertyAddress": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InstallmentPlanLSet": {
+      "get": {
+        "tags": [
+          "InstallmentPlanLSet"
+        ],
+        "summary": "Get entities from InstallmentPlanLSet",
+        "description": "Get entities from InstallmentPlanLSet",
+        "operationId": "get-installmentplanlset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "InstNo": "string",
+                        "InstAmnt": "string",
+                        "DueDate": "string",
+                        "Status": "string",
+                        "PaymentStatus": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InstallmentPlanSet('{ContractAccount}')/NavInstPlanToAmt": {
+      "get": {
+        "tags": [
+          "InstallmentPlanASet",
+          "InstallmentPlanSet"
+        ],
+        "summary": "Get entities from related NavInstPlanToAmt",
+        "description": "Get entities from related NavInstPlanToAmt",
+        "operationId": "get-installmentplanset-contractaccount-navinstplantoamt",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "ContractAccount",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "Inst_Plan": "string",
+                        "Inst_Plan_Desc": "string",
+                        "First_Amt": "string",
+                        "Last_Amt": "string",
+                        "BalType": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InstallmentPlanSet": {
+      "get": {
+        "tags": [
+          "InstallmentPlanSet"
+        ],
+        "summary": "Get entities from InstallmentPlanSet",
+        "description": "Get entities from InstallmentPlanSet",
+        "operationId": "get-installmentplanset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "ContractAccount": "string",
+                        "EnrollStatus": "string",
+                        "PlanAmnt": "string",
+                        "TotalDue": "string",
+                        "PastDue": "string",
+                        "DocumentURI": "string",
+                        "DocumentCategory": "string",
+                        "InstallmentNo": "string",
+                        "NavInstPlanToList": {
+                          "results": [
+                            {
+                              "InstNo": "string",
+                              "InstAmnt": "string",
+                              "DueDate": "string",
+                              "Status": "string",
+                              "PaymentStatus": "string"
+                            }
+                          ]
+                        },
+                        "NavInstPlanToStatus": {
+                          "results": [
+                            {
+                              "SSA_Code": "string",
+                              "Error_Code": "string",
+                              "Error_Msg": "string"
+                            }
+                          ]
+                        },
+                        "NavInstPlanToAmt": {
+                          "results": [
+                            {
+                              "Inst_Plan": "string",
+                              "Inst_Plan_Desc": "string",
+                              "First_Amt": "string",
+                              "Last_Amt": "string",
+                              "BalType": "string"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InstallmentPlanSet('{ContractAccount}')": {
+      "get": {
+        "tags": [
+          "InstallmentPlanSet"
+        ],
+        "summary": "Get entity from InstallmentPlanSet by key",
+        "description": "Get entity from InstallmentPlanSet by key",
+        "operationId": "get-installmentplanset-contractaccount",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "ContractAccount",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "ContractAccount": "string",
+                    "EnrollStatus": "string",
+                    "PlanAmnt": "string",
+                    "TotalDue": "string",
+                    "PastDue": "string",
+                    "DocumentURI": "string",
+                    "DocumentCategory": "string",
+                    "InstallmentNo": "string",
+                    "NavInstPlanToList": {
+                      "results": [
+                        {
+                          "InstNo": "string",
+                          "InstAmnt": "string",
+                          "DueDate": "string",
+                          "Status": "string",
+                          "PaymentStatus": "string"
+                        }
+                      ]
+                    },
+                    "NavInstPlanToStatus": {
+                      "results": [
+                        {
+                          "SSA_Code": "string",
+                          "Error_Code": "string",
+                          "Error_Msg": "string"
+                        }
+                      ]
+                    },
+                    "NavInstPlanToAmt": {
+                      "results": [
+                        {
+                          "Inst_Plan": "string",
+                          "Inst_Plan_Desc": "string",
+                          "First_Amt": "string",
+                          "Last_Amt": "string",
+                          "BalType": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InstallmentPlanSSet('{SSA_Code}')": {
+      "get": {
+        "tags": [
+          "InstallmentPlanSSet"
+        ],
+        "summary": "Get entity from InstallmentPlanSSet by key",
+        "description": "Get entity from InstallmentPlanSSet by key",
+        "operationId": "get-installmentplansset-ssa_code",
+        "parameters": [
+          {
+            "name": "SSA_Code",
+            "in": "path",
+            "description": "SSA_Code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "SSA_Code": "string",
+                    "Error_Code": "string",
+                    "Error_Msg": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InstallmentPlanASet('{Inst_Plan}')": {
+      "get": {
+        "tags": [
+          "InstallmentPlanASet"
+        ],
+        "summary": "Get entity from InstallmentPlanASet by key",
+        "description": "Get entity from InstallmentPlanASet by key",
+        "operationId": "get-installmentplanaset-inst_plan",
+        "parameters": [
+          {
+            "name": "Inst_Plan",
+            "in": "path",
+            "description": "Inst_Plan",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "Inst_Plan": "string",
+                    "Inst_Plan_Desc": "string",
+                    "First_Amt": "string",
+                    "Last_Amt": "string",
+                    "BalType": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InstallmentPlanSet('{ContractAccount}')/NavInstPlanToList": {
+      "get": {
+        "tags": [
+          "InstallmentPlanLSet",
+          "InstallmentPlanSet"
+        ],
+        "summary": "Get entities from related NavInstPlanToList",
+        "description": "Get entities from related NavInstPlanToList",
+        "operationId": "get-installmentplanset-contractaccount-navinstplantolist",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "ContractAccount",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "InstNo": "string",
+                        "InstAmnt": "string",
+                        "DueDate": "string",
+                        "Status": "string",
+                        "PaymentStatus": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InstallmentPlanASet": {
+      "get": {
+        "tags": [
+          "InstallmentPlanASet"
+        ],
+        "summary": "Get entities from InstallmentPlanASet",
+        "description": "Get entities from InstallmentPlanASet",
+        "operationId": "get-installmentplanaset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "Inst_Plan": "string",
+                        "Inst_Plan_Desc": "string",
+                        "First_Amt": "string",
+                        "Last_Amt": "string",
+                        "BalType": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InstallmentPlanLSet('{InstNo}')": {
+      "get": {
+        "tags": [
+          "InstallmentPlanLSet"
+        ],
+        "summary": "Get entity from InstallmentPlanLSet by key",
+        "description": "Get entity from InstallmentPlanLSet by key",
+        "operationId": "get-installmentplanlset-instno",
+        "parameters": [
+          {
+            "name": "InstNo",
+            "in": "path",
+            "description": "InstNo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "InstNo": "string",
+                    "InstAmnt": "string",
+                    "DueDate": "string",
+                    "Status": "string",
+                    "PaymentStatus": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InstallmentPlanSSet": {
+      "get": {
+        "tags": [
+          "InstallmentPlanSSet"
+        ],
+        "summary": "Get entities from InstallmentPlanSSet",
+        "description": "Get entities from InstallmentPlanSSet",
+        "operationId": "get-installmentplansset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "SSA_Code": "string",
+                        "Error_Code": "string",
+                        "Error_Msg": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InstallmentPlanSet('{ContractAccount}')/NavInstPlanToStatus": {
+      "get": {
+        "tags": [
+          "InstallmentPlanSSet",
+          "InstallmentPlanSet"
+        ],
+        "summary": "Get entities from related NavInstPlanToStatus",
+        "description": "Get entities from related NavInstPlanToStatus",
+        "operationId": "get-installmentplanset-contractaccount-navinstplantostatus",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "ContractAccount",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "SSA_Code": "string",
+                        "Error_Code": "string",
+                        "Error_Msg": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PEEligibilitySet('{ContractAccount}')/NavPayExtEligToStatus": {
+      "get": {
+        "tags": [
+          "PEEligibilitySet",
+          "PEEligStatusSet"
+        ],
+        "summary": "Get entities from related NavPayExtEligToStatus",
+        "description": "Get entities from related NavPayExtEligToStatus",
+        "operationId": "get-peeligibilityset-contractaccount-navpayexteligtostatus",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "ContractAccount",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "SSA_Code": "string",
+                        "Output_Code": "string",
+                        "E_Msg": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PEEligStatusSet('{SSA_Code}')": {
+      "get": {
+        "tags": [
+          "PEEligStatusSet"
+        ],
+        "summary": "Get entity from PEEligStatusSet by key",
+        "description": "Get entity from PEEligStatusSet by key",
+        "operationId": "get-peeligstatusset-ssa_code",
+        "parameters": [
+          {
+            "name": "SSA_Code",
+            "in": "path",
+            "description": "key: SSA_Code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "SSA_Code": "string",
+                    "Output_Code": "string",
+                    "E_Msg": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PEEligibilitySet('{ContractAccount}')": {
+      "get": {
+        "tags": [
+          "PEEligibilitySet"
+        ],
+        "summary": "Get entity from PEEligibilitySet by key",
+        "description": "Get entity from PEEligibilitySet by key",
+        "operationId": "get-peeligibilityset-contractaccount",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "ContractAccount",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "ContractAccount": "string",
+                    "Eligible": "string",
+                    "Enrolled": "string",
+                    "DefDate": "string",
+                    "Balance": "string",
+                    "DueDate": "string",
+                    "BalType": "string",
+                    "Bal_Total": "string",
+                    "Bal_Past": "string",
+                    "DefDueDate": "string",
+                    "NavPayExtEligToStatus": {
+                      "results": [
+                        {
+                          "SSA_Code": "string",
+                          "Output_Code": "string",
+                          "E_Msg": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AccountStatusSet(ContractAccount='{ContractAccount}',BusinessPartner='{BusinessPartner}')": {
+      "get": {
+        "tags": [
+          "AccountStatusSet"
+        ],
+        "summary": "Get entity from AccountStatusSet by key",
+        "description": "Get entity from AccountStatusSet by key",
+        "operationId": "get-accountstatusset-contractaccount-contractaccount-businesspartner-busines",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "ContractAccount",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "BusinessPartner",
+            "in": "path",
+            "description": "BusinessPartner",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "ContractAccount": "string",
+                    "BusinessPartner": "string",
+                    "FieldName": "string",
+                    "FieldValue": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AccountStatusSet": {
+      "get": {
+        "tags": [
+          "AccountStatusSet"
+        ],
+        "summary": "Get entities from AccountStatusSet",
+        "description": "Get entities from AccountStatusSet",
+        "operationId": "get-accountstatusset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "ContractAccount": "string",
+                        "BusinessPartner": "string",
+                        "FieldName": "string",
+                        "FieldValue": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PEEligStatusSet": {
+      "get": {
+        "tags": [
+          "PEEligStatusSet"
+        ],
+        "summary": "Get entities from PEEligStatusSet",
+        "description": "Get entities from PEEligStatusSet",
+        "operationId": "get-peeligstatusset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "SSA_Code": "string",
+                        "Output_Code": "string",
+                        "E_Msg": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PEEligibilitySet": {
+      "get": {
+        "tags": [
+          "PEEligibilitySet"
+        ],
+        "summary": "Get entities from PEEligibilitySet",
+        "description": "Get entities from PEEligibilitySet",
+        "operationId": "get-peeligibilityset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "ContractAccount": "string",
+                        "Eligible": "string",
+                        "Enrolled": "string",
+                        "DefDate": "string",
+                        "Balance": "string",
+                        "DueDate": "string",
+                        "BalType": "string",
+                        "Bal_Total": "string",
+                        "Bal_Past": "string",
+                        "DefDueDate": "string",
+                        "NavPayExtEligToStatus": {
+                          "results": [
+                            {
+                              "SSA_Code": "string",
+                              "Output_Code": "string",
+                              "E_Msg": "string"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PaymentHistorySet(DueDateHigh='{DueDateHigh}',DueDateLow='{DueDateLow}',Vkont='{Vkont}')": {
+      "get": {
+        "tags": [
+          "PaymentHistorySet"
+        ],
+        "summary": "Get entity from PaymentHistorySet by key",
+        "description": "Get entity from PaymentHistorySet by key",
+        "operationId": "get-paymenthistoryset-duedatehigh-duedatehigh-duedatelow-duedatelow-vkont-vk",
+        "parameters": [
+          {
+            "name": "DueDateHigh",
+            "in": "path",
+            "description": "Due Date High",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DueDateLow",
+            "in": "path",
+            "description": "Due Date Low",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Vkont",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "DueDateHigh": "string",
+                    "DueDateLow": "string",
+                    "Vkont": "string",
+                    "Vtref": "string",
+                    "Text": "string",
+                    "Status": "string",
+                    "InvDate": "string",
+                    "Amount": "0",
+                    "Currency": "string",
+                    "DueDate": "string",
+                    "Invid": "string",
+                    "Paymentdate": "string",
+                    "Paymenttype": "string",
+                    "Channel": "string",
+                    "PropertyAddress": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PaymentHistorySet": {
+      "get": {
+        "tags": [
+          "PaymentHistorySet"
+        ],
+        "summary": "Get entities from PaymentHistorySet",
+        "description": "Get entities from PaymentHistorySet",
+        "operationId": "get-paymenthistoryset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "DueDateHigh": "string",
+                        "DueDateLow": "string",
+                        "Vkont": "string",
+                        "Vtref": "string",
+                        "Text": "string",
+                        "Status": "string",
+                        "InvDate": "string",
+                        "Amount": "0",
+                        "Currency": "string",
+                        "DueDate": "string",
+                        "Invid": "string",
+                        "Paymentdate": "string",
+                        "Paymenttype": "string",
+                        "Channel": "string",
+                        "PropertyAddress": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InvIDSet": {
+      "get": {
+        "tags": [
+          "InvIDSet"
+        ],
+        "summary": "Get entities from InvIDSet",
+        "description": "Get entities from InvIDSet",
+        "operationId": "get-invidset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "BillPerEnd": "string",
+                        "BillPerStart": "string",
+                        "CurrCharges": "0",
+                        "Currency": "string",
+                        "DueDateHigh": "string",
+                        "DueDateLow": "string",
+                        "Energyshare": "0",
+                        "Invid": "string",
+                        "InvoiceDate": "string",
+                        "LateCharges": "0",
+                        "NetDueDate": "string",
+                        "PaymentRec": "0",
+                        "Payrecdate": "string",
+                        "PreBal": "0",
+                        "RemBal": "0",
+                        "TotAmtDue": "0",
+                        "Vkont": "string",
+                        "PayPlanAmt": "0",
+                        "PayPlanOverDueAmt": "0",
+                        "PayPlanDueDate": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/FormSet(FormID='{FormID}',AccountID='{AccountID}',ContractAccount='{ContractAccount}')": {
+      "get": {
+        "tags": [
+          "FormSet"
+        ],
+        "summary": "Get entity from FormSet by key",
+        "description": "Get entity from FormSet by key",
+        "operationId": "get-formset-formid-formid-accountid-accountid-contractaccount-contractaccoun",
+        "parameters": [
+          {
+            "name": "FormID",
+            "in": "path",
+            "description": "Form ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AccountID",
+            "in": "path",
+            "description": "Business Partner",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "Contract Account",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "FormID": "string",
+                    "XML": "string",
+                    "AccountID": "string",
+                    "ContractAccount": "string",
+                    "MsgType": "string",
+                    "MsgCode": "string",
+                    "MsgText": "string",
+                    "NavFormToItem": {
+                      "results": [
+                        {
+                          "ContractAccount": "string",
+                          "FieldName": "string",
+                          "FieldValue": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/$batch": {
+      "post": {
+        "tags": [
+          "Batch Requests"
+        ],
+        "summary": "Send a group of requests",
+        "description": "Group multiple requests into a single request payload, see [Batch Requests](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=152).\n\n*Please note that \"Try it out\" is not supported for this request.*",
+        "operationId": "post-batch",
+        "requestBody": {
+          "description": "Batch request",
+          "content": {
+            "multipart/mixed;boundary=request-separator": {
+              "examples": {
+                "default": {
+                  "value": null
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Batch response",
+            "content": {
+              "multipart/mixed": {
+                "examples": {
+                  "default": {
+                    "value": null
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InvIDSet(DueDateHigh='{DueDateHigh}',DueDateLow='{DueDateLow}',Invid='{Invid}',Vkont='{Vkont}')": {
+      "get": {
+        "tags": [
+          "InvIDSet"
+        ],
+        "summary": "Get entity from InvIDSet by key",
+        "description": "Get entity from InvIDSet by key",
+        "operationId": "get-invidset-duedatehigh-duedatehigh-duedatelow-duedatelow-invid-invid-vkont",
+        "parameters": [
+          {
+            "name": "DueDateHigh",
+            "in": "path",
+            "description": "Due Date High",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DueDateLow",
+            "in": "path",
+            "description": "Due Date Low",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Invid",
+            "in": "path",
+            "description": "Bill Number",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Vkont",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "BillPerEnd": "string",
+                    "BillPerStart": "string",
+                    "CurrCharges": "0",
+                    "Currency": "string",
+                    "DueDateHigh": "string",
+                    "DueDateLow": "string",
+                    "Energyshare": "0",
+                    "Invid": "string",
+                    "InvoiceDate": "string",
+                    "LateCharges": "0",
+                    "NetDueDate": "string",
+                    "PaymentRec": "0",
+                    "Payrecdate": "string",
+                    "PreBal": "0",
+                    "RemBal": "0",
+                    "TotAmtDue": "0",
+                    "Vkont": "string",
+                    "PayPlanAmt": "0",
+                    "PayPlanOverDueAmt": "0",
+                    "PayPlanDueDate": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/FormSet": {
+      "get": {
+        "tags": [
+          "FormSet"
+        ],
+        "summary": "Get entities from FormSet",
+        "description": "Get entities from FormSet",
+        "operationId": "get-formset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "FormID": "string",
+                        "XML": "string",
+                        "AccountID": "string",
+                        "ContractAccount": "string",
+                        "MsgType": "string",
+                        "MsgCode": "string",
+                        "MsgText": "string",
+                        "NavFormToItem": {
+                          "results": [
+                            {
+                              "ContractAccount": "string",
+                              "FieldName": "string",
+                              "FieldValue": "string"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BPSearchSet": {
+      "get": {
+        "tags": [
+          "BPSearchSet"
+        ],
+        "summary": "Get entities from BPSearchSet",
+        "description": "Get entities from BPSearchSet",
+        "operationId": "get-bpsearchset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "Active": "string",
+                        "ACType": "string",
+                        "ADId": "string",
+                        "Apartment_service": "string",
+                        "ApartmentNo": "string",
+                        "BusinessPartner": "string",
+                        "CareOf": "string",
+                        "CAType": "string",
+                        "City": "string",
+                        "City_Service": "string",
+                        "ContractAccount": "string",
+                        "Country": "string",
+                        "Country_Service": "string",
+                        "DateOfBirth": "string",
+                        "FirstName": "string",
+                        "Flag_BP": "string",
+                        "HouseNo_Service": "string",
+                        "HouseNum": "string",
+                        "Id_flag": "string",
+                        "IDNumber": "string",
+                        "Initials": "string",
+                        "LastName": "string",
+                        "Message": "string",
+                        "MessageType": "string",
+                        "MeterNo": "string",
+                        "MiddleName": "string",
+                        "Mobile": "string",
+                        "NameSupplement": "string",
+                        "Nc_Col_Flag": "string",
+                        "Org2": "string",
+                        "Org3": "string",
+                        "Org4": "string",
+                        "OrgName": "string",
+                        "Paperless": "string",
+                        "PoBox": "string",
+                        "PoBoxZip": "string",
+                        "PostCode": "string",
+                        "PostCode_Service": "string",
+                        "Prefix": "string",
+                        "Primary_Email": "string",
+                        "Region": "string",
+                        "Region_Service": "string",
+                        "secondary_Email": "string",
+                        "SendControl_gp": "string",
+                        "Street": "string",
+                        "Street_Service": "string",
+                        "Telephone": "string",
+                        "Title": "string",
+                        "ZipCode": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PayenrollMsgSet": {
+      "get": {
+        "tags": [
+          "PayenrollMsgSet"
+        ],
+        "summary": "Get entities from PayenrollMsgSet",
+        "description": "Get entities from PayenrollMsgSet",
+        "operationId": "get-payenrollmsgset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "MsgType": "string",
+                        "MsgCode": "string",
+                        "MsgText": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillSummaryAmtSet": {
+      "get": {
+        "tags": [
+          "BillSummaryAmtSet"
+        ],
+        "summary": "Get entities from BillSummaryAmtSet",
+        "description": "Get entities from BillSummaryAmtSet",
+        "operationId": "get-billsummaryamtset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "Invid": "string",
+                        "BusinessPartner": "string",
+                        "ContractAccount": "string",
+                        "Contract": "string",
+                        "DueDate": "string",
+                        "RemainingBalanceDue": "0",
+                        "Currency": "string",
+                        "Amountpaid": "0",
+                        "AmountpaidDate": "string",
+                        "Payinfo": "string",
+                        "Status": "string",
+                        "TotalBillThisPeriod": "0",
+                        "DateFrom": "string",
+                        "DateTo": "string",
+                        "LateFee": "0",
+                        "PreAmountDue": "0",
+                        "Other_Charg": "0",
+                        "TotalAmountDue": "0"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BankpaySet('{ContractAccount}')": {
+      "get": {
+        "tags": [
+          "BankpaySet"
+        ],
+        "summary": "Get entity from BankpaySet by key",
+        "description": "Get entity from BankpaySet by key",
+        "operationId": "get-bankpayset-contractaccount",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "ContractAccount",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "ContractAccount": "string",
+                    "RoutingNo": "string",
+                    "AccountNo": "string",
+                    "AcHolder": "string",
+                    "BankId": "string",
+                    "PayAmount": "string",
+                    "ReferenceNo": "string",
+                    "ExDate": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PayenrollSet('{CA}')/NavpayenrollTomsg": {
+      "get": {
+        "tags": [
+          "PayenrollSet",
+          "PayenrollMsgSet"
+        ],
+        "summary": "Get entities from related NavpayenrollTomsg",
+        "description": "Get entities from related NavpayenrollTomsg",
+        "operationId": "get-payenrollset-ca-navpayenrolltomsg",
+        "parameters": [
+          {
+            "name": "CA",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "MsgType": "string",
+                        "MsgCode": "string",
+                        "MsgText": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillSummaryDetailsSet": {
+      "get": {
+        "tags": [
+          "BillSummaryDetailsSet"
+        ],
+        "summary": "Get entities from BillSummaryDetailsSet",
+        "description": "Get entities from BillSummaryDetailsSet",
+        "operationId": "get-billsummarydetailsset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "Invid": "string",
+                        "BusinessPartner": "string",
+                        "ContractAccount": "string",
+                        "Contract": "string",
+                        "DueDate": "string",
+                        "RemainingBalanceDue": "0",
+                        "Currency": "string",
+                        "Amountpaid": "0",
+                        "AmountpaidDate": "string",
+                        "Payinfo": "string",
+                        "Status": "string",
+                        "TotalBillThisPeriod": "0",
+                        "DateFrom": "string",
+                        "DateTo": "string",
+                        "LateFee": "0",
+                        "PreAmountDue": "0",
+                        "Other_Charg": "0",
+                        "BB_Plan_Amt": "0",
+                        "Instal_Amt": "0",
+                        "Ele_Usage": "0",
+                        "Gas_Usage": "0",
+                        "Wat_Usage": "0",
+                        "TotalAmountDue": "0",
+                        "RecBalance": "0",
+                        "PayPeriod": "string",
+                        "MeterType": "string",
+                        "FirstName": "string",
+                        "MiddleName": "string",
+                        "LastName": "string",
+                        "OrgName1": "string",
+                        "OrgName2": "string",
+                        "OrgName3": "string",
+                        "CustomerType": "string",
+                        "HouseNum": "string",
+                        "Street": "string",
+                        "City": "string",
+                        "Region": "string",
+                        "Country": "string",
+                        "PostCode": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillSummaryDetailsSet('{ContractAccount}')": {
+      "get": {
+        "tags": [
+          "BillSummaryDetailsSet"
+        ],
+        "summary": "Get entity from BillSummaryDetailsSet by key",
+        "description": "Get entity from BillSummaryDetailsSet by key",
+        "operationId": "get-billsummarydetailsset-contractaccount",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "Invid": "string",
+                    "BusinessPartner": "string",
+                    "ContractAccount": "string",
+                    "Contract": "string",
+                    "DueDate": "string",
+                    "RemainingBalanceDue": "0",
+                    "Currency": "string",
+                    "Amountpaid": "0",
+                    "AmountpaidDate": "string",
+                    "Payinfo": "string",
+                    "Status": "string",
+                    "TotalBillThisPeriod": "0",
+                    "DateFrom": "string",
+                    "DateTo": "string",
+                    "LateFee": "0",
+                    "PreAmountDue": "0",
+                    "Other_Charg": "0",
+                    "BB_Plan_Amt": "0",
+                    "Instal_Amt": "0",
+                    "Ele_Usage": "0",
+                    "Gas_Usage": "0",
+                    "Wat_Usage": "0",
+                    "TotalAmountDue": "0",
+                    "RecBalance": "0",
+                    "PayPeriod": "string",
+                    "MeterType": "string",
+                    "FirstName": "string",
+                    "MiddleName": "string",
+                    "LastName": "string",
+                    "OrgName1": "string",
+                    "OrgName2": "string",
+                    "OrgName3": "string",
+                    "CustomerType": "string",
+                    "HouseNum": "string",
+                    "Street": "string",
+                    "City": "string",
+                    "Region": "string",
+                    "Country": "string",
+                    "PostCode": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PayenrollMsgSet('{MsgType}')": {
+      "get": {
+        "tags": [
+          "PayenrollMsgSet"
+        ],
+        "summary": "Get entity from PayenrollMsgSet by key",
+        "description": "Get entity from PayenrollMsgSet by key",
+        "operationId": "get-payenrollmsgset-msgtype",
+        "parameters": [
+          {
+            "name": "MsgType",
+            "in": "path",
+            "description": "MsgType",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "MsgType": "string",
+                    "MsgCode": "string",
+                    "MsgText": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PayenrollSet": {
+      "get": {
+        "tags": [
+          "PayenrollSet"
+        ],
+        "summary": "Get entities from PayenrollSet",
+        "description": "Get entities from PayenrollSet",
+        "operationId": "get-payenrollset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "CA": "string",
+                        "EXT_AMOUNT": "string",
+                        "DEFERRAL_DATE": "string",
+                        "NavpayenrollTomsg": {
+                          "results": [
+                            {
+                              "MsgType": "string",
+                              "MsgCode": "string",
+                              "MsgText": "string"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PayenrollSet"
+        ],
+        "summary": "Add new entity to PayenrollSet",
+        "description": "Add new entity to PayenrollSet",
+        "operationId": "post-payenrollset",
+        "requestBody": {
+          "description": "New entity",
+          "content": {
+            "application/json": {
+              "example": {
+                "NavpayenrollTomsg": {
+                  "results": [
+                    {}
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "CA": "string",
+                    "EXT_AMOUNT": "string",
+                    "DEFERRAL_DATE": "string",
+                    "NavpayenrollTomsg": {
+                      "results": [
+                        {
+                          "MsgType": "string",
+                          "MsgCode": "string",
+                          "MsgText": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/FormSet(FormID='{FormID}',AccountID='{AccountID}',ContractAccount='{ContractAccount}')/NavFormToItem": {
+      "get": {
+        "tags": [
+          "FormItemSet",
+          "FormSet"
+        ],
+        "summary": "Get entities from related NavFormToItem",
+        "description": "Get entities from related NavFormToItem",
+        "operationId": "get-formset-formid-formid-accountid-accountid-contractaccount-contractaccoun-1",
+        "parameters": [
+          {
+            "name": "FormID",
+            "in": "path",
+            "description": "Form ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AccountID",
+            "in": "path",
+            "description": "Business Partner",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "Contract Account",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "ContractAccount": "string",
+                        "FieldName": "string",
+                        "FieldValue": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PayenrollSet('{CA}')": {
+      "get": {
+        "tags": [
+          "PayenrollSet"
+        ],
+        "summary": "Get entity from PayenrollSet by key",
+        "description": "Get entity from PayenrollSet by key",
+        "operationId": "get-payenrollset-ca",
+        "parameters": [
+          {
+            "name": "CA",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "CA": "string",
+                    "EXT_AMOUNT": "string",
+                    "DEFERRAL_DATE": "string",
+                    "NavpayenrollTomsg": {
+                      "results": [
+                        {
+                          "MsgType": "string",
+                          "MsgCode": "string",
+                          "MsgText": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BankpaySet": {
+      "get": {
+        "tags": [
+          "BankpaySet"
+        ],
+        "summary": "Get entities from BankpaySet",
+        "description": "Get entities from BankpaySet",
+        "operationId": "get-bankpayset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "ContractAccount": "string",
+                        "RoutingNo": "string",
+                        "AccountNo": "string",
+                        "AcHolder": "string",
+                        "BankId": "string",
+                        "PayAmount": "string",
+                        "ReferenceNo": "string",
+                        "ExDate": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "BankpaySet"
+        ],
+        "summary": "Add new entity to BankpaySet",
+        "description": "Add new entity to BankpaySet",
+        "operationId": "post-bankpayset",
+        "requestBody": {
+          "description": "New entity",
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "ContractAccount": "string",
+                    "RoutingNo": "string",
+                    "AccountNo": "string",
+                    "AcHolder": "string",
+                    "BankId": "string",
+                    "PayAmount": "string",
+                    "ReferenceNo": "string",
+                    "ExDate": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BPSearchSet('{ContractAccount}')": {
+      "get": {
+        "tags": [
+          "BPSearchSet"
+        ],
+        "summary": "Get entity from BPSearchSet by key",
+        "description": "Get entity from BPSearchSet by key",
+        "operationId": "get-bpsearchset-contractaccount",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "Contract Account",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "Active": "string",
+                    "ACType": "string",
+                    "ADId": "string",
+                    "Apartment_service": "string",
+                    "ApartmentNo": "string",
+                    "BusinessPartner": "string",
+                    "CareOf": "string",
+                    "CAType": "string",
+                    "City": "string",
+                    "City_Service": "string",
+                    "ContractAccount": "string",
+                    "Country": "string",
+                    "Country_Service": "string",
+                    "DateOfBirth": "string",
+                    "FirstName": "string",
+                    "Flag_BP": "string",
+                    "HouseNo_Service": "string",
+                    "HouseNum": "string",
+                    "Id_flag": "string",
+                    "IDNumber": "string",
+                    "Initials": "string",
+                    "LastName": "string",
+                    "Message": "string",
+                    "MessageType": "string",
+                    "MeterNo": "string",
+                    "MiddleName": "string",
+                    "Mobile": "string",
+                    "NameSupplement": "string",
+                    "Nc_Col_Flag": "string",
+                    "Org2": "string",
+                    "Org3": "string",
+                    "Org4": "string",
+                    "OrgName": "string",
+                    "Paperless": "string",
+                    "PoBox": "string",
+                    "PoBoxZip": "string",
+                    "PostCode": "string",
+                    "PostCode_Service": "string",
+                    "Prefix": "string",
+                    "Primary_Email": "string",
+                    "Region": "string",
+                    "Region_Service": "string",
+                    "secondary_Email": "string",
+                    "SendControl_gp": "string",
+                    "Street": "string",
+                    "Street_Service": "string",
+                    "Telephone": "string",
+                    "Title": "string",
+                    "ZipCode": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BillSummaryAmtSet('{ContractAccount}')": {
+      "get": {
+        "tags": [
+          "BillSummaryAmtSet"
+        ],
+        "summary": "Get entity from BillSummaryAmtSet by key",
+        "description": "Get entity from BillSummaryAmtSet by key",
+        "operationId": "get-billsummaryamtset-contractaccount",
+        "parameters": [
+          {
+            "name": "ContractAccount",
+            "in": "path",
+            "description": "Contract Acct",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "Invid": "string",
+                    "BusinessPartner": "string",
+                    "ContractAccount": "string",
+                    "Contract": "string",
+                    "DueDate": "string",
+                    "RemainingBalanceDue": "0",
+                    "Currency": "string",
+                    "Amountpaid": "0",
+                    "AmountpaidDate": "string",
+                    "Payinfo": "string",
+                    "Status": "string",
+                    "TotalBillThisPeriod": "0",
+                    "DateFrom": "string",
+                    "DateTo": "string",
+                    "LateFee": "0",
+                    "PreAmountDue": "0",
+                    "Other_Charg": "0",
+                    "TotalAmountDue": "0"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InvoicePDFSet": {
+      "get": {
+        "tags": [
+          "InvoicePDFSet"
+        ],
+        "summary": "Get entities from InvoicePDFSet",
+        "description": "Get entities from InvoicePDFSet",
+        "operationId": "get-invoicepdfset",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "description": "Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)",
+            "schema": {
+              "enum": [
+                "allpages",
+                "none"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entities",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "__count": "string",
+                    "results": [
+                      {
+                        "Invid": "string",
+                        "MimeType": "string",
+                        "MediaResource": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/InvoicePDFSet('{Invid}')": {
+      "get": {
+        "tags": [
+          "InvoicePDFSet"
+        ],
+        "summary": "Get entity from InvoicePDFSet by key",
+        "description": "Get entity from InvoicePDFSet by key",
+        "operationId": "get-invoicepdfset-invid",
+        "parameters": [
+          {
+            "name": "Invid",
+            "in": "path",
+            "description": "Invoice ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "d": {
+                    "Invid": "string",
+                    "MimeType": "string",
+                    "MediaResource": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      },
+      "apiKeyQuery": {
+        "type": "apiKey",
+        "name": "subscription-key",
+        "in": "query"
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "x-ms-export-notes": [
+    "Definitions/body parameters are not exported since this API references multiple schemas with OpenAPI components as opposed to one. Schemas referenced: 61bad2eb07a3ba043815a0db,61c01216ec635c1020b108b3,61c15c5024a4440688b63d30"
+  ]
+}

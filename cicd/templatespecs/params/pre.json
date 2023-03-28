@@ -1,0 +1,224 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "resourceGroup_namePrimary":{
+      "value": "rg-corenonprod01-integration-00"
+    },
+    "region_primary":{
+      "value": "australiaeast"
+    },
+    "appServicePlan_namePrimary": {
+      "value": "asp-corenonprod01-integration-00"
+    },
+    "appServicePlan_sku": {
+      "value": {
+        "name": "D1",
+        "tier": "Shared",
+        "size": "D1",
+        "family": "D",
+        "capacity": 0
+      }
+    },
+    "appServicePlan_properties": {
+      "value": {
+        "perSiteScaling": false,
+        "maximumElasticWorkerCount": 1,
+        "isSpot": false,
+        "reserved": false,
+        "isXenon": false,
+        "hyperV": false,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0
+      }
+    },
+    "appInsights_namePrimary": {
+      "value": "appins-corenonprod01-integration-00"
+    },
+    "logAnalatics_namePrimary": {
+      "value": "la-corenonprod01-integration-00"
+    },
+    "logAnalatics_retentionDays": {
+      "value": 30
+    },
+    "storageAccount_namePrimary": {
+      "value": "sacorenonprod01int00"
+    },
+    "storageAccount_typePrimary": {
+      "value": "Standard_LRS"
+    },
+    "deploy_funcApp": {
+      "value": false
+    },
+    "funcApp_namePrimary": {
+      "value": "func-corenonprod01-integration-00"
+    },
+    "funcApp_detailedHealthCheckReports": {
+      "value": true
+    },
+    "funcApp_excludeHealthyReports": {
+      "value": false
+    },
+    "kvBootstrap_name":{
+      "value": "kv-corenonprod01-int-00"
+    },
+    "kvBootstrap_rgName":{
+      "value": "rg-corenonprod01-integration-00"
+    },
+    "keyvault_namePrimary":{
+      "value": "kv-corenonprod01-int-01"
+    },
+    "keyvault_skuPropertiesPrimary":{
+      "value": {
+        "name": "standard",
+        "family": "A"
+      }
+    },
+    "keyvault_retentionDays": {
+      "value": 7
+    },
+    "keyvault_secretReaderRoleId" : {
+      "value": "4633458b-17de-408a-b874-0445c86b69e6"
+    },
+    "keyvault_secretOfficerRoleId" : {
+      "value": "b86a8fe4-44ce-4948-aee5-eccb2c155cd7"
+    },
+    "keyvault_expirySeconds": {
+      "value": 1687948601
+    },
+    "keyvault_apimSecrets" : {
+      "value": [
+        "api-authentication-password",
+        "api-authentication-username",
+        "api-encryptiv",
+        "api-encryptkey",
+        "abn-authenticationguid",
+        "paypal-password",
+        "paypal-username"
+      ]
+    },
+    "ssl_certificate_name": {
+      "value": "dcp-apim-ssl"
+    },
+    "deploy_public_cert": {
+      "value": true
+    },
+    "keyvault_appInsKeyName" : {
+      "value": "appInsKey"
+    },
+    "keyvault_funcAppHostKey" : {
+      "value": "funcHostKey"
+    },
+    "emailActionGroup_name" :{
+      "value": "DevHealthCheckAlert"
+    },
+    "emailActionGroup_displayName" :{
+      "value": "DevHlthCheck"
+    },
+    "emailActionGroup_enabled" :{
+      "value": true
+    },
+    "emalActionGroup_emails" :{
+      "value": [
+        {
+          "name": "paasAdminEmail",
+          "emailAddress": "oysd@sydneywater.com.au"
+        }
+      ]
+    },
+    "apiManagement_namePrimary":{
+      "value": "apim-corenonprod01-integration-00"
+    },
+    "apiManagement_skuPropertiesPrimary":{
+      "value": {
+        "name": "Developer",
+        "capacity": 1
+      }
+    },
+    "apiManagement_virtualNetworkType": {
+      "value": "Internal"
+    },
+    "key_certificate_SWCRootCA_base64": {
+      "value": "SWCRootCA-base64"
+    },
+    "key_certificate_SWCIssuingCA1_base64": {
+      "value": "SWCIssuingCA1-base64"
+    },
+    "apiManagement_gatewayCustomDomainName": {
+      "value": "azure-apidev.swcdev"
+    },
+    "apiManagement_developerPortalCustomDomainName": {
+      "value": "developer.azure-apidev.swcdev"
+    },
+    "apiManagement_publisherEmail": {
+      "value": "oysd@sydneywater.com.au"
+    },
+    "apiManagement_publisherName": {
+      "value": "Sydney Water"
+    },
+    "apiManagement_customProperties": {
+      "value": {
+          "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168": "true",
+          "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "false",
+          "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "false",
+          "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30": "false",
+          "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "false",
+          "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "false",
+          "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "false",
+          "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "true"
+        }
+      },
+      "apiManagement_vnetName": {
+        "value": "vnet-corenonprod01-ae-00"
+      },
+      "apiManagement_vnetRGName": {
+        "value": "rg-corenonprod01-network-00"
+      },
+      "apiManagement_snetName": {
+        "value": "snet-corenonprod01-ae-apim-00"
+      },
+      "dcp_logAnalytics_subscriptionId": {
+        "value": "63c6f3c1-feab-42f2-bda9-fcd09870542f"
+      },
+      "dcp_logAnalytics_rgName": {
+        "value": "rg-dcpnonprodhub-mgmt-00"
+      },
+      "dcp_logAnalytics_workspaceName": {
+        "value": "log-dcpnonprodhub-dcpmonitoring"
+      },
+      "keyVault_diagnosticSettingName": {
+        "value": "log-corenonprod01-ae-kv-00"
+      },
+      "privateEndpoints_snetName": {
+        "value": "snet-corenonprod01-ae-pe-00"
+      },
+      "keyvault_privateEndpoint_name":{
+        "value": "pe-corenonprod01-ae-kv-00"
+      },
+      "storageAccount_privateEndpoint_name":{
+        "value": "pe-corenonprod01-ae-sa-00"
+      },
+      "apiManagement_diagnosticSettingName": {
+        "value": "log-corenonprod01-ae-apim-00"
+      },
+      "storageAccount_cmkKeyName": {
+        "value": "cmk-corenonprod01-int-00"
+    },
+    "subscription_keys" : {
+      "value": [{
+        "name":"adobe-3rd-party-apis",
+        "display_name":"Adobe 3rd Party APIs subscription",
+        "state":"active"
+      },{
+        "name":"adobe-non-self-service-apis",
+        "display_name":"Adobe Non-Self-Service APIs subscription",
+        "state":"active"
+      },{
+        "name":"axway-3rd-party-apis",
+        "display_name":"Axway 3rd Party APIs subscription",
+        "state":"active"
+      }
+      ]
+    }
+  }
+}

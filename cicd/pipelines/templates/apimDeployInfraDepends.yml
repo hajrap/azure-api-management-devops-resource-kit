@@ -1,0 +1,162 @@
+parameters:
+  - name: azureSubscription
+    type: string
+  - name: resourceGroup
+    type: string
+  - name: apimServiceName
+    type: string
+  - name: kvServiceName
+    type: string
+  - name: namedValueArmTemplate
+    type: string
+  - name: globalServicePolicyArmTemplate
+    type: string
+  - name: productsArmTemplate
+    type: string
+  - name: backendsArmTemplate
+    type: string
+  - name: cdcLoginSubscription
+    type: string
+  - name: cdcLoginResourceGroup
+    type: string
+  - name: cdcLoginFunctionName
+    type: string
+  - name: cdcLoginBackendUrl
+    type: string
+  - name: jwtTokenKeyEValue
+    type: string
+  - name: jwtTokenKeyNValue
+    type: string
+  - name: sapClientValue
+    type: string
+  - name: bpointBillerCode
+    type: string
+  - name: cdcSbIngestSubscription
+    type: string
+  - name: cdcSbIngestResourceGroup
+    type: string
+  - name: cdcSbIngestFunctionName
+    type: string
+  - name: cdcSbIngestBackendUrl
+    type: string
+  - name: bpointBackendHost
+    type: string
+  - name: IotSewerSigAllSites
+    type: string
+  - name: IotSewerSigCurrentAlarms
+    type: string
+  - name: IotSewerSigEventHistory
+    type: string
+  - name: IotSewerSigStateHistory
+    type: string
+  - name: IotSewerSigTelemetryHistory
+    type: string
+  - name: IotSewerSigTelemetryWithinBounds
+    type: string
+  - name: IotSewerSigUpdateAlarm
+    type: string
+  - name: IotSewerSigWetWeatherRegions
+    type: string
+  - name: IotSewerSigTelemetryForSite
+    type: string
+  - name: IotSewerSigAllSitesForBounds
+    type: string
+  - name: isDryRun
+    type: boolean
+  - name: paypalOrdersUrl
+    type: string
+  - name: paypalTokenUrl
+    type: string
+  - name: waterfixDB
+    type: string
+  - name: deployNV
+    type: boolean
+  - name: deployGlobalPolicy
+    type: boolean
+  - name: deployProducts
+    type: boolean
+  - name: deployBackends
+    type: boolean
+
+jobs:
+  - job:
+
+    ${{if parameters.isDryRun }} :
+      displayName: '[DRY RUN] Deploying APIM infrastructure dependencies to ${{ parameters.apimServiceName }}'
+    ${{ else }}:
+      displayName: 'Deploying APIM infrastructure dependencies to ${{ parameters.apimServiceName }}'
+
+    variables:
+      - name: DeploymentName
+        value: ${{parameters.apimServiceName}}.$(Get-Date -Format yyyyMMddhhmmss)
+      - name: currentBranch
+        value: $[replace(variables['Build.SourceBranch'], 'refs/heads/','')]
+      - name: azNVCommand
+        ${{if parameters.isDryRun }} :
+          value: "az deployment group what-if --resource-group ${{parameters.resourceGroup}} --name $(DeploymentName) --template-file '${{parameters.namedValueArmTemplate}}' --parameters ApimServiceName=${{parameters.apimServiceName}} KvServiceName=${{parameters.kvServiceName}} JwtTokenKeyEValue=${{parameters.jwtTokenKeyEValue}} JwtTokenKeyNValue=${{parameters.jwtTokenKeyNValue}} SapClientValue=${{parameters.sapClientValue}} BPointBillerCode=${{parameters.bpointBillerCode}} BPointBackendHost=${{parameters.bpointBackendHost}} IotSewerSigAllSites=${{parameters.IotSewerSigAllSites}} IotSewerSigCurrentAlarms=${{parameters.IotSewerSigCurrentAlarms}} IotSewerSigEventHistory=${{parameters.IotSewerSigEventHistory}} IotSewerSigStateHistory=${{parameters.IotSewerSigStateHistory}} IotSewerSigTelemetryHistory=${{parameters.IotSewerSigTelemetryHistory}} IotSewerSigTelemetryWithinBounds=${{parameters.IotSewerSigTelemetryWithinBounds}} IotSewerSigUpdateAlarm=${{parameters.IotSewerSigUpdateAlarm}} IotSewerSigWetWeatherRegions=${{parameters.IotSewerSigWetWeatherRegions}} IotSewerSigTelemetryForSite=${{parameters.IotSewerSigTelemetryForSite}} IotSewerSigAllSitesForBounds=${{parameters.IotSewerSigAllSitesForBounds}} paypalOrdersUrl=${{parameters.paypalOrdersUrl}} paypalTokenUrl=${{parameters.paypalTokenUrl}} waterfixDB=${{parameters.waterfixDB}} --debug"
+        ${{ else }}:
+          value: "az deployment group create --resource-group ${{parameters.resourceGroup}} --name $(DeploymentName) --template-file '${{parameters.namedValueArmTemplate}}' --parameters ApimServiceName=${{parameters.apimServiceName}} KvServiceName=${{parameters.kvServiceName}} JwtTokenKeyEValue=${{parameters.jwtTokenKeyEValue}} JwtTokenKeyNValue=${{parameters.jwtTokenKeyNValue}} SapClientValue=${{parameters.sapClientValue}} BPointBillerCode=${{parameters.bpointBillerCode}} BPointBackendHost=${{parameters.bpointBackendHost}} IotSewerSigAllSites=${{parameters.IotSewerSigAllSites}} IotSewerSigCurrentAlarms=${{parameters.IotSewerSigCurrentAlarms}} IotSewerSigEventHistory=${{parameters.IotSewerSigEventHistory}} IotSewerSigStateHistory=${{parameters.IotSewerSigStateHistory}} IotSewerSigTelemetryHistory=${{parameters.IotSewerSigTelemetryHistory}} IotSewerSigTelemetryWithinBounds=${{parameters.IotSewerSigTelemetryWithinBounds}} IotSewerSigUpdateAlarm=${{parameters.IotSewerSigUpdateAlarm}} IotSewerSigWetWeatherRegions=${{parameters.IotSewerSigWetWeatherRegions}} IotSewerSigTelemetryForSite=${{parameters.IotSewerSigTelemetryForSite}} IotSewerSigAllSitesForBounds=${{parameters.IotSewerSigAllSitesForBounds}} paypalOrdersUrl=${{parameters.paypalOrdersUrl}} paypalTokenUrl=${{parameters.paypalTokenUrl}} waterfixDB=${{parameters.waterfixDB}} --debug"
+      - name: azGSPCommand
+        ${{if parameters.isDryRun }} :
+          value: "az deployment group what-if --resource-group ${{parameters.resourceGroup}} --name $(DeploymentName) --template-file '${{parameters.globalServicePolicyArmTemplate}}' --parameters ApimServiceName=${{parameters.apimServiceName}} --debug"
+        ${{ else }}:
+          value: "az deployment group create --resource-group ${{parameters.resourceGroup}} --name $(DeploymentName) --template-file '${{parameters.globalServicePolicyArmTemplate}}' --parameters ApimServiceName=${{parameters.apimServiceName}} --debug"
+      - name: azPRCommand
+        ${{if parameters.isDryRun }} :
+          value: "az deployment group what-if --resource-group ${{parameters.resourceGroup}} --name $(DeploymentName) --template-file '${{parameters.productsArmTemplate}}' --parameters ApimServiceName=${{parameters.apimServiceName}} --debug"
+        ${{ else }}:
+          value: "az deployment group create --resource-group ${{parameters.resourceGroup}} --name $(DeploymentName) --template-file '${{parameters.productsArmTemplate}}' --parameters ApimServiceName=${{parameters.apimServiceName}} --debug"
+      - name: azBKCommand
+        ${{if parameters.isDryRun }} :
+          value: "az deployment group what-if --resource-group ${{parameters.resourceGroup}} --name $(DeploymentName) --template-file '${{parameters.backendsArmTemplate}}' --parameters ApimServiceName=${{parameters.apimServiceName}} CdcLoginSubscription=${{parameters.cdcLoginSubscription}} CdcLoginResourceGroup=${{parameters.cdcLoginresourceGroup}} CdcLoginFunctionName=${{parameters.cdcLoginfunctionName}}  CdcLoginBackendUrl=${{parameters.cdcLoginbackendUrl}} CdcSbIngestSubscription=${{parameters.cdcSbIngestSubscription}} CdcSbIngestResourceGroup=${{parameters.cdcSbIngestresourceGroup}} CdcSbIngestFunctionName=${{parameters.cdcSbIngestfunctionName}}  CdcSbIngestBackendUrl=${{parameters.cdcSbIngestbackendUrl}} --debug"
+        ${{ else }}:
+          value: "az deployment group create --resource-group ${{parameters.resourceGroup}} --name $(DeploymentName) --template-file '${{parameters.backendsArmTemplate}}' --parameters ApimServiceName=${{parameters.apimServiceName}} CdcLoginSubscription=${{parameters.cdcLoginSubscription}} CdcLoginResourceGroup=${{parameters.cdcLoginresourceGroup}} CdcLoginFunctionName=${{parameters.cdcLoginfunctionName}}  CdcLoginBackendUrl=${{parameters.cdcLoginbackendUrl}} CdcSbIngestSubscription=${{parameters.cdcSbIngestSubscription}} CdcSbIngestResourceGroup=${{parameters.cdcSbIngestresourceGroup}} CdcSbIngestFunctionName=${{parameters.cdcSbIngestfunctionName}}  CdcSbIngestBackendUrl=${{parameters.cdcSbIngestbackendUrl}} --debug"
+
+    steps:
+      - script: |
+          git --version
+          git config --global user.email "devops@dxc.com"
+          git config --global user.name "Devops Build Service"
+          git switch $(currentBranch)
+        displayName: Switch to the source branch
+      
+      - ${{ if eq(parameters.deployNV, true) }}:
+        - task: AzureCLI@2
+          displayName: Deploy Optional Name Values Template
+          condition: ne('${{parameters.namedValueArmTemplate}}', '')
+          inputs:
+            azureSubscription: ${{parameters.azureSubscription}}
+            scriptType: 'pscore'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              $(azNVCommand)
+
+      - ${{ if eq(parameters.deployGlobalPolicy, true) }}:
+        - task: AzureCLI@2
+          displayName: Deploy API Depencencies - global service policies
+          inputs:
+            azureSubscription: ${{parameters.azureSubscription}}
+            scriptType: 'pscore'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              $(azGSPCommand)
+
+      - ${{ if eq(parameters.deployProducts, true) }}:
+        - task: AzureCLI@2
+          displayName: Deploy API Depencencies - products
+          inputs:
+            azureSubscription: ${{parameters.azureSubscription}}
+            scriptType: 'pscore'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              $(azPRCommand)
+
+      - ${{ if eq(parameters.deployBackends, true) }}:
+        - task: AzureCLI@2
+          displayName: Deploy API Depencencies - backends
+          inputs:
+            azureSubscription: ${{parameters.azureSubscription}}
+            scriptType: 'pscore'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              $(azBKCommand)             

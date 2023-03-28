@@ -1,0 +1,676 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "Provides APIs to paypal services",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/60ebcabc44f81b3f621c1faa')]",
+        "subscriptionRequired": true,
+        "displayName": "Paypal API",
+        "serviceUrl": "[parameters('serviceUrl').paypalapi]",
+        "path": "paypal",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/paypal-api')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "CreateOrderResponse": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "links": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "string"
+                        },
+                        "rel": {
+                          "type": "string"
+                        },
+                        "method": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "href",
+                        "rel",
+                        "method"
+                      ]
+                    }
+                  }
+                }
+              },
+              "CreateOrderRequest": {
+                "type": "object",
+                "properties": {
+                  "intent": {
+                    "type": "string"
+                  },
+                  "purchase_units": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "amount": {
+                          "type": "object",
+                          "properties": {
+                            "currency_code": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "amount"
+                      ]
+                    }
+                  }
+                }
+              },
+              "CapturePaymentForOrderResponse": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "payer": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "object",
+                        "properties": {
+                          "given_name": {
+                            "type": "string"
+                          },
+                          "surname": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "email_address": {
+                        "type": "string"
+                      },
+                      "payer_id": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "purchase_units": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reference_id": {
+                          "type": "string"
+                        },
+                        "shipping": {
+                          "type": "object",
+                          "properties": {
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "address_line_1": {
+                                  "type": "string"
+                                },
+                                "address_line_2": {
+                                  "type": "string"
+                                },
+                                "admin_area_2": {
+                                  "type": "string"
+                                },
+                                "admin_area_1": {
+                                  "type": "string"
+                                },
+                                "postal_code": {
+                                  "type": "string"
+                                },
+                                "country_code": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "payments": {
+                          "type": "object",
+                          "properties": {
+                            "captures": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "status": {
+                                    "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": "object",
+                                    "properties": {
+                                      "currency_code": {
+                                        "type": "string"
+                                      },
+                                      "value": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  "seller_protection": {
+                                    "type": "object",
+                                    "properties": {
+                                      "status": {
+                                        "type": "string"
+                                      },
+                                      "dispute_categories": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "final_capture": {
+                                    "type": "boolean"
+                                  },
+                                  "disbursement_mode": {
+                                    "type": "string"
+                                  },
+                                  "seller_receivable_breakdown": {
+                                    "type": "object",
+                                    "properties": {
+                                      "gross_amount": {
+                                        "type": "object",
+                                        "properties": {
+                                          "currency_code": {
+                                            "type": "string"
+                                          },
+                                          "value": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      "paypal_fee": {
+                                        "type": "object",
+                                        "properties": {
+                                          "currency_code": {
+                                            "type": "string"
+                                          },
+                                          "value": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      "net_amount": {
+                                        "type": "object",
+                                        "properties": {
+                                          "currency_code": {
+                                            "type": "string"
+                                          },
+                                          "value": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "create_time": {
+                                    "type": "string"
+                                  },
+                                  "update_time": {
+                                    "type": "string"
+                                  },
+                                  "links": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "href": {
+                                          "type": "string"
+                                        },
+                                        "rel": {
+                                          "type": "string"
+                                        },
+                                        "method": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "href",
+                                        "rel",
+                                        "method"
+                                      ]
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "status",
+                                  "amount",
+                                  "seller_protection",
+                                  "final_capture",
+                                  "disbursement_mode",
+                                  "seller_receivable_breakdown",
+                                  "create_time",
+                                  "update_time",
+                                  "links"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "reference_id",
+                        "shipping",
+                        "payments"
+                      ]
+                    }
+                  },
+                  "links": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "string"
+                        },
+                        "rel": {
+                          "type": "string"
+                        },
+                        "method": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "href",
+                        "rel",
+                        "method"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/paypal-api/1625782991169')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'paypal-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "id",
+            "description": "The ID of the order for which to capture a payment.",
+            "type": "string",
+            "defaultValue": "4TB65826FE293384M",
+            "required": true,
+            "values": [
+              "4TB65826FE293384M"
+            ]
+          }
+        ],
+        "description": "Captures payment for an order. To successfully capture payment for an order, the buyer must first approve the order or a valid payment_source must be provided in the request. A buyer can approve the order upon being redirected to the rel:approve URL that was returned in the HATEOAS links in the create order response",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "PayPal-Request-Id",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "Prefer",
+              "description": "The preferred server response upon successful completion of the request. Value is:\nreturn=minimal. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the id, status and HATEOAS links.\nreturn=representation. The server returns a complete resource representation, including the current state of the resource.",
+              "type": "string",
+              "defaultValue": "return=minimal",
+              "required": false,
+              "values": [
+                "return=minimal",
+                "return=representation"
+              ]
+            },
+            {
+              "name": "PayPal-Client-Metadata-Id",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "PayPal-Auth-Assertion",
+              "description": "An API-caller-provided JSON Web Token (JWT) assertion that identifies the merchant. For details, see PayPal-Auth-Assertion.",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "Authorization",
+              "description": "To make REST API calls, include the bearer token in this header with the Bearer authentication scheme. The value is Bearer <Access-Token>",
+              "type": "",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 201,
+            "description": "",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"id\": \"5O190127TN364715T\",\r\n  \"status\": \"COMPLETED\",\r\n  \"payer\": {\r\n    \"name\": {\r\n      \"given_name\": \"John\",\r\n      \"surname\": \"Doe\"\r\n    },\r\n    \"email_address\": \"customer@example.com\",\r\n    \"payer_id\": \"QYR5Z8XDVJNXQ\"\r\n  },\r\n  \"purchase_units\": [\r\n    {\r\n      \"reference_id\": \"d9f80740-38f0-11e8-b467-0ed5f89f718b\",\r\n      \"shipping\": {\r\n        \"address\": {\r\n          \"address_line_1\": \"2211 N First Street\",\r\n          \"address_line_2\": \"Building 17\",\r\n          \"admin_area_2\": \"San Jose\",\r\n          \"admin_area_1\": \"CA\",\r\n          \"postal_code\": \"95131\",\r\n          \"country_code\": \"US\"\r\n        }\r\n      },\r\n      \"payments\": {\r\n        \"captures\": [\r\n          {\r\n            \"id\": \"3C679366HH908993F\",\r\n            \"status\": \"COMPLETED\",\r\n            \"amount\": {\r\n              \"currency_code\": \"USD\",\r\n              \"value\": \"100.00\"\r\n            },\r\n            \"seller_protection\": {\r\n              \"status\": \"ELIGIBLE\",\r\n              \"dispute_categories\": [\r\n                \"ITEM_NOT_RECEIVED\",\r\n                \"UNAUTHORIZED_TRANSACTION\"\r\n              ]\r\n            },\r\n            \"final_capture\": true,\r\n            \"disbursement_mode\": \"INSTANT\",\r\n            \"seller_receivable_breakdown\": {\r\n              \"gross_amount\": {\r\n                \"currency_code\": \"USD\",\r\n                \"value\": \"100.00\"\r\n              },\r\n              \"paypal_fee\": {\r\n                \"currency_code\": \"USD\",\r\n                \"value\": \"3.00\"\r\n              },\r\n              \"net_amount\": {\r\n                \"currency_code\": \"USD\",\r\n                \"value\": \"97.00\"\r\n              }\r\n            },\r\n            \"create_time\": \"2018-04-01T21:20:49Z\",\r\n            \"update_time\": \"2018-04-01T21:20:49Z\",\r\n            \"links\": [\r\n              {\r\n                \"href\": \"https://api-m.paypal.com/v2/payments/captures/3C679366HH908993F\",\r\n                \"rel\": \"self\",\r\n                \"method\": \"GET\"\r\n              },\r\n              {\r\n                \"href\": \"https://api-m.paypal.com/v2/payments/captures/3C679366HH908993F/refund\",\r\n                \"rel\": \"refund\",\r\n                \"method\": \"POST\"\r\n              }\r\n            ]\r\n          }\r\n        ]\r\n      }\r\n    }\r\n  ],\r\n  \"links\": [\r\n    {\r\n      \"href\": \"https://api-m.paypal.com/v2/checkout/orders/5O190127TN364715T\",\r\n      \"rel\": \"self\",\r\n      \"method\": \"GET\"\r\n    }\r\n  ]\r\n}",
+                "schemaId": "1625782991169",
+                "typeName": "CapturePaymentForOrderResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Capture payment for order",
+        "method": "POST",
+        "urlTemplate": "/orders/{id}/capture"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/paypal-api/CapturePaymentForOrder')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'paypal-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'paypal-api', '1625782991169')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-backend-service base-url=\"{{api-backend-url-paypal-orders}}\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/paypal-api/CapturePaymentForOrder/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'paypal-api', 'CapturePaymentForOrder')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Creates an order",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "To make REST API calls, include the bearer token in this header with the Bearer authentication scheme. The value is Bearer <Access-Token>",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "PayPal-Request-Id",
+              "description": "The server stores keys for 3 hours.",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "PayPal-Partner-Attribution-Id",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "PayPal-Client-Metadata-Id",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "Prefer",
+              "description": "The preferred server response upon successful completion of the request. Value is:\nreturn=minimal. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the id, status and HATEOAS links.\nreturn=representation. The server returns a complete resource representation, including the current state of the resource",
+              "type": "string",
+              "defaultValue": "return=minimal",
+              "required": false,
+              "values": [
+                "return=minimal",
+                "return=representation"
+              ]
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"intent\": \"CAPTURE\",\r\n  \"purchase_units\": [\r\n    {\r\n      \"amount\": {\r\n        \"currency_code\": \"USD\",\r\n        \"value\": \"100.00\"\r\n      }\r\n    }\r\n  ]\r\n}",
+              "schemaId": "1625782991169",
+              "typeName": "CreateOrderRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 201,
+            "description": "",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"id\": \"5O190127TN364715T\",\r\n  \"status\": \"CREATED\",\r\n  \"links\": [\r\n    {\r\n      \"href\": \"https://api-m.paypal.com/v2/checkout/orders/5O190127TN364715T\",\r\n      \"rel\": \"self\",\r\n      \"method\": \"GET\"\r\n    },\r\n    {\r\n      \"href\": \"https://www.paypal.com/checkoutnow?token=5O190127TN364715T\",\r\n      \"rel\": \"approve\",\r\n      \"method\": \"GET\"\r\n    },\r\n    {\r\n      \"href\": \"https://api-m.paypal.com/v2/checkout/orders/5O190127TN364715T\",\r\n      \"rel\": \"update\",\r\n      \"method\": \"PATCH\"\r\n    },\r\n    {\r\n      \"href\": \"https://api-m.paypal.com/v2/checkout/orders/5O190127TN364715T/capture\",\r\n      \"rel\": \"capture\",\r\n      \"method\": \"POST\"\r\n    }\r\n  ]\r\n}",
+                "schemaId": "1625782991169",
+                "typeName": "CreateOrderResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Create Order",
+        "method": "POST",
+        "urlTemplate": "/orders"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/paypal-api/CreateOrder')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'paypal-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'paypal-api', '1625782991169')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-backend-service base-url=\"{{api-backend-url-paypal-orders}}\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t\t<redirect-content-urls />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/paypal-api/CreateOrder/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'paypal-api', 'CreateOrder')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/x-www-form-urlencoded",
+              "sample": "grant_type=client_credentials"
+            }
+          ]
+        },
+        "responses": [],
+        "displayName": "Get Access Token",
+        "method": "POST",
+        "urlTemplate": "/token"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/paypal-api/GetToken')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'paypal-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-backend-service base-url=\"{{api-backend-url-paypal-token}}\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/paypal-api/GetToken/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'paypal-api', 'GetToken')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<choose>\r\n\t\t\t<when condition=\"@(context.Request.Headers.GetValueOrDefault(\"Authorization\",\"\").Length == 0)\">\r\n\t\t\t\t<authentication-basic username=\"{{paypal-username}}\" password=\"{{paypal-password}}\" />\r\n\t\t\t</when>\r\n\t\t</choose>\r\n\t\t<choose>\r\n\t\t\t<when condition=\"{{enable-3rd-party-http-proxy}}\">\r\n\t\t\t\t<proxy url=\"{{3rd-party-http-proxy-url}}\" username=\"{{3rd-party-http-proxy-username}}\" password=\"{{3rd-party-http-proxy-password}}\" />\r\n\t\t\t</when>\r\n\t\t</choose>\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/paypal-api/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'paypal-api')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-apis/paypal-api')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'paypal-api')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/self-service-apis/paypal-api')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'paypal-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID",
+              "ApplicationID",
+              "UserID",
+              "Version",
+              "apim-correlation-id",
+              "Ocp-Apim-Subscription-Key"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "apim-correlation-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

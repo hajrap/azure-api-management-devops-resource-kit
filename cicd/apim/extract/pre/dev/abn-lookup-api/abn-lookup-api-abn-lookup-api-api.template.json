@@ -1,0 +1,235 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "ABN Lookup web-based search services",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "2",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiRevisionDescription": "Added legalName to response schema",
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/60b9d84758d443a559b0b331')]",
+        "subscriptionRequired": true,
+        "displayName": "ABN Lookup API",
+        "serviceUrl": "[parameters('serviceUrl').abnlookupapi]",
+        "path": "abn-lookup",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/abn-lookup-api')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "ABNLookupRequest": {
+                "type": "object",
+                "properties": {
+                  "searchString": {
+                    "type": "string"
+                  },
+                  "includeHistoricalDetails": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "searchString": "string",
+                  "includeHistoricalDetails": "string"
+                }
+              },
+              "ABN Response": {
+                "x-apim-inline": true
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/abn-lookup-api/1622797306583')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'abn-lookup-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"searchString\": \"51835430479\",\r\n  \"includeHistoricalDetails\": \"N\"\r\n}",
+              "schemaId": "1622797306583",
+              "typeName": "ABNLookupRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Search by ABN",
+        "method": "POST",
+        "urlTemplate": "/SearchByABN"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/abn-lookup-api/search-by-abn')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'abn-lookup-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'abn-lookup-api', '1622797306583')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<rewrite-uri template=\"/ABRXMLSearch/AbrXmlSearch.asmx\" copy-unmatched-params=\"false\" />\r\n\t\t<set-header name=\"Content-Type\" exists-action=\"override\">\r\n\t\t\t<value>application/json</value>\r\n\t\t</set-header>\r\n\t\t<set-body template=\"liquid\">\r\n\t\t\t<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n\t\t\t\t<soap12:Body>\r\n\t\t\t\t\t<SearchByABNv202001 xmlns=\"http://abr.business.gov.au/ABRXMLSearch/\">\r\n\t\t\t\t\t\t<authenticationGuid>{{abn-authenticationguid}}</authenticationGuid>\n                        {% if body.searchString %}\n\t\t\t\t\t\t    <searchString>{{body.searchString}}</searchString>\n                        {% else %}\n                            <searchString xsi:nil=\"true\" />\n                        {% endif %}\n                        {% if body.includeHistoricalDetails %}\n\t\t\t\t\t\t    <includeHistoricalDetails>{{body.includeHistoricalDetails}}</includeHistoricalDetails>\n                        {% else %}\n                            <searchString xsi:nil=\"true\" />\n                        {% endif %}\t\t\t\t\t\t\n\t\t\t\t\t</SearchByABNv202001>\r\n\t\t\t\t</soap12:Body>\r\n\t\t\t</soap12:Envelope>\r\n\t\t</set-body>\r\n\t\t<set-header name=\"Content-Type\" exists-action=\"override\">\r\n\t\t\t<value>application/soap+xml</value>\r\n\t\t</set-header>\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t\t<set-header name=\"Content-Type\" exists-action=\"override\">\r\n\t\t\t<value>application/soap+xml</value>\r\n\t\t</set-header>\r\n\t\t<choose>\r\n\t\t\t<when condition=\"@(context.Response.StatusCode < 400)\">\r\n\t\t\t\t<set-body template=\"liquid\">\n                {\n                    \"usageStatement\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.usageStatement %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.usageStatement}}\"{% else %} null {% endif %},\n                    \"dateRegisterLastUpdated\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.dateRegisterLastUpdated %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.dateRegisterLastUpdated}}\"{% else %} null {% endif %},\n                    \"dateTimeRetrieved\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.dateTimeRetrieved %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.dateTimeRetrieved}}\"{% else %} null {% endif %},\n                    \"businessEntity\":{\n                        \"recordLastUpdatedDate\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.recordLastUpdatedDate %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.recordLastUpdatedDate}}\"{% else %} null {% endif %},\n                        \"ABN\": {\n                            \"identifierValue\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.ABN.identifierValue %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.ABN.identifierValue}}\"{% else %} null {% endif %},\n                            \"isCurrentIndicator\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.ABN.isCurrentIndicator %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.ABN.isCurrentIndicator}}\"{% else %} null {% endif %},\n                            \"replacedFrom\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.ABN.replacedFrom %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.ABN.replacedFrom}}\"{% else %} null {% endif %}\n                        },\n                        \"entityStatus\": {\n                            \"entityStatusCode\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.entityStatus.entityStatusCode %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.entityStatus.entityStatusCode}}\"{% else %} null {% endif %},\n                            \"effectiveFrom\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.entityStatus.effectiveFrom %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.entityStatus.effectiveFrom}}\"{% else %} null {% endif %},\n                            \"effectiveTo\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.entityStatus.effectiveTo %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.entityStatus.effectiveTo}}\"{% else %} null {% endif %}\n                        },\n                        \"entityType\": {\n                            \"entityType\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.entityType.entityTypeCode %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.entityType.entityTypeCode}}\"{% else %} null {% endif %},\n                            \"entityDescription\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.entityType.entityDescription %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.entityType.entityDescription}}\"{% else %} null {% endif %}\n                        },\n                        \"legalName\": {\n                            \"givenName\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.legalName.givenName %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.legalName.givenName}}\"{% else %} null {% endif %},\n                            \"otherGivenName\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.legalName.otherGivenName %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.legalName.otherGivenName}}\"{% else %} null {% endif %},\n                            \"familyName\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.legalName.familyName %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.legalName.familyName}}\"{% else %} null {% endif %},\n                            \"effectiveFrom\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.legalName.effectiveFrom %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.legalName.effectiveFrom}}\"{% else %} null {% endif %},\n                            \"effectiveTo\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.legalName.effectiveTo %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.legalName.effectiveTo}}\"{% else %} null {% endif %}\n                            \n                        },\n                        \"mainName\": {\n                            \"organisationName\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainName.organisationName %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainName.organisationName}}\"{% else %} null {% endif %},\n                            \"effectiveFrom\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainName.effectiveFrom %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainName.effectiveFrom}}\"{% else %} null {% endif %}\n                        },\n                        \"mainBusinessPhysicalAddress\": {\n                            \"stateCode\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainBusinessPhysicalAddress.stateCode %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainBusinessPhysicalAddress.stateCode}}\"{% else %} null {% endif %},\n                            \"postcode\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainBusinessPhysicalAddress.postcode %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainBusinessPhysicalAddress.postcode}}\"{% else %} null {% endif %},\n                            \"effectiveFrom\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainBusinessPhysicalAddress.effectiveFrom %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainBusinessPhysicalAddress.effectiveFrom}}\"{% else %} null {% endif %},\n                            \"effectiveTo\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainBusinessPhysicalAddress.effectiveTo %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.businessEntity202001.mainBusinessPhysicalAddress.effectiveTo}}\"{% else %} null {% endif %}\n                        }\n                    }{% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.exception.exceptionCode %},{% endif %}{% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.exception.exceptionCode %}\n                    \"exception\": {\n                            \"exceptionDescription\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.exception.exceptionDescription %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.exception.exceptionDescription}}\"{% else %} null {% endif %},\n                            \"exceptionCode\": {% if body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.exception.exceptionCode %}\"{{body.envelope.body.SearchByABNv202001Response.ABRPayloadSearchResults.response.exception.exceptionCode}}\"{% else %} null {% endif %}\n                    }{% endif %}\n                }\n                </set-body>\r\n\t\t\t</when>\r\n\t\t\t<otherwise />\r\n\t\t</choose>\r\n\t\t<set-header name=\"Content-Type\" exists-action=\"override\">\r\n\t\t\t<value>application/json</value>\r\n\t\t</set-header>\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/abn-lookup-api/search-by-abn/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'abn-lookup-api', 'search-by-abn')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<choose>\r\n\t\t\t<when condition=\"{{enable-3rd-party-http-proxy}}\">\r\n\t\t\t\t<proxy url=\"{{3rd-party-http-proxy-url}}\" username=\"{{3rd-party-http-proxy-username}}\" password=\"{{3rd-party-http-proxy-password}}\" />\r\n\t\t\t</when>\r\n\t\t</choose>\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/abn-lookup-api/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'abn-lookup-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "ABN"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/abn-lookup-api/abn')]",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'abn-lookup-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Search"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/abn-lookup-api/search')]",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'abn-lookup-api')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-apis/abn-lookup-api')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'abn-lookup-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID",
+              "ApplicationID",
+              "UserID",
+              "Version",
+              "apim-correlation-id",
+              "Ocp-Apim-Subscription-Key"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "apim-correlation-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

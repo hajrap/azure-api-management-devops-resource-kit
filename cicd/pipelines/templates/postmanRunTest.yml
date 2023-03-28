@@ -1,0 +1,59 @@
+parameters:
+  - name: apiName
+    type: string
+  - name: azureSubscription
+    type: string
+  - name: postmanCollectionFilepath
+    type: string
+  - name: postmanEnvironmentFilepath
+    type: string
+
+jobs:
+  - job:
+
+    displayName: 'Testing API ${{ parameters.apiName }}'
+
+    variables:
+      - name: testReportFilename
+        value: junit-report_${{parameters.apiName}}_$(Build.BuildId)-$(Build.BuildNumber).xml
+
+    steps:
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        customCommand: 'install -g newman'
+            
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        customCommand: 'install -g newman-reporter-junitfull'
+            
+    - script: |
+        echo running test for ${{parameters.apiName}}
+        newman run $(Build.SourcesDirectory)\${{parameters.postmanCollectionFilepath}} -e $(Build.SourcesDirectory)\${{parameters.postmanEnvironmentFilepath}} --folder ${{parameters.apiName}} --insecure --suppress-exit-code --reporters cli,junitfull --reporter-junitfull-export $(testReportFilename)
+      displayName: 'Executing newman for API ${{parameters.apiName}}'
+      failOnStderr: false
+
+    - task: AzurePowerShell@5
+      displayName: 'Check if test results summary $(System.DefaultWorkingDirectory)\$(testReportFilename) contains at least 1 test'
+      inputs:
+        azureSubscription: ${{parameters.azureSubscription}}
+        scriptType: 'inlineScript'
+        inline: |
+          $Tests = Select-Xml -Path $(System.DefaultWorkingDirectory)\$(testReportFilename) -XPath /testsuites/testsuite/testcase | ForEach-Object { $_.Node }
+          $NumTests = $Tests.Count
+          echo "There were $NumTests executed tests for ${{parameters.apiName}}"
+          $zeroTests = $NumTests -eq 0
+          exit $zeroTests
+        FailOnStandardError: true
+        azurePowerShellVersion: "LatestVersion"
+        pwsh: true
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/*.xml'
+        mergeTestResults: true
+        failTaskOnFailedTests: true
+        testRunTitle: APIM tests for ${{parameters.apiName}}
+        publishRunAttachments: true 

@@ -1,0 +1,8 @@
+{
+    "sourceApimName": "apim-corenonprod01-integration-00",
+    "destinationApimName": "apim-corenonprod01-integration-01",
+    "resourceGroup": "rg-corenonprod01-integration-00",
+    "paramApiLoggerId": "false",
+    "paramLogResourceId": "true",
+    "paramServiceUrl": "true"
+  }

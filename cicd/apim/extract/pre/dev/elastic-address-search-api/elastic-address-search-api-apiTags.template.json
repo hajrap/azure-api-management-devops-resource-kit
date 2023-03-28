@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "Elastic"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/elastic-address-search-api/elastic')]",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "displayName": "Search"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/elastic-address-search-api/search')]",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/tags', parameters('ApimServiceName'), 'elastic-address-search-api', 'elastic')]"
+      ]
+    }
+  ]
+}

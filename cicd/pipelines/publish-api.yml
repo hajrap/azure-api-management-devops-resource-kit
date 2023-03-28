@@ -1,0 +1,219 @@
+parameters:
+- name: extractApi
+  type: boolean
+  default: true
+- name: apiName
+  displayName: API Name
+  type: string
+  default: iot-sewer
+  values:
+  #IOTFuction APIs
+  - iot-sewer
+   # Release 1 Apis
+  - waterfix-api
+  - billing-api
+  - data-feed-api
+  - paypal-api
+  - elastic-address-search-api
+  - abn-lookup-api
+  - bpoint-api
+  - meter-api
+  - property-api
+  - leaks-and-outages-api
+  - aem-assets-api
+  # Release 3 Apis
+  - sap-metadata-api
+  - ssa-account-api
+  - ssa-dashboard-api
+  - cdc-login-event-api
+  - cdc-account-event-api-v2
+  - cdc-accounts-api
+  - ssa-billing-api
+  - sap-digital-bp-api
+  - ssa-interactions-api
+  - ssa-usage-api
+  - ssa-payment-api
+  - sap-ssa-batch-api
+
+trigger: none
+
+pool:
+  name: Hosted Windows 2019 with VS2019
+  demands: azureps
+
+variables:
+  # GLOBAL VARIABLES
+  system.debug: true
+  buildPlatform: 'Any CPU'
+  toolsBuildPlatform: 'Any CPU'
+  toolsBuildConfiguration: Release
+
+  nonPrdAzureSubscription: APIM_CoreNonProd01
+  # environment: dev
+  # pat expires on 29/01/23
+  pat: 7ccfu4ehied5po3iivpmjwhbk3u5n35s5pc6qilrisvcsvjvljna
+  org: SWDCP
+  project: DCP
+  repo: SW-DCP-APIM
+
+  # SOURCE INFRASTRUCTURE
+  apimServiceNameSource: apim-corenonprod01-integration-00
+  resourceGroupSource: rg-corenonprod01-integration-00
+  environmentSource: pre
+
+  # TARGET INFRASTRUCTURE
+  # specNameDest: SWIntegration
+  specResourceGroupDest: rg-corenonprod01-integration-01
+  environmentDest: dev
+  buildConfigDest: Debug
+  apimServiceNameDest: apim-corenonprod01-integration-01
+  
+  # PUBLISH APIM GLOBAL CONFIG
+  publishGlobalPath: $(System.DefaultWorkingDirectory)\cicd\apim\globalconfig
+  # global ARM files
+  globalBackendsArmTemplate: $(publishGlobalPath)\infra-backends.template.json
+  globalNamedValueArmTemplate: $(publishGlobalPath)\infra-namedValues.template.json
+  globalServicePolicyArmTemplate: $(publishGlobalPath)\infra-globalServicePolicy.template.json
+  globalProductsArmTemplate: $(publishGlobalPath)\infra-products.template.json
+  # gateway level ARM files (loggers?)
+
+  # TARGET APIM ARM PARAMS
+  paramsPathDest: $(System.DefaultWorkingDirectory)\cicd\apim\envparams\$(environmentDest)-api-parameters.json
+
+  # PULBISHED APIM EXTRACTION 
+  publishExtractorParams: $(System.DefaultWorkingDirectory)\cicd\apim\pre-dev.extractor.params.json
+  publishGitLocation: $(System.DefaultWorkingDirectory)\cicd\apim\extract\$(environmentSource)
+
+  # GENERATED ARM TEMPLATES EXTRACTED FROM SOURCE ENVIRONMENT
+  publishApiPath: $(publishGitLocation)\$(environmentDest)\${{parameters.apiName}}
+  # publish api specific ARM files - mandatory
+  publishApiArmTemplate: $(publishApiPath)\${{parameters.apiName}}-${{parameters.apiName}}-api.template.json
+  publishApiVersionSetsArmTemplate: $(publishApiPath)\${{parameters.apiName}}-apiVersionSets.template.json
+  # publish api specific ARM files - optional (apiTags.template.json?)
+  publishApiTagsArmTemplate: $(publishApiPath)\${{parameters.apiName}}-tags.template.json
+
+  # POSTMAN TESTS
+  postmanCollectionFilepath: cicd\tests\SydneyWater_APIM_TESTS.postman_collection.json
+  postmanEnvironmentFilepath: cicd\tests\params\SydneyWater_$(environmentDest)_APIM_ENV.postman_environment.json
+
+stages:
+
+- stage: QASingleAPI
+  displayName:  'QA validate ${{parameters.apiName}} in PRE'
+  condition: eq('${{ parameters.extractApi }}', 'true')
+  jobs:  
+  - job: waitForValidation
+    pool: server
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:
+    - task: ManualValidation@0
+      displayName: 'Wait for QA validation of extracted single API ${{parameters.apiName}} in $(apimServiceNameSource)'
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: |
+          spham23@dxc.com
+          oysd@sydneywater.com.au
+          sdebnath4@dxc.com
+          oagg@sydneywater.com.au
+        instructions: 'Please validate the api configuration for ${{parameters.apiName}} in $(apimServiceNameSource) and resume pipeline execution'
+        onTimeout: 'reject'
+
+- stage: SingleApimExtract
+  displayName: 'Extracting ${{parameters.apiName}} from PRE'
+  dependsOn: QASingleAPI
+  condition: and(succeeded(), eq('${{ parameters.extractApi }}', 'true'))
+  jobs:
+  - template: ./templates/apimExtractSingle.yml
+    parameters:
+      buildConfiguration: $(toolsBuildConfiguration)
+      buildPlatform: $(toolsBuildPlatform)
+      azureSubscription: $(nonPrdAzureSubscription)
+      resourceGroup: $(resourceGroupSource)
+      extractorParams: $(publishExtractorParams)
+      publishGitLocation: $(publishGitLocation)
+      pat: $(pat)
+      org: $(org)
+      project: $(project)
+      repo: $(repo)
+      apiName: ${{parameters.apiName}}
+      targetEnvironment: $(environmentDest)
+
+- stage: InfraDevIntegrateAnyInfraChanges
+  displayName: 'Integrate any infra changes required for API ${{parameters.apiName}}'
+  dependsOn: SingleApimExtract
+  condition: and(succeeded(), eq('${{ parameters.extractApi }}', 'true'))
+  jobs:  
+  - job: waitForValidation
+    pool: server
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:
+    - task: ManualValidation@0
+      displayName: 'Wait for infra dev to integrate any infra changes after extraction of single API ${{parameters.apiName}} from $(apimServiceNameSource)'
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: |
+          spham23@dxc.com
+          oysd@sydneywater.com.au
+          hajraparveen.akhtar@dxc.com
+          ozt8@sydneywater.com.au
+          roliveira30@dxc.com
+          ogin@sydneywater.com.au
+          rramachand52@dxc.com
+          oyrj@sydneywater.com.au
+        instructions: 'Have you integrated any infra changes after extraction of single API ${{parameters.apiName}} from $(apimServiceNameSource)? Please approve and resume pipeline'
+        onTimeout: 'resume'
+
+- stage: ApimDeploySingleAPI
+  displayName: 'Deploy API ${{parameters.apiName}} to DEV'
+  dependsOn: InfraDevIntegrateAnyInfraChanges
+  condition: or(succeeded(), eq('${{ parameters.extractApi }}', 'false'))
+  jobs:
+  - template: ./templates/apimDeploySingle.yml
+    parameters:
+      azureSubscription: $(nonPrdAzureSubscription)
+      resourceGroup: $(specResourceGroupDest)
+      apimServiceName: $(apimServiceNameDest)
+      tagsArmTemplate: $(publishApiTagsArmTemplate)
+      versionSetsArmTemplate: $(publishApiVersionSetsArmTemplate)
+      apisArmTemplate: $(publishApiArmTemplate)
+      paramsPath: $(paramsPathDest)
+      apiName: ${{parameters.apiName}}
+
+- stage: RunTestForSingleAPI
+  displayName: 'Run postman tests for API ${{parameters.apiName}}'
+  dependsOn: ApimDeploySingleAPI
+  condition: eq(stageDependencies.ApimDeploySingleAPI.result, 'Succeeded')
+  jobs:
+  - template: ./templates/postmanRunTest.yml
+    parameters:
+      apiName: ${{parameters.apiName}}
+      azureSubscription: $(nonPrdAzureSubscription)
+      postmanCollectionFilepath: $(postmanCollectionFilepath)
+      postmanEnvironmentFilepath: $(postmanEnvironmentFilepath)
+
+- stage: APIDevValidateSingleAPIDeploy
+  displayName: 'Validate deployed API ${{parameters.apiName}}'
+  dependsOn: RunTestForSingleAPI
+  condition: succeeded()
+  jobs:  
+  - job: waitForValidation
+    pool: server
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:
+    - task: ManualValidation@0
+      displayName: 'Wait for validation of deployed single API ${{parameters.apiName}} deployment in $(apimServiceNameDest)'
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: |
+          spham23@dxc.com
+          oysd@sydneywater.com.au
+          hajraparveen.akhtar@dxc.com
+          ozt8@sydneywater.com.au
+          roliveira30@dxc.com
+          ogin@sydneywater.com.au
+          rramachand52@dxc.com
+          oyrj@sydneywater.com.au
+        instructions: 'Wait for validation of deployed single API ${{parameters.apiName}} in $(apimServiceNameDest) and initiate PR or merge close off feature branch'
+        onTimeout: 'reject'
+
+      

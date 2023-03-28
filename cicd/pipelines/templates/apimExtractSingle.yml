@@ -1,0 +1,111 @@
+parameters:
+  - name: azureSubscription
+    type: string
+  - name: resourceGroup
+    type: string
+  - name: buildConfiguration
+    type: string
+  - name: buildPlatform
+    type: string
+  - name: extractorParams
+    type: string
+  - name: publishGitLocation
+    type: string
+  - name: pat
+    type: string
+  - name: org
+    type: string
+  - name: project
+    type: string
+  - name: repo
+    type: string
+  - name: apiName
+    type: string
+  - name: targetEnvironment
+    type: string
+
+jobs:
+  - job:
+
+    variables:
+      - name: currentBranch
+        value: $[replace(variables['Build.SourceBranch'], 'refs/heads/','')]
+
+    steps:
+
+      - task: AzurePowerShell@5
+        displayName: Create extract dir ${{parameters.targetEnvironment}}\${{parameters.apiName}} if it not exists
+        inputs:
+          azureSubscription: ${{parameters.azureSubscription}}
+          scriptType: 'inlineScript'
+          inline: 'New-Item -ItemType Directory -Force -Path ${{parameters.targetEnvironment}}\${{parameters.apiName}}'
+          workingDirectory: '${{parameters.publishGitLocation}}'
+          FailOnStandardError: false
+          azurePowerShellVersion: "LatestVersion"
+          pwsh: true
+
+      - script: |
+          git --version
+          git config --global user.email "devops@dxc.com"
+          git config --global user.name "Devops Build Service"
+          git clone https://SWDCP@dev.azure.com/SWDCP/DCP/_git/azure-api-management-devops-resource-kit ./ApimResourceKit --progress --verbose
+        displayName: Clone azure-api-management-devops-resource-kit source
+
+      - task: UseDotNet@2
+        displayName: '.NET 3.1 Core SDK install'
+        inputs:
+          packageType: 'sdk'
+          version: '3.1.x'
+
+      - task: UseDotNet@2
+        displayName: '.NET 5 SDK install'
+        inputs:
+          packageType: 'sdk'
+          version: '5.x'
+
+      # NuGet tool installer
+      - task: NuGetToolInstaller@1
+        displayName: 'NuGet install'
+        inputs:
+          versionSpec: '5.x'
+          checkLatest: true
+
+      - task: NuGetCommand@2
+        displayName: Nuget Restore APIM Resource Kit
+        inputs:
+          command: 'restore'
+          restoreSolution: '**\apimtemplate.csproj'
+          feedsToUse: 'select'
+          verbosityRestore: 'Normal'
+          includeNuGetOrg: true
+          noCache: true
+
+      - task: DotNetCoreCLI@2
+        displayName: Publish APIM Resource Kit
+        inputs:
+          command: publish
+          publishWebProjects: false
+          projects: '**\apimtemplate.csproj'
+          arguments: '--configuration ${{parameters.buildConfiguration}} -o $(Build.ArtifactStagingDirectory)\ApimResourceKit'
+          zipAfterPublish: false
+          modifyOutputPath: true
+
+      - task: AzureCLI@2
+        displayName: Extract ARM templates for single APIM ${{parameters.apiName}}
+        inputs:
+          azureSubscription: ${{parameters.azureSubscription}}
+          scriptType: 'pscore'
+          scriptLocation: 'inlineScript'
+          inlineScript: '$(Build.ArtifactStagingDirectory)\ApimResourceKit\apimtemplate\apimtemplate extract --apiName ${{parameters.apiName}} --fileFolder ${{parameters.targetEnvironment}}\${{parameters.apiName}} --baseFileName ${{parameters.apiName}} --extractorConfig ${{parameters.extractorParams}} '
+          workingDirectory: '${{parameters.publishGitLocation}}'
+          failOnStandardError: true
+
+      - script: |
+          git --version
+          git config --global user.email "devops@dxc.com"
+          git config --global user.name "Devops Build Service"
+          git switch $(currentBranch)
+          git add --all --force ${{parameters.publishGitLocation}}/*
+          git commit -a -m "ARM Templates extracted for build $(Build.BuildNumber)"
+          git push https://${{parameters.pat}}@dev.azure.com/${{parameters.org}}/${{parameters.project}}/_git/${{parameters.repo}} -f
+        displayName: Commit ARM to Git

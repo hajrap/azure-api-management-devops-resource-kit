@@ -1,0 +1,6 @@
+cicd/tests/postman/junit-report.xml
+junit-report*.xml
+cicd/tests/junit-report.xml
+junit-report.xml
+junit-report.*.xml
+.vs

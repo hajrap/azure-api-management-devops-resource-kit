@@ -1,0 +1,328 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "TxnAuthkeyClient"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkeyClient_AttachApplePayPaymentToken/TxnAuthkeyClient')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_AttachCustomerDetails/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkeyClient_AttachApplePayPaymentToken', 'TxnAuthkeyClient')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_AttachFraudScreening/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_AttachCustomerDetails', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_AttachOrderDetails/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_AttachFraudScreening', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TokenAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TokenAuthkey_AttachPaymentMethod/TokenAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_AttachOrderDetails', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TokenAuthkeyClient"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TokenAuthkeyClient_AttachPaymentMethod/TokenAuthkeyClient')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TokenAuthkey_AttachPaymentMethod', 'TokenAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkeyClient"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkeyClient_AttachPaymentMethod/TxnAuthkeyClient')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TokenAuthkeyClient_AttachPaymentMethod', 'TokenAuthkeyClient')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_AttachPaymentMethod/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkeyClient_AttachPaymentMethod', 'TxnAuthkeyClient')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_AttachStatementDescriptor/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_AttachPaymentMethod', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TokenAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TokenAuthkey_AttachTokenDetails/TokenAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_AttachStatementDescriptor', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_AttachTxnDetails/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TokenAuthkey_AttachTokenDetails', 'TokenAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TokenAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TokenAuthkey_CreateAuthkey/TokenAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_AttachTxnDetails', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_CreateAuthkey/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TokenAuthkey_CreateAuthkey', 'TokenAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_GetAuthentication/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_CreateAuthkey', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Biller"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/Biller_GetPaymentRules/Biller')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_GetAuthentication', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TokenAuthkeyClient"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TokenAuthkeyClient_GetPaymentMethod/TokenAuthkeyClient')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'Biller_GetPaymentRules', 'Biller')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TokenAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TokenAuthkey_GetPaymentMethod/TokenAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TokenAuthkeyClient_GetPaymentMethod', 'TokenAuthkeyClient')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkeyClient"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkeyClient_GetPaymentMethod/TxnAuthkeyClient')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TokenAuthkey_GetPaymentMethod', 'TokenAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_GetPaymentMethod/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkeyClient_GetPaymentMethod', 'TxnAuthkeyClient')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Token"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/Token_GetToken/Token')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_GetPaymentMethod', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Txn"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/Txn_GetTxn/Txn')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'Token_GetToken', 'Token')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_InitiateProvider/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'Txn_GetTxn', 'Txn')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TokenAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TokenAuthkey_Process/TokenAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_InitiateProvider', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_Process/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TokenAuthkey_Process', 'TokenAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkeyClient"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkeyClient_GetKlarnaSession/TxnAuthkeyClient')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_Process', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TxnAuthkey_SetupAuthenticationIframe/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkeyClient_GetKlarnaSession', 'TxnAuthkeyClient')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "TokenAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/TokenAuthkey_UpdateTokenDetails/TokenAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TxnAuthkey_SetupAuthenticationIframe', 'TxnAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BPoint"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/bpoint')]",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'bpoint-api', 'TokenAuthkey_UpdateTokenDetails', 'TokenAuthkey')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Payment Gateway"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-api/payment-gateway')]",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/tags', parameters('ApimServiceName'), 'bpoint-api', 'bpoint')]"
+      ]
+    }
+  ]
+}

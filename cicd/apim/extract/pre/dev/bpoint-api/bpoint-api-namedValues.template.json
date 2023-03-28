@@ -1,0 +1,118 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "3rd-party-http-proxy-password",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/3rd-party-http-proxy-password"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-password')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "3rd-party-http-proxy-url",
+        "value": "http://10.181.128.68:8080"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-url')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "3rd-party-http-proxy-username",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/3rd-party-http-proxy-username"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-username')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "bpoint-backend-host"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-backend-host')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "bpoint-billercode"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-billercode')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "bpoint-merchantnumber",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/bpoint-merchantnumber"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-merchantnumber')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "bpoint-password",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/bpoint-password"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-password')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "bpoint-username",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/bpoint-username"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint-username')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "enable-3rd-party-http-proxy",
+        "value": "true"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/enable-3rd-party-http-proxy')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

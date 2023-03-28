@@ -1,0 +1,611 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "The API is to interact with IoT Platform Sewer Devices",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/61ea364b8d27645cdfc5f9de')]",
+        "subscriptionRequired": true,
+        "displayName": "IOT Sewer",
+        "serviceUrl": "[parameters('serviceUrl').iotsewer]",
+        "path": "iot",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {}
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/61ea364cec635c0d9c45d8d1')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Used to populate the index that sits behind the site search",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "{\n\t\"SITE \": \"Site1\",\n\t\"NAME \": \"SiteName\",\n\t\"LEVEL2 \": \"Wastewater\",\n\t\"LAT \": 30.444,\n\t\"LNG \": 30.444\n}",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "all-sites",
+        "method": "GET",
+        "urlTemplate": "/sewer/device/sites"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/all-sites')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-method id=\"apim-generated-policy\">POST</set-method>\r\n\t\t<rewrite-uri id=\"apim-generated-policy\" template=\"/wf-getallsites/triggers/manual/invoke?api-version=2020-05-01-preview&amp;sp=/triggers/manual/run&amp;sv=1.0&amp;sig={{iot-sewer-sig-all-sites}}\" />\r\n\t\t<set-header id=\"apim-generated-policy\" name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/all-sites/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'iot-sewer', 'all-sites')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "{\n        \"level2\": \"WASTEWATER\"\n}",
+        "request": {
+          "description": "{\n        \"level2\": \"WASTEWATER\"\n}",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": ""
+              }
+            ]
+          }
+        ],
+        "displayName": "all-sites-for-bounds",
+        "method": "GET",
+        "urlTemplate": "/sewer/device/allsitesforbounds"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/all-sites-for-bounds')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-method id=\"apim-generated-policy\">POST</set-method>\r\n\t\t<rewrite-uri id=\"apim-generated-policy\" template=\"/wf-getallsitesforbounds/triggers/manual/invoke?api-version=2022-05-01&amp;sp=/triggers/manual/run&amp;sv=1.0&amp;sig={{iot-sewer-sig-all-sites-for-bounds}}\" />\r\n\t\t<set-header id=\"apim-generated-policy\" name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/all-sites-for-bounds/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'iot-sewer', 'all-sites-for-bounds')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Used by the alarm dashboard and overlays.",
+        "request": {
+          "description": "{\n\t\"Internal_id\": \"(integer, device id)\",\n\t\"StartDate\": \"(YYYY-MM-DD)\",\n\t\"EndDate\": \"(YYYY-MM-DD)\"\n}",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "[\n\t{\n\t\t\"SITE_CODE\": \"(string1)\",\n\t\t\"LATITUDE\": \"(YYYY-MM-DDTHH:MM:SS.SSSZ)\",\n\t\t\"LONGITUDE\": \"Normal\",\n\t\t\"LEVEL2\": \"\",\n\t\t\"NAME\": \"\",\n\t\t\"SITE_CODE\": \"\",\n\t\t\"POINTS\": [\n\t\t\t{\n\t\t\t\t\"INTERNAL_ID\": \"\",\n\t\t\t\t\"VAL\": \"\",\n\t\t\t\t\"STATE\": \"\",\n\t\t\t\t\"RECORDTIME\": \"\",\n\t\t\t\t\"NAME\": \"\",\n\t\t\t\t\"SITE_CODE\": \"\",\n\t\t\t\t\"DATA_SOURCE\": \"\",\n\t\t\t\t\"DEVICE_NAME\": \"\",\n\t\t\t\t\"ASSET_CODE\": \"\",\n\t\t\t\t\"FACILITY_CODE\": \"\",\n\t\t\t\t\"UNITS\": \"\"\n\t\t\t}\n\t\t]\n\t}\n]\n",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "current-alarms",
+        "method": "GET",
+        "urlTemplate": "/sewer/device/currentalarms"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/61c0ef4822d425e5f7f54792')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-method id=\"apim-generated-policy\">POST</set-method>\r\n\t\t<rewrite-uri id=\"apim-generated-policy\" template=\"/wf-getcurrentalarms/triggers/manual/invoke?api-version=2020-05-01-preview&amp;sp=/triggers/manual/run&amp;sv=1.0&amp;sig={{iot-sewer-sig-current-alarms}}\" />\r\n\t\t<set-header id=\"apim-generated-policy\" name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/61c0ef4822d425e5f7f54792/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'iot-sewer', '61c0ef4822d425e5f7f54792')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "used for retrieving a history of the alarms and events surrounding a device within a time range.",
+        "request": {
+          "description": "{\n\t\"DeviceId\": \"23232433\",\n\t\"StartDate\": \"YYYY-MM-DD\",\n\t\"EndDate\": \"YYYY-MM-DD\"\n}",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "eventhistory",
+        "method": "GET",
+        "urlTemplate": "/sewer/device/alarmseventhistory"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/eventhistory')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-method id=\"apim-generated-policy\">POST</set-method>\r\n\t\t<rewrite-uri id=\"apim-generated-policy\" template=\"/wf-getalarmsaudithistory/triggers/manual/invoke?api-version=2020-05-01-preview&amp;sp=/triggers/manual/run&amp;sv=1.0&amp;sig={{iot-sewer-sig-eventhistory}}\" />\r\n\t\t<set-header id=\"apim-generated-policy\" name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/eventhistory/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'iot-sewer', 'eventhistory')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Used to probe state history for a specific data point",
+        "request": {
+          "description": "{\n\t\"Internal_id\": 50001122,\n\t\"StartDate\": \"(YYYY-MM-DD)\",\n\t\"EndDate\": \"(YYYY-MM-DD)\"\n}",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "state-history",
+        "method": "GET",
+        "urlTemplate": "/sewer/device/stateloghistory"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/61c0ede9a3b6f3c2e22ca0c6')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-method id=\"apim-generated-policy\">POST</set-method>\r\n\t\t<rewrite-uri id=\"apim-generated-policy\" template=\"/wf-stateloghistory/triggers/manual/invoke?api-version=2020-05-01-preview&amp;sp=/triggers/manual/run&amp;sv=1.0&amp;sig={{iot-sewer-sig-state-history}}\" />\r\n\t\t<set-header id=\"apim-generated-policy\" name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/61c0ede9a3b6f3c2e22ca0c6/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'iot-sewer', '61c0ede9a3b6f3c2e22ca0c6')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "telemetry-for-site",
+        "request": {
+          "description": "{\n\"sitecode\": \"SG4245\"\n}",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "{\n            \"CATCHMENT\": \"C_CRONULLA\",\n            \"LATITUDE\": -33.737572644436135,\n            \"LEVEL2\": \"WASTEWATER\",\n            \"LONGITUDE\": 150.46998995432318,\n            \"NAME\": \"SG4245 MADEIRA ST\",\n            \"NETWORK\": \"N_CRONULLA\",\n            \"POINTS\": [\n                {\n                    \"ASSET_CODE\": \"1153936\",\n                    \"DEVICE_NAME\": \"89610180003586520352\",\n                    \"FACILITY_CODE\": \"SG4245\",\n                    \"NAME\": \"Battery Voltage\",\n                    \"RECORDTIME\": \"2022-10-31T05:34:54.334Z\",\n                    \"STATE\": \"NORMAL\",\n                    \"TYPE\": \"A\",\n                    \"VAL\": 3.61,\n                    \"MONITORING_TYPE\":\"AAA\"\n                },\n                {\n                    \"ASSET_CODE\": \"1153936\",\n                    \"DEVICE_NAME\": \"89610180003586520352\",\n                    \"FACILITY_CODE\": \"SG4245\",\n                    \"NAME\": \"Module Current\",\n                    \"RECORDTIME\": \"2022-10-31T05:34:54.334Z\",\n                    \"STATE\": \"NORMAL\",\n                    \"TYPE\": \"A\",\n                    \"VAL\": 81,\n                    \"MONITORING_TYPE\":\"AAA\"\n                },\n                {\n                    \"ASSET_CODE\": \"1153936\",\n                    \"DEVICE_NAME\": \"89610180003586520352\",\n                    \"FACILITY_CODE\": \"SG4245\",\n                    \"NAME\": \"Device Average Temperature\",\n                    \"RECORDTIME\": \"2022-10-25T00:00:01Z\",\n                    \"STATE\": \"NORMAL\",\n                    \"TYPE\": \"A\",\n                    \"VAL\": 19.8,\n                    \"MONITORING_TYPE\":\"AAA\"\n                },\n                {\n                    \"ASSET_CODE\": \"1153936\",\n                    \"DEVICE_NAME\": \"89610180003586520352\",\n                    \"FACILITY_CODE\": \"SG4245\",\n                    \"NAME\": \"Device Temperature\",\n                    \"RECORDTIME\": \"2022-10-25T00:00:01Z\",\n                    \"STATE\": \"NORMAL\",\n                    \"TYPE\": \"A\",\n                    \"VAL\": 19.8,\n                    \"MONITORING_TYPE\":\"AAA\"\n                },\n                {\n                    \"ASSET_CODE\": \"1153936\",\n                    \"DEVICE_NAME\": \"89610180003586520352\",\n                    \"FACILITY_CODE\": \"SG4245\",\n                    \"NAME\": \"Device Maximum Temperature\",\n                    \"RECORDTIME\": \"2022-10-25T00:00:01Z\",\n                    \"STATE\": \"NORMAL\",\n                    \"TYPE\": \"A\",\n                    \"VAL\": 19.8,\n                    \"MONITORING_TYPE\":\"AAA\"\n                },\n                {\n                    \"ASSET_CODE\": \"1153936\",\n                    \"DEVICE_NAME\": \"89610180003586520352\",\n                    \"FACILITY_CODE\": \"SG4245\",\n                    \"NAME\": \"Device Minimum Temperature\",\n                    \"RECORDTIME\": \"2022-10-25T00:00:01Z\",\n                    \"STATE\": \"NORMAL\",\n                    \"TYPE\": \"A\",\n                    \"VAL\": 19.8,\n                    \"MONITORING_TYPE\":\"AAA\"\n                },\n                {\n                    \"ASSET_CODE\": \"1153936\",\n                    \"DEVICE_NAME\": \"89610180003586520352\",\n                    \"FACILITY_CODE\": \"SG4245\",\n                    \"NAME\": \"Level High Switch\",\n                    \"RECORDTIME\": \"2022-10-25T00:00:00Z\",\n                    \"STATE\": \"ALARM\",\n                    \"TYPE\": \"D\",\n                    \"VAL\": 0,\n                    \"MONITORING_TYPE\":\"AAA\"\n                }\n            ],\n            \"PRODUCT\": \"WASTEWATER\",\n            \"SCAMP\": \"S_MIRANDA\",\n            \"SITE_CODE\": \"SG4245\"\n        }",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"CATCHMENT\": \"C_CRONULLA\",\r\n  \"LATITUDE\": -33.7375726444361,\r\n  \"LEVEL2\": \"WASTEWATER\",\r\n  \"LONGITUDE\": 150.469989954323,\r\n  \"NAME\": \"SG4245 MADEIRA ST\",\r\n  \"NETWORK\": \"N_CRONULLA\",\r\n  \"POINTS\": [\r\n    {\r\n      \"ASSET_CODE\": \"1153936\",\r\n      \"DEVICE_NAME\": \"89610180003586520352\",\r\n      \"FACILITY_CODE\": \"SG4245\",\r\n      \"NAME\": \"Battery Voltage\",\r\n      \"RECORDTIME\": \"2022-10-31T05:34:54.334Z\",\r\n      \"STATE\": \"NORMAL\",\r\n      \"TYPE\": \"A\",\r\n      \"VAL\": 3.61,\r\n      \"MONITORING_TYPE\": \"AAA\"\r\n    },\r\n    {\r\n      \"ASSET_CODE\": \"1153936\",\r\n      \"DEVICE_NAME\": \"89610180003586520352\",\r\n      \"FACILITY_CODE\": \"SG4245\",\r\n      \"NAME\": \"Module Current\",\r\n      \"RECORDTIME\": \"2022-10-31T05:34:54.334Z\",\r\n      \"STATE\": \"NORMAL\",\r\n      \"TYPE\": \"A\",\r\n      \"VAL\": 81,\r\n      \"MONITORING_TYPE\": \"AAA\"\r\n    },\r\n    {\r\n      \"ASSET_CODE\": \"1153936\",\r\n      \"DEVICE_NAME\": \"89610180003586520352\",\r\n      \"FACILITY_CODE\": \"SG4245\",\r\n      \"NAME\": \"Device Average Temperature\",\r\n      \"RECORDTIME\": \"2022-10-25T00:00:01Z\",\r\n      \"STATE\": \"NORMAL\",\r\n      \"TYPE\": \"A\",\r\n      \"VAL\": 19.8,\r\n      \"MONITORING_TYPE\": \"AAA\"\r\n    },\r\n    {\r\n      \"ASSET_CODE\": \"1153936\",\r\n      \"DEVICE_NAME\": \"89610180003586520352\",\r\n      \"FACILITY_CODE\": \"SG4245\",\r\n      \"NAME\": \"Device Temperature\",\r\n      \"RECORDTIME\": \"2022-10-25T00:00:01Z\",\r\n      \"STATE\": \"NORMAL\",\r\n      \"TYPE\": \"A\",\r\n      \"VAL\": 19.8,\r\n      \"MONITORING_TYPE\": \"AAA\"\r\n    },\r\n    {\r\n      \"ASSET_CODE\": \"1153936\",\r\n      \"DEVICE_NAME\": \"89610180003586520352\",\r\n      \"FACILITY_CODE\": \"SG4245\",\r\n      \"NAME\": \"Device Maximum Temperature\",\r\n      \"RECORDTIME\": \"2022-10-25T00:00:01Z\",\r\n      \"STATE\": \"NORMAL\",\r\n      \"TYPE\": \"A\",\r\n      \"VAL\": 19.8,\r\n      \"MONITORING_TYPE\": \"AAA\"\r\n    },\r\n    {\r\n      \"ASSET_CODE\": \"1153936\",\r\n      \"DEVICE_NAME\": \"89610180003586520352\",\r\n      \"FACILITY_CODE\": \"SG4245\",\r\n      \"NAME\": \"Device Minimum Temperature\",\r\n      \"RECORDTIME\": \"2022-10-25T00:00:01Z\",\r\n      \"STATE\": \"NORMAL\",\r\n      \"TYPE\": \"A\",\r\n      \"VAL\": 19.8,\r\n      \"MONITORING_TYPE\": \"AAA\"\r\n    },\r\n    {\r\n      \"ASSET_CODE\": \"1153936\",\r\n      \"DEVICE_NAME\": \"89610180003586520352\",\r\n      \"FACILITY_CODE\": \"SG4245\",\r\n      \"NAME\": \"Level High Switch\",\r\n      \"RECORDTIME\": \"2022-10-25T00:00:00Z\",\r\n      \"STATE\": \"ALARM\",\r\n      \"TYPE\": \"D\",\r\n      \"VAL\": 0,\r\n      \"MONITORING_TYPE\": \"AAA\"\r\n    }\r\n  ],\r\n  \"PRODUCT\": \"WASTEWATER\",\r\n  \"SCAMP\": \"S_MIRANDA\",\r\n  \"SITE_CODE\": \"SG4245\"\r\n}"
+              }
+            ]
+          }
+        ],
+        "displayName": "telemetry-for-site",
+        "method": "GET",
+        "urlTemplate": "/sewer/device/telemetryforsite"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/telemetry-for-site')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-method id=\"apim-generated-policy\">POST</set-method>\r\n\t\t<rewrite-uri id=\"apim-generated-policy\" template=\"/wf-gettelemetryforsite/triggers/manual/invoke?api-version=2022-05-01&amp;sp=/triggers/manual/run&amp;sv=1.0&amp;sig={{iot-sewer-telemetry-for-site}}\" />\r\n\t\t<set-header id=\"apim-generated-policy\" name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/telemetry-for-site/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'iot-sewer', 'telemetry-for-site')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Used to probe reading history for a specific data point (used in charts and listings)",
+        "request": {
+          "description": "{\n\t\"Internal_id\": 50001122,\n\t\"StartDate\": \"(YYYY-MM-DD)\",\n\t\"EndDate\": \"(YYYY-MM-DD)\"\n}",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "telemetry-history",
+        "method": "GET",
+        "urlTemplate": "/sewer/device/telemetryhistory"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/telemetry-history')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-method id=\"apim-generated-policy\">POST</set-method>\r\n\t\t<rewrite-uri id=\"apim-generated-policy\" template=\"/wf-gettelemetryhistory/triggers/manual/invoke?api-version=2020-05-01-preview&amp;sp=/triggers/manual/run&amp;sv=1.0&amp;sig={{iot-sewer-sig-telemetry-history}}\" />\r\n\t\t<set-header id=\"apim-generated-policy\" name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/telemetry-history/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'iot-sewer', 'telemetry-history')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Used to draw the IOT and IICATS devices on the map after it is refreshed",
+        "request": {
+          "description": "{\n\t\"minLatitude\": 30.444,\n\t\"maxLatitude \": 30.444,\n\t\"minLongitude \": 30.444,\n\t\"maxLongitude \": 30.444,\n\t\"level2 \": \"['WATER','WATERMETER']\"\n}",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "telemetry-within-bounds",
+        "method": "GET",
+        "urlTemplate": "/sewer/device/telemetrywithinbounds"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/61c0f381ef8536bbfe223b90')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-method id=\"apim-generated-policy\">POST</set-method>\r\n\t\t<rewrite-uri id=\"apim-generated-policy\" template=\"/wf-gettelemetrywithinbounds/triggers/manual/invoke?api-version=2020-05-01-preview&amp;sp=/triggers/manual/run&amp;sv=1.0&amp;sig={{iot-sewer-sig-telemetry-within-bounds}}\" />\r\n\t\t<set-header id=\"apim-generated-policy\" name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/61c0f381ef8536bbfe223b90/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'iot-sewer', '61c0f381ef8536bbfe223b90')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "used to record alarm suppression and acknowledgement actions, note additions and work order number capture",
+        "request": {
+          "description": "{\n\t\"AlarmId \": \"AlarmId_1\",\n\t\"FieldName\": \"AlarmBanner\",\n\t\"FieldValue\": \"TestVal\",\n\t\"ActionType\":\"Update Alarm Banner\"\n}",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "update-alarm",
+        "method": "POST",
+        "urlTemplate": "/sewer/device/currentalarms"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/update-alarm')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-method id=\"apim-generated-policy\">POST</set-method>\r\n\t\t<rewrite-uri id=\"apim-generated-policy\" template=\"/wf-updatecurrentalarms/triggers/manual/invoke?api-version=2020-05-01-preview&amp;sp=/triggers/manual/run&amp;sv=1.0&amp;sig={{iot-sewer-sig-update-alarm}}\" />\r\n\t\t<set-header id=\"apim-generated-policy\" name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/update-alarm/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'iot-sewer', 'update-alarm')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Used to get the wet weather status of all regions",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "{\n\t\t\t\t\t\t\t\t\t\t\t  \"@odata.etag\": \"W/\\\"2083095\\\"\",\n\t\t\t\t\t\t\t\t\t\t\t  \"modifiedon\": \"2022-02-14T03:25:52Z\",\n\t\t\t\t\t\t\t\t\t\t\t  \"cr606_wetweatherregionid\": \"11e827aa-a088-ec11-93b0-00224818a046\",\n\t\t\t\t\t\t\t\t\t\t\t  \"coastalnorth\": true,\n\t\t\t\t\t\t\t\t\t\t\t  \"southwestsydney\": true,\n\t\t\t\t\t\t\t\t\t\t\t  \"bluemountains\": true,\n\t\t\t\t\t\t\t\t\t\t\t  \"costalsouth\": true,\n\t\t\t\t\t\t\t\t\t\t\t  \"id\": \"R-1\",\n\t\t\t\t\t\t\t\t\t\t\t  \"westernsydney\": true,\n\t\t\t\t\t\t\t\t\t\t\t  \"northwestsydney\": true,\n\t\t\t\t\t\t\t\t\t\t\t  \"illawarra\": true\n\t\t\t\t\t\t\t\t\t\t\t}",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "wetweatherregions",
+        "method": "GET",
+        "urlTemplate": "/sewer/device/wetweatherregions"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/wetweatherregions')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-method id=\"apim-generated-policy\">POST</set-method>\r\n\t\t<rewrite-uri id=\"apim-generated-policy\" template=\"/wf-wetweatherregions/triggers/manual/invoke?api-version=2020-05-01-preview&amp;sp=/triggers/manual/run&amp;sv=1.0&amp;sig={{iot-sewer-sig-wetweatherregions}}\" />\r\n\t\t<set-header id=\"apim-generated-policy\" name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/wetweatherregions/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'iot-sewer', 'wetweatherregions')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-backend-service base-url=\"https://logic-swcprod01-ae-preprod-iot-02.azurewebsites.net:443/api\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer/iot-sewer')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'iot-sewer')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID",
+              "ApplicationID",
+              "UserID",
+              "Version",
+              "apim-correlation-id",
+              "Ocp-Apim-Subscription-Key"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "apim-correlation-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

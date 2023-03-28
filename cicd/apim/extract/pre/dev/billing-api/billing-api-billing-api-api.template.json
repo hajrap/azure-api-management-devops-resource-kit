@@ -1,0 +1,604 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "4",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiRevisionDescription": "Added new POST version of validateAccount",
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/60af4f915d97e489bd0d8e88')]",
+        "subscriptionRequired": true,
+        "displayName": "Billing API",
+        "serviceUrl": "[parameters('serviceUrl').billingapi]",
+        "path": "billing",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/billing-api')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "BillingAccountBalance-AccountNumber-GetRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingAccountBalance-AccountNumber-GetRequest-1": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingAccountBalance-AccountNumber-GetRequest-2": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingAccountBalance-AccountNumber-GetRequest-3": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingAccountBalance-AccountNumber-GetRequest-4": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingAccountBalance-AccountNumber-GetRequest-5": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingAccountBalance-AccountNumber-Get200ApplicationJsonResponse": {
+                "type": "object",
+                "x-apim-inline": true
+              },
+              "BillingValidateAccountPostRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingValidateAccountPostRequest-1": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingValidateAccountPostRequest-2": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingValidateAccountPostRequest-3": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingValidateAccountPostRequest-4": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingValidateAccountPost200ApplicationJsonResponse": {
+                "type": "object",
+                "x-apim-inline": true
+              },
+              "BillingSection66-PropertyNumber-GetRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingSection66-PropertyNumber-GetRequest-1": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingSection66-PropertyNumber-GetRequest-2": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingSection66-PropertyNumber-GetRequest-3": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingSection66-PropertyNumber-GetRequest-4": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingSection66-PropertyNumber-GetRequest-5": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingSection66-PropertyNumber-Get200ApplicationJsonResponse": {
+                "type": "object",
+                "x-apim-inline": true
+              },
+              "BillingAccountPostRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingAccountPostRequest-1": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingAccountPostRequest-2": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingAccountPostRequest-3": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingAccountPostRequest-4": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "BillingAccountPost200ApplicationJsonResponse": {
+                "type": "object",
+                "x-apim-inline": true
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/billing-api/61fb0c6bec635c0d9c45e03c')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'billing-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "AccountNumber",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "ApplicationID",
+              "description": "Send System APP ID – All interaction from source system should have same Application ID.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "UserID",
+              "description": "End user initiating the transaction.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "TransactionContextID",
+              "description": "Supply GUID – It is generated once at the initiation point of the transaction and is propagated throughout the transaction lifecycle through the service execution.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "Version",
+              "description": "Version of the API to be called. Use the value specified in example (highest version)",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "MessageTraceID",
+              "description": "This element is a unique identifier associated with each message. Response and Fault messages should have a distinct MessageTraceID from request messages. Element can be used to achieve idempotent behaviour on server side.",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Successful Operation",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{}",
+                "schemaId": "61fb0c6bec635c0d9c45e03c",
+                "typeName": "BillingAccountBalance-AccountNumber-Get200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "GetAccountBalance",
+        "method": "GET",
+        "urlTemplate": "/AccountBalance/{AccountNumber}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/billing-api/GetAccountBalance')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'billing-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'billing-api', '61fb0c6bec635c0d9c45e03c')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/billing-api/GetAccountBalance/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'billing-api', 'GetAccountBalance')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "PropertyNumber",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "ApplicationID",
+              "description": "Send System APP ID – All interaction from source system should have same Application ID.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "TransactionContextID",
+              "description": "Supply GUID – It is generated once at the initiation point of the transaction and is propagated throughout the transaction lifecycle through the service execution.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "UserID",
+              "description": "End user initiating the transaction.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "Version",
+              "description": "Version of the API to be called. Use the value specified in example (highest version)",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "MessageTraceID",
+              "description": "This element is a unique identifier associated with each message. Response and Fault messages should have a distinct MessageTraceID from request messages. Element can be used to achieve idempotent behaviour on server side.",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Successful Operation",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{}",
+                "schemaId": "61fb0c6bec635c0d9c45e03c",
+                "typeName": "BillingSection66-PropertyNumber-Get200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Section66",
+        "method": "GET",
+        "urlTemplate": "/Section66/{PropertyNumber}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/billing-api/Section66')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'billing-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'billing-api', '61fb0c6bec635c0d9c45e03c')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-variable name=\"DecryptedPropertyNumber\" value=\"@{\n            byte[] IV = Convert.FromBase64String(\"{{api-encryptiv}}\");\n\t\t\tbyte[] key = Convert.FromBase64String(\"{{api-encryptkey}}\");\n            string encryptExcpetions = \"{{encrypt-exception-values}}\";\n\n\t\t\tstring encryptedValue = context.Request.MatchedParameters.GetValueOrDefault(\"PropertyNumber\");\n            string[] arrEncryptExceptions = encryptExcpetions.Split(',');\n            bool toDecrypt = (Array.Exists(arrEncryptExceptions, e => e.Trim() == encryptedValue.Trim())) ? false : true;\n            \n            if (!toDecrypt)\n            {\n                return encryptedValue;\n            }\n\n\t\t\tstring urlDecodedValue =  System.Net.WebUtility.UrlDecode(encryptedValue);\n\t\t\tbyte[] urlDecodedByte = Convert.FromBase64String(urlDecodedValue);\n\t\t\tbyte[] decryptedBytes = urlDecodedByte.Decrypt(\"Aes\", key, IV);\n\t\t\tchar[] convertedBytesToChar = Encoding.UTF8.GetString(decryptedBytes).ToCharArray();\n\t\t\tstring decryptedValue = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(convertedBytesToChar));\n            return decryptedValue;\n        }\" />\r\n\t\t<rewrite-uri template=\"@{\n            return \"/Section66/\" + context.Variables.GetValueOrDefault<string>(\"DecryptedPropertyNumber\");\n        }\" copy-unmatched-params=\"true\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t\t<set-body>@{\n                    byte[] IV = Convert.FromBase64String(\"{{api-encryptiv}}\");\n                    byte[] key = Convert.FromBase64String(\"{{api-encryptkey}}\");\n                    string jsonPath = \"$.GetSection66DetailsResponse..propertyNumber\";\n\n                    JObject o = context.Response.Body.As<JObject>(preserveContent: true);\n                    \n                    var item = o.SelectToken(jsonPath);            \n                    if (item != null)\n                    {\n                       \n                      string propertyNumberValue = item.ToString();\n                      byte[] responseByte = Encoding.UTF8.GetBytes(propertyNumberValue);                                    \n                      byte[] encryptedBytes = responseByte.Encrypt(\"Aes\", key, IV);\n                      string encryptedvalue = Convert.ToBase64String(encryptedBytes);\n                      string encodedurlvalue =  System.Net.WebUtility.UrlEncode(encryptedvalue);\n                      item.Replace(encodedurlvalue);\n                       \n                    }\n                    return o.ToString();\n        }</set-body>\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/billing-api/Section66/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'billing-api', 'Section66')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "TransactionContextID",
+              "description": "Supply GUID – It is generated once at the initiation point of the transaction and is propagated throughout the transaction lifecycle through the service execution.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "ApplicationID",
+              "description": "Send System APP ID – All interaction from source system should have same Application ID.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "UserID",
+              "description": "End user initiating the transaction.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "Version",
+              "description": "Version of the API to be called. Use the value specified in example (highest version)",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "MessageTraceID",
+              "description": "This element is a unique identifier associated with each message. Response and Fault messages should have a distinct MessageTraceID from request messages. Element can be used to achieve idempotent behaviour on server side.",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Successful Operation",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{}",
+                "schemaId": "61fb0c6bec635c0d9c45e03c",
+                "typeName": "BillingAccountPost200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "UpdateAccount",
+        "method": "POST",
+        "urlTemplate": "/Account"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/billing-api/UpdateAccount')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'billing-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'billing-api', '61fb0c6bec635c0d9c45e03c')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/billing-api/UpdateAccount/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'billing-api', 'UpdateAccount')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "TransactionContextID",
+              "description": "Supply GUID – It is generated once at the initiation point of the transaction and is propagated throughout the transaction lifecycle through the service execution.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "ApplicationID",
+              "description": "Send System APP ID – All interaction from source system should have same Application ID.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "UserID",
+              "description": "End user initiating the transaction.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "Version",
+              "description": "Version of the API to be called. Use the value specified in example (highest version)",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "MessageTraceID",
+              "description": "This element is a unique identifier associated with each message. Response and Fault messages should have a distinct MessageTraceID from request messages. Element can be used to achieve idempotent behaviour on server side.",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Successful Operation",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{}",
+                "schemaId": "61fb0c6bec635c0d9c45e03c",
+                "typeName": "BillingValidateAccountPost200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "ValidateAccount",
+        "method": "POST",
+        "urlTemplate": "/ValidateAccount"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/billing-api/ValidateAccount')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'billing-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'billing-api', '61fb0c6bec635c0d9c45e03c')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/billing-api/ValidateAccount/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'billing-api', 'ValidateAccount')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<authentication-basic username=\"{{api-authentication-username}}\" password=\"{{api-authentication-password}}\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/billing-api/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'billing-api')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/non-self-service-apis/billing-api')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'billing-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID",
+              "ApplicationID",
+              "UserID",
+              "Version",
+              "apim-correlation-id",
+              "Ocp-Apim-Subscription-Key"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "apim-correlation-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

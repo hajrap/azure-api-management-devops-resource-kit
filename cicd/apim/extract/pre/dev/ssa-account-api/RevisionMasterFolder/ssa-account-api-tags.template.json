@@ -1,0 +1,1427 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "ABN"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/abn')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccntStatus"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccntStatus')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountAddressDependentEmails"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountAddressDependentEmails')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountAddressDependentFaxes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountAddressDependentFaxes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountAddressDependentMobilePhones"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountAddressDependentMobilePhones')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountAddressDependentPhones"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountAddressDependentPhones')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountAddresses"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountAddresses')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountAddressIndependentEmails"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountAddressIndependentEmails')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountAddressIndependentFaxes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountAddressIndependentFaxes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountAddressIndependentMobilePhones"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountAddressIndependentMobilePhones')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountAddressIndependentPhones"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountAddressIndependentPhones')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountAddressUsages"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountAddressUsages')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountAlerts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountAlerts')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountBalances"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountBalances')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountContacts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountContacts')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountRelationships"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountRelationships')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountRelationshipTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountRelationshipTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Accounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Accounts')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountSexes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountSexes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountTitles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountTitles')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Address_Validation1Set"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Address_Validation1Set')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Address_ValidationSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Address_ValidationSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AddressTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AddressTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Attachments"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Attachments')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Authentication"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Authentication')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AutoPayHeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AutoPayHeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AutoPaySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AutoPaySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AverageBillingSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AverageBillingSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BankPayCancelSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BankPayCancelSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BankpaySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BankpaySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Banks"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Banks')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Batch Requests"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Batch-Requests')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BBPEligibilitySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BBPEligibilitySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Billers"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Billers')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillPayHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillPayHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillPaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillPaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillProgramEligibilitySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillProgramEligibilitySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillProgramItemSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillProgramItemSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillProgramSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillProgramSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillSummaryAmtSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillSummaryAmtSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillSummaryDetailsSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillSummaryDetailsSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BPCreate1Set"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BPCreate1Set')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BPCreateSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BPCreateSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BPoint"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BPSearchSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BPSearchSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BudgetBillingCycles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BudgetBillingCycles')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BudgetBillingPlan1Set"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BudgetBillingPlan1Set')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BudgetBillingPlans"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BudgetBillingPlans')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BudgetBillingPlanSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BudgetBillingPlanSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BusinessPartner"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BusinessPartner')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BusinessPartnerItem"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BusinessPartnerItem')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ClarificationCaseSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ClarificationCaseSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CommunicationCategories"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/CommunicationCategories')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CommunicationMethods"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/CommunicationMethods')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CommunicationPreferences"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/CommunicationPreferences')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ConsumptionPeriodTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ConsumptionPeriodTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContactActions"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContactActions')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContactAdditionalInfos"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContactAdditionalInfos')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContactClasses"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContactClasses')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContactLogSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContactLogSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContactPriorities"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContactPriorities')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContactTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContactTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccountBalances"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContractAccountBalances')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContractAllDevices"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContractAllDevices')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContractConsumptionValues"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContractConsumptionValues')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContractDataMoveInSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContractDataMoveInSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ContractDataMoveOutSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ContractDataMoveOutSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Contracts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Contracts')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Correspondences"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Correspondences')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CorrespondenceTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/CorrespondenceTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Countries"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Countries')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Data Feed"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/data-feed')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Deployments"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Deployments')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "DeploymentsTrafficFilter"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/DeploymentsTrafficFilter')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "DeploymentTemplates"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/DeploymentTemplates')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Devices"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Devices')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Divisions"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Divisions')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "E_Date_ArraySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/E_Date_ArraySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Elastic"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/elastic')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Error"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Error')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Extensions"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Extensions')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "FormItemSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/FormItemSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "FormSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/FormSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "FutureMeterReadings"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/FutureMeterReadings')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Installations"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Installations')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanASet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InstallmentPlanASet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanLSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InstallmentPlanLSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InstallmentPlanSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InstallmentPlanSSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InvIDSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InvIDSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InvoicePDFs"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InvoicePDFs')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InvoicePDFSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InvoicePDFSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Invoices"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Invoices')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InvoicesSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InvoicesSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "IPCreateSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/IPCreateSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Languages"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Languages')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Mailing_address_ItemSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Mailing_address_ItemSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Mailing_addressSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Mailing_addressSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MeterListSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MeterListSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MeterReadingCategories"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MeterReadingCategories')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MeterReadingNotes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MeterReadingNotes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MeterReadingReasons"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MeterReadingReasons')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MeterReadingResults"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MeterReadingResults')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MeterReadingStatus"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MeterReadingStatus')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MoveExtensionDataSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MoveExtensionDataSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MoveExtensionSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MoveExtensionSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MoveInContractSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MoveInContractSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MoveInCrDataSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MoveInCrDataSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MoveInEligibilityExtSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MoveInEligibilityExtSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MoveInEligibilitySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MoveInEligibilitySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MoveOutCrDataSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MoveOutCrDataSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "MoveSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/MoveSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "NotificationCollection"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/NotificationCollection')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Outages"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Outages')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessAccountsSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaperlessAccountsSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaperlessSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ParkedDocumentInstallations"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ParkedDocumentInstallations')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ParkedDocuments"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ParkedDocuments')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PayenrollMsgSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PayenrollMsgSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PayenrollSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PayenrollSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Payment Gateway"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/payment-gateway')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCardTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentCardTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentDocumentItems"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentDocumentItems')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentDocuments"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentDocuments')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentExtensionSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentExtensionSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentinfoSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentinfoSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentinprocessitemsSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentinprocessitemsSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentMethods"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentMethods')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentPlans"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentPlans')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentpostMsgSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentpostMsgSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentpostSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentpostSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentStatuses"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentStatuses')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PEEligibilitySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PEEligibilitySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PEEligStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PEEligStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PlatformConfigurationTrustRelationships"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PlatformConfigurationTrustRelationships')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Pledge_CSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Pledge_CSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PledgeSearchSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PledgeSearchSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PledgeSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PledgeSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Premises"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Premises')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PremiseTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PremiseTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Products"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Products')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ProfileHeaders"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ProfileHeaders')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ProfileTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ProfileTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ProfileValues"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ProfileValues')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ProfileValuesFiles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ProfileValuesFiles')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ProfileValueTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ProfileValueTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "RecurringPaymentSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/RecurringPaymentSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Regions"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Regions')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "RegistersToRead"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/RegistersToRead')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "RegisterTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/RegisterTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "RegistrationSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/RegistrationSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "RoutingSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/RoutingSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Search"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/search')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "SerOrderListSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/SerOrderListSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Service_AddressSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Service_AddressSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ServiceNotifications"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ServiceNotifications')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ServiceNotificationTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ServiceNotificationTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ServiceOrders"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ServiceOrders')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ServiceOrderTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ServiceOrderTypes')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ServicePriorities"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ServicePriorities')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "ServiceProviders"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ServiceProviders')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "SOAppointmentSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/SOAppointmentSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "SOApptSlotSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/SOApptSlotSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Stack"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Stack')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "SubscriptionCollection"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/SubscriptionCollection')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

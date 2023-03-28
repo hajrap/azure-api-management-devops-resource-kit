@@ -1,0 +1,52 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "functionapp url for cdc accounts api",
+        "resourceId": "https://management.azure.com/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-cdc-02/providers/Microsoft.Web/sites/func-corenonprod01-cdc-login-02",
+        "credentials": {
+          "query": {},
+          "header": {}
+        },
+        "tls": {
+          "validateCertificateChain": true,
+          "validateCertificateName": true
+        },
+        "url": "https://func-corenonprod01-cdc-login-02.azurewebsites.net/api",
+        "protocol": "http"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/func-cdc-login')]",
+      "type": "Microsoft.ApiManagement/service/backends",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "resourceId": "https://management.azure.com/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-cdc-01/providers/Microsoft.Web/sites/func-corenonprod01-cdc-login-01",
+        "credentials": {
+          "query": {},
+          "header": {
+            "x-functions-key": [
+              "{{func-cdc-login-key}}"
+            ]
+          }
+        },
+        "tls": {
+          "validateCertificateChain": true,
+          "validateCertificateName": true
+        },
+        "url": "https://func-corenonprod01-cdc-login-01.azurewebsites.net/api",
+        "protocol": "http"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/func-cdc-login')]",
+      "type": "Microsoft.ApiManagement/service/backends",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

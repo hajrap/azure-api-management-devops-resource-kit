@@ -1,0 +1,270 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "To provide extended functionality during the events of creating or updating Gigya account details.",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "apiVersion": "v2",
+        "isCurrent": true,
+        "apiRevisionDescription": "update set-body property for input formatting ",
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/61496fab84d43f71a3ca9838')]",
+        "subscriptionRequired": true,
+        "displayName": "CDC Account Event API",
+        "serviceUrl": "[parameters('serviceUrl').cdcaccounteventapiv2]",
+        "path": "cdc-account-event",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cdc-account-event-api-v2')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "Request1": {
+                "type": "object",
+                "properties": {
+                  "events": {
+                    "type": "array",
+                    "items": {
+                      "required": [
+                        "type",
+                        "id",
+                        "timestamp",
+                        "callId",
+                        "version",
+                        "apiKey",
+                        "data"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "timestamp": {
+                          "type": "integer"
+                        },
+                        "callId": {
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "string"
+                        },
+                        "apiKey": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "accountType": {
+                              "type": "string"
+                            },
+                            "uid": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "nonce": {
+                    "type": "string"
+                  },
+                  "timestamp": {
+                    "type": "integer"
+                  }
+                },
+                "example": {
+                  "events": [
+                    {
+                      "type": "accountCreated",
+                      "id": "57e10e46-a43d-45a2-be6d-5ee71b829c32",
+                      "timestamp": 1627889281,
+                      "callId": "33ac7285d19d4644a7094a0da7e668ce",
+                      "version": "2.0",
+                      "apiKey": "3_i89ylblKAMQl8bnoepApnI3PH-179ZFTjxkJxfVFfwBWzlH0kbSR1bcmLpx7LCmn",
+                      "data": {
+                        "accountType": "full",
+                        "uid": "ffe179ad5e26401bbecb3c7fc7c9ebdf"
+                      }
+                    },
+                    {
+                      "type": "accountRegistered",
+                      "id": "656fb573-4930-45d3-bfdc-3a5abdaf8bbc",
+                      "timestamp": 1627889281,
+                      "callId": "33ac7285d19d4644a7094a0da7e668ce",
+                      "version": "2.0",
+                      "apiKey": "3_i89ylblKAMQl8bnoepApnI3PH-179ZFTjxkJxfVFfwBWzlH0kbSR1bcmLpx7LCmn",
+                      "data": {
+                        "accountType": "full",
+                        "uid": "ffe179ad5e26401bbecb3c7fc7c9ebdf"
+                      }
+                    }
+                  ],
+                  "nonce": "86131e7a-b19a-4217-8cf5-42f8c8f7ba86",
+                  "timestamp": 1627889282
+                }
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cdc-account-event-api-v2/61496fad0fa20a38f0fbbd5b')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cdc-account-event-api-v2')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "To publish the event of CDC account profile registration, account updates and deletion.",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"events\": [\r\n    {\r\n      \"type\": \"accountCreated\",\r\n      \"id\": \"57e10e46-a43d-45a2-be6d-5ee71b829c32\",\r\n      \"timestamp\": 1627889281,\r\n      \"callId\": \"33ac7285d19d4644a7094a0da7e668ce\",\r\n      \"version\": \"2.0\",\r\n      \"apiKey\": \"3_i89ylblKAMQl8bnoepApnI3PH-179ZFTjxkJxfVFfwBWzlH0kbSR1bcmLpx7LCmn\",\r\n      \"data\": {\r\n        \"accountType\": \"full\",\r\n        \"uid\": \"ffe179ad5e26401bbecb3c7fc7c9ebdf\"\r\n      }\r\n    },\r\n    {\r\n      \"type\": \"accountRegistered\",\r\n      \"id\": \"656fb573-4930-45d3-bfdc-3a5abdaf8bbc\",\r\n      \"timestamp\": 1627889281,\r\n      \"callId\": \"33ac7285d19d4644a7094a0da7e668ce\",\r\n      \"version\": \"2.0\",\r\n      \"apiKey\": \"3_i89ylblKAMQl8bnoepApnI3PH-179ZFTjxkJxfVFfwBWzlH0kbSR1bcmLpx7LCmn\",\r\n      \"data\": {\r\n        \"accountType\": \"full\",\r\n        \"uid\": \"ffe179ad5e26401bbecb3c7fc7c9ebdf\"\r\n      }\r\n    }\r\n  ],\r\n  \"nonce\": \"86131e7a-b19a-4217-8cf5-42f8c8f7ba86\",\r\n  \"timestamp\": 1627889282\r\n}",
+              "schemaId": "61496fad0fa20a38f0fbbd5b",
+              "typeName": "Request1"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "null",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Publish CDC registration event",
+        "method": "POST",
+        "urlTemplate": "/api/events"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cdc-account-event-api-v2/cdc-registration-events')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cdc-account-event-api-v2')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cdc-account-event-api-v2', '61496fad0fa20a38f0fbbd5b')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<validate-jwt header-name=\"x-gigya-sig-jwt\">\r\n\t\t\t<issuer-signing-keys>\r\n\t\t\t\t<key n=\"{{jwt-token-key-n-value}}\" e=\"{{jwt-token-key-e-value}}\" />\r\n\t\t\t</issuer-signing-keys>\r\n\t\t</validate-jwt>\r\n\t\t<set-backend-service id=\"apim-generated-policy\" backend-id=\"func-cdc-sbingest\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cdc-account-event-api-v2/cdc-registration-events/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cdc-account-event-api-v2', 'cdc-registration-events')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/self-service-apis/cdc-account-event-api-v2')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cdc-account-event-api-v2')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID",
+              "ApplicationID",
+              "UserID",
+              "Version",
+              "apim-correlation-id",
+              "Ocp-Apim-Subscription-Key"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "apim-correlation-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

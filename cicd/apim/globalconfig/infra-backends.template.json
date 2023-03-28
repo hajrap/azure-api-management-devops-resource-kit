@@ -1,0 +1,79 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "CdcLoginSubscription": {
+      "type": "string",
+      "defaultvalue": "NotBeUsed"
+    },
+    "CdcLoginResourceGroup": {
+      "type": "string",
+      "defaultvalue": "NotBeUsed"
+    },
+    "CdcLoginFunctionName": {
+      "type": "string",
+      "defaultvalue": "NotBeUsed"
+    },
+    "CdcLoginBackendUrl": {
+      "type": "string",
+      "defaultvalue": "NotBeUsed"
+    },
+    "CdcSbIngestSubscription": {
+      "type": "string",
+      "defaultvalue": "NotBeUsed"
+    },
+    "CdcSbIngestResourceGroup": {
+      "type": "string",
+      "defaultvalue": "NotBeUsed"
+    },
+    "CdcSbIngestFunctionName": {
+      "type": "string",
+      "defaultvalue": "NotBeUsed"
+    },
+    "CdcSbIngestBackendUrl": {
+      "type": "string",
+      "defaultvalue": "NotBeUsed"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "[parameters('CdcLoginFunctionName')]",
+        "resourceId": "[concat('https://management.azure.com/subscriptions/',parameters('CdcLoginSubscription'),'/resourceGroups/',parameters('CdcLoginResourceGroup'),'/providers/Microsoft.Web/sites/',parameters('CdcLoginFunctionName'))]",
+        "credentials": {
+          "header": {
+            "x-functions-key": [
+              "{{func-cdc-login-key}}"
+            ]
+          }
+        },
+        "url": "[parameters('CDCLoginBackendUrl')]",
+        "protocol": "http"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/func-cdc-login')]",
+      "type": "Microsoft.ApiManagement/service/backends",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "apiVersion": "2021-01-01-preview",
+      "name": "[concat(parameters('ApimServiceName'), '/func-cdc-sbIngest')]",
+      "properties": {
+        "description": "[parameters('CdcSbIngestFunctionName')]",
+        "resourceId": "[concat('https://management.azure.com/subscriptions/',parameters('CdcSbIngestSubscription'),'/resourceGroups/',parameters('CdcSbIngestResourceGroup'),'/providers/Microsoft.Web/sites/',parameters('CdcSbIngestFunctionName'))]",
+        "credentials": {
+          "header": {
+            "x-functions-key": [
+              "{{func-cdc-sbingest-key}}"
+            ]
+          }
+        },
+        "url": "[parameters('CDCSbIngestBackendUrl')]",
+        "protocol": "http"
+      },
+      "type": "Microsoft.ApiManagement/service/backends"
+    }
+  ]
+}

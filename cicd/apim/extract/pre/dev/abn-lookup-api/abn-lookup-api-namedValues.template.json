@@ -1,0 +1,72 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "3rd-party-http-proxy-password",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/3rd-party-http-proxy-password"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-password')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "3rd-party-http-proxy-url",
+        "value": "http://10.181.128.68:8080"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-url')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "3rd-party-http-proxy-username",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/3rd-party-http-proxy-username"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-http-proxy-username')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": true,
+        "displayName": "abn-authenticationguid",
+        "keyVault": {
+          "secretIdentifier": "https://kv-corenonprod01-int-00.vault.azure.net/secrets/abn-authenticationguid"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/abn-authenticationguid')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "enable-3rd-party-http-proxy",
+        "value": "false"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/enable-3rd-party-http-proxy')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

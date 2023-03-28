@@ -1,0 +1,251 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-bankaccounts/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-contractaccounts/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'post-bankaccounts', 'BankAccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-paymentcards/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'post-contractaccounts', 'ContractAccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Accounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-accounts-accountid-contractaccounts/Accounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'post-paymentcards', 'PaymentCards')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/post-accounts-accountid-contractaccounts/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'post-accounts-accountid-contractaccounts', 'Accounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/delete-bankaccounts-accountid-accountid-bankaccountid-bankaccountid/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'post-accounts-accountid-contractaccounts', 'ContractAccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/delete-paymentcards-accountid-accountid-paymentcardid-paymentcardid/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'delete-bankaccounts-accountid-accountid-bankaccountid-bankaccountid', 'BankAccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-bankaccounts/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'delete-paymentcards-accountid-accountid-paymentcardid-paymentcardid', 'PaymentCards')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-paymentcards/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'get-bankaccounts', 'BankAccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Accounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-accounts-accountid-contractaccounts/Accounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'get-paymentcards', 'PaymentCards')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-accounts-accountid-contractaccounts/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'get-accounts-accountid-contractaccounts', 'Accounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'get-accounts-accountid-contractaccounts', 'ContractAccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-contractaccounts-contractaccountid/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid', 'BankAccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-paymentcards-accountid-accountid-paymentcardid-paymentcardid/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'get-contractaccounts-contractaccountid', 'ContractAccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid-bank/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'get-paymentcards-accountid-accountid-paymentcardid-paymentcardid', 'PaymentCards')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Banks"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid-bank/Banks')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid-bank', 'BankAccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-paymentcards-accountid-accountid-paymentcardid-paymentcardid-paymentcard/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'get-bankaccounts-accountid-accountid-bankaccountid-bankaccountid-bank', 'Banks')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCardTypes"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/get-paymentcards-accountid-accountid-paymentcardid-paymentcardid-paymentcard/PaymentCardTypes')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'get-paymentcards-accountid-accountid-paymentcardid-paymentcardid-paymentcard', 'PaymentCards')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Accounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/put-accounts-accountid/Accounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'get-paymentcards-accountid-accountid-paymentcardid-paymentcardid-paymentcard', 'PaymentCardTypes')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "BankAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/put-bankaccounts-accountid-accountid-bankaccountid-bankaccountid/BankAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'put-accounts-accountid', 'Accounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "ContractAccounts"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/put-contractaccounts-contractaccountid/ContractAccounts')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'put-bankaccounts-accountid-accountid-bankaccountid-bankaccountid', 'BankAccounts')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "PaymentCards"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/ssa-payment-api/patch-paymentcards-accountid-accountid-paymentcardid-paymentcardid/PaymentCards')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'ssa-payment-api', 'put-contractaccounts-contractaccountid', 'ContractAccounts')]"
+      ]
+    }
+  ]
+}

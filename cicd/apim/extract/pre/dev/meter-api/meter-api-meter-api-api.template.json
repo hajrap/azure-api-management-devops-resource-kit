@@ -1,0 +1,656 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "Provides access to data and services related to meter equipment.",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/60b00efebc8dbb8de7070f5a')]",
+        "subscriptionRequired": true,
+        "displayName": "Meter API",
+        "serviceUrl": "[parameters('serviceUrl').meterapi]",
+        "path": "meter",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/meter-api')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "MeterEquipmentGet200ApplicationJsonResponse": {
+                "type": "object"
+              },
+              "MeterSelfReadPost200ApplicationJsonResponse": {
+                "type": "object"
+              },
+              "MeterEquipmentGetRequest": {
+                "x-apim-inline": true
+              },
+              "MeterEquipmentGetRequest-1": {
+                "x-apim-inline": true
+              },
+              "MeterEquipmentGetRequest-2": {
+                "x-apim-inline": true
+              },
+              "MeterEquipmentGetRequest-3": {
+                "x-apim-inline": true
+              },
+              "MeterEquipmentGetRequest-4": {
+                "x-apim-inline": true
+              },
+              "MeterEquipmentGetRequest-5": {
+                "x-apim-inline": true
+              },
+              "MeterEquipmentGetRequest-6": {
+                "x-apim-inline": true
+              },
+              "MeterEquipmentGetRequest-7": {
+                "x-apim-inline": true
+              },
+              "MeterEquipmentGetRequest-8": {
+                "x-apim-inline": true
+              },
+              "MeterSelfReadPostRequest-1": {
+                "x-apim-inline": true
+              },
+              "MeterSelfReadPostRequest-2": {
+                "x-apim-inline": true
+              },
+              "MeterSelfReadPostRequest-3": {
+                "x-apim-inline": true
+              },
+              "MeterSelfReadPostRequest-4": {
+                "x-apim-inline": true
+              },
+              "MeterSelfReadPostRequest": {
+                "x-apim-inline": true
+              },
+              "submitSelfReadRequest": {
+                "type": "object",
+                "properties": {
+                  "SubmitSelfReadRequest": {
+                    "type": "object",
+                    "properties": {
+                      "SubmitSelfReadRequestPayload": {
+                        "type": "object",
+                        "properties": {
+                          "SelfReadSuppliedDateTime": {
+                            "type": "string"
+                          },
+                          "PropertyId": {
+                            "type": "string"
+                          },
+                          "MeterSerialNum": {
+                            "type": "string"
+                          },
+                          "MeterReadValueAmount": {
+                            "type": "integer"
+                          },
+                          "MeterReadStatusDesc": {
+                            "type": "string"
+                          },
+                          "SelfReadDetailList": {
+                            "type": "object",
+                            "properties": {
+                              "SelfReadDetail": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Name": {
+                                      "type": "string"
+                                    },
+                                    "Value": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "Name",
+                                    "Value"
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "MeterEquipmentGet200ApplicationJsonResponse2": {
+                "type": "object",
+                "properties": {
+                  "GetEquipmentDetailsResponse": {
+                    "type": "object",
+                    "properties": {
+                      "OperationResponse": {
+                        "type": "object",
+                        "properties": {
+                          "OperationStatus": {
+                            "type": "string"
+                          },
+                          "OperationDesc": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "MoreRecordsFlag": {
+                        "type": "boolean"
+                      },
+                      "ListOfEquipment": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "ParentPropertyNumber": {
+                              "type": "string"
+                            },
+                            "PropertyNumber": {
+                              "type": "string"
+                            },
+                            "MultiLevelIndividualMeteringFlag": {
+                              "type": "string"
+                            },
+                            "PropertyAddress": {
+                              "type": "object",
+                              "properties": {
+                                "FloorLevelNumber": {
+                                  "type": "string"
+                                },
+                                "FloorLevelType": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Code": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "FlatUnitType": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Description": {}
+                                  }
+                                },
+                                "BuildingName1": {
+                                  "type": "string"
+                                },
+                                "BuildingName2": {
+                                  "type": "string"
+                                },
+                                "UnitNumber": {},
+                                "StreetNumber": {
+                                  "type": "string"
+                                },
+                                "StreetLotNumber": {
+                                  "type": "string"
+                                },
+                                "StreetName": {
+                                  "type": "string"
+                                },
+                                "PostCode": {
+                                  "type": "string"
+                                },
+                                "StreetType": {
+                                  "type": "object",
+                                  "properties": {
+                                    "StreetType": {
+                                      "type": "object",
+                                      "properties": {
+                                        "Code": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    },
+                                    "StreetSuffixType": {
+                                      "type": "object",
+                                      "properties": {
+                                        "Code": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "OtherAddressInformationDescription": {
+                                  "type": "string"
+                                },
+                                "SuburbName": {
+                                  "type": "string"
+                                },
+                                "StateName": {
+                                  "type": "string"
+                                },
+                                "CountryName": {
+                                  "type": "string"
+                                },
+                                "RMBNumber": {
+                                  "type": "string"
+                                },
+                                "StreetAddressFormatted": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "ListOfWaterMeters": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "InstalledWaterType": {
+                                    "type": "object",
+                                    "properties": {
+                                      "MeterMakerNumber": {
+                                        "type": "string"
+                                      },
+                                      "Class": {
+                                        "type": "object",
+                                        "properties": {
+                                          "Code": {
+                                            "type": "string"
+                                          },
+                                          "Description": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      "WaterMeter": {
+                                        "type": "object",
+                                        "properties": {
+                                          "WaterMeterSizeValue": {
+                                            "type": "string"
+                                          },
+                                          "WaterMeterCategoryCode": {
+                                            "type": "object",
+                                            "properties": {
+                                              "Code": {
+                                                "type": "string"
+                                              },
+                                              "Description": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          },
+                                          "DialsNumber": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "Device": {
+                                    "type": "object",
+                                    "properties": {
+                                      "RecycledWaterServiceFlag": {
+                                        "type": "string"
+                                      },
+                                      "ProjectedReplacementDate": {
+                                        "type": "string"
+                                      },
+                                      "DeviceGroup": {
+                                        "type": "string"
+                                      },
+                                      "DeviceLockTagFlag": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "InstalledWaterType",
+                                  "Device"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "ParentPropertyNumber",
+                            "PropertyNumber",
+                            "MultiLevelIndividualMeteringFlag",
+                            "PropertyAddress",
+                            "ListOfWaterMeters"
+                          ]
+                        }
+                      },
+                      "ServiceLocationIdentifier": {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/meter-api/60b00eabd7e96917686e87ee')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'meter-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "MaxRecordCount",
+            "type": "integer",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "description": "GetEquipmentDetails",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "PropertyNumber",
+              "description": "Enter the property number.\nSamples:\n6150034,\n6171199,\n6185776,\n6154879,\n3320181,",
+              "type": "string",
+              "required": false,
+              "values": [
+                "6150034"
+              ]
+            },
+            {
+              "name": "MeterSerialNumber",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "CadaStralld",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [
+            {
+              "name": "ApplicationID",
+              "description": "Send System APP ID – All interaction from source system should have same Application ID.",
+              "type": "string",
+              "required": true,
+              "values": [
+                "7fdba8aa-bd1e-4895-aff7-b64589d0a27e"
+              ]
+            },
+            {
+              "name": "TransactionContextID",
+              "description": "Supply GUID – It is generated once at the initiation point of the transaction and is propagated throughout the transaction lifecycle through the service execution.",
+              "type": "string",
+              "required": true,
+              "values": [
+                "7fdba8aa-bd1e-4895-aff7-b64589d0a27e"
+              ]
+            },
+            {
+              "name": "UserID",
+              "description": "End user initiating the transaction.",
+              "type": "string",
+              "required": true,
+              "values": [
+                "RAMBO"
+              ]
+            },
+            {
+              "name": "Version",
+              "description": "Version of the API to be called. Use the value specified in example (highest version)",
+              "type": "string",
+              "required": true,
+              "values": [
+                "1.0"
+              ]
+            },
+            {
+              "name": "MessageTraceID",
+              "description": "This element is a unique identifier associated with each message. Response and Fault messages should have a distinct MessageTraceID from request messages. Element can be used to achieve idempotent behaviour on server side.",
+              "type": "string",
+              "required": true,
+              "values": [
+                "7fdba8aa-bd1e-4895-aff7-b64589d0a27e"
+              ]
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Successful Operation",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"GetEquipmentDetailsResponse\": {\r\n    \"OperationResponse\": {\r\n      \"OperationStatus\": \"0\",\r\n      \"OperationDesc\": \"Success\"\r\n    },\r\n    \"MoreRecordsFlag\": false,\r\n    \"ListOfEquipment\": [\r\n      {\r\n        \"ParentPropertyNumber\": \"6171199\",\r\n        \"PropertyNumber\": \"6171199\",\r\n        \"MultiLevelIndividualMeteringFlag\": \"N\",\r\n        \"PropertyAddress\": {\r\n          \"FloorLevelNumber\": \"1\",\r\n          \"FloorLevelType\": {\r\n            \"Code\": \"FL\"\r\n          },\r\n          \"FlatUnitType\": {\r\n            \"Description\": null\r\n          },\r\n          \"BuildingName1\": \"Townhall\",\r\n          \"BuildingName2\": \"Dumpling\",\r\n          \"UnitNumber\": null,\r\n          \"StreetNumber\": \"6 -10\",\r\n          \"StreetLotNumber\": \"F1\",\r\n          \"StreetName\": \"CHARLES STREET\",\r\n          \"PostCode\": \"2150\",\r\n          \"StreetType\": {\r\n            \"StreetType\": {\r\n              \"Code\": \"ST\"\r\n            },\r\n            \"StreetSuffixType\": {\r\n              \"Code\": \"ST\"\r\n            }\r\n          },\r\n          \"OtherAddressInformationDescription\": \"ABC\",\r\n          \"SuburbName\": \"PARRAMATTA\",\r\n          \"StateName\": \"NSW\",\r\n          \"CountryName\": \"AU\",\r\n          \"RMBNumber\": \"RSD 1\",\r\n          \"StreetAddressFormatted\": \"Townhall Dumpling RSD 1 F2 Fl 1 6 -10 Abc Charles Street St\"\r\n        },\r\n        \"ListOfWaterMeters\": [\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterMakerNumber\": \"CGGE0001\",\r\n              \"Class\": {\r\n                \"Code\": \"1000\",\r\n                \"Description\": \"Potable\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"25\",\r\n                \"WaterMeterCategoryCode\": {\r\n                  \"Code\": \"L_DR\",\r\n                  \"Description\": \"Light Meter\"\r\n                },\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"N\",\r\n              \"ProjectedReplacementDate\": \"24.04.2043\",\r\n              \"DeviceGroup\": \"Standard\",\r\n              \"DeviceLockTagFlag\": \"N\"\r\n            }\r\n          },\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterSerialNumber\": \"2\",\r\n              \"MeterMakerNumber\": \"BGGE0014\",\r\n              \"Class\": {\r\n                \"Code\": \"1000\",\r\n                \"Description\": \"Potable\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"20\",\r\n                \"WaterMeterCategoryCode\": {\r\n                  \"Code\": \"L_DR\",\r\n                  \"Description\": \"Light Meter\"\r\n                },\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"N\",\r\n              \"ProjectedReplacementDate\": \"24.04.2018\",\r\n              \"DeviceGroup\": \"AMR\",\r\n              \"DeviceLockTagFlag\": \"N\",\r\n              \"RfId\": \"05\"\r\n            }\r\n          },\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterSerialNumber\": \"2\",\r\n              \"MeterMakerNumber\": \"CGGE0050\",\r\n              \"Class\": {\r\n                \"Code\": \"1000\",\r\n                \"Description\": \"Potable\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"25\",\r\n                \"WaterMeterCategoryCode\": {\r\n                  \"Code\": \"L_DR\",\r\n                  \"Description\": \"Light Meter\"\r\n                },\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"N\",\r\n              \"ProjectedReplacementDate\": \"15.05.2043\",\r\n              \"DeviceGroup\": \"Standard\",\r\n              \"DeviceLockTagFlag\": \"N\"\r\n            }\r\n          },\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterSerialNumber\": \"2\",\r\n              \"MeterMakerNumber\": \"CGGE0051\",\r\n              \"Class\": {\r\n                \"Code\": \"1000\",\r\n                \"Description\": \"Potable\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"25\",\r\n                \"WaterMeterCategoryCode\": {\r\n                  \"Code\": \"L_DR\",\r\n                  \"Description\": \"Light Meter\"\r\n                },\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"N\",\r\n              \"ProjectedReplacementDate\": \"15.05.2043\",\r\n              \"DeviceGroup\": \"Standard\",\r\n              \"DeviceLockTagFlag\": \"N\"\r\n            }\r\n          },\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterSerialNumber\": \"2\",\r\n              \"MeterMakerNumber\": \"CGGE0052\",\r\n              \"Class\": {\r\n                \"Code\": \"1000\",\r\n                \"Description\": \"Potable\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"25\",\r\n                \"WaterMeterCategoryCode\": {\r\n                  \"Code\": \"L_DR\",\r\n                  \"Description\": \"Light Meter\"\r\n                },\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"N\",\r\n              \"ProjectedReplacementDate\": \"15.05.2043\",\r\n              \"DeviceGroup\": \"Standard\",\r\n              \"DeviceLockTagFlag\": \"N\"\r\n            }\r\n          },\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterSerialNumber\": \"2\",\r\n              \"MeterMakerNumber\": \"CGGE0057\",\r\n              \"Class\": {\r\n                \"Code\": \"1000\",\r\n                \"Description\": \"Potable\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"25\",\r\n                \"WaterMeterCategoryCode\": {\r\n                  \"Code\": \"L_DR\",\r\n                  \"Description\": \"Light Meter\"\r\n                },\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"N\",\r\n              \"ProjectedReplacementDate\": \"16.05.2043\",\r\n              \"DeviceGroup\": \"Standard\",\r\n              \"DeviceLockTagFlag\": \"N\"\r\n            }\r\n          },\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterSerialNumber\": \"2\",\r\n              \"MeterMakerNumber\": \"BGGF0999\",\r\n              \"Class\": {\r\n                \"Code\": \"9000\",\r\n                \"Description\": \"Standpipe\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"25\",\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"N\",\r\n              \"ProjectedReplacementDate\": \"02.04.2018\",\r\n              \"DeviceGroup\": \"AMR\",\r\n              \"DeviceLockTagFlag\": \"N\",\r\n              \"RfId\": \"123456777\"\r\n            }\r\n          },\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterSerialNumber\": \"2\",\r\n              \"MeterMakerNumber\": \"BGGE0456\",\r\n              \"Class\": {\r\n                \"Code\": \"1000\",\r\n                \"Description\": \"Potable\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"20\",\r\n                \"WaterMeterCategoryCode\": {\r\n                  \"Code\": \"L_DR\",\r\n                  \"Description\": \"Light Meter\"\r\n                },\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"N\",\r\n              \"ProjectedReplacementDate\": \"16.06.2018\",\r\n              \"DeviceGroup\": \"Standard\",\r\n              \"DeviceLockTagFlag\": \"N\"\r\n            }\r\n          },\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterSerialNumber\": \"3\",\r\n              \"MeterMakerNumber\": \"BGDR0001\",\r\n              \"Class\": {\r\n                \"Code\": \"2000\",\r\n                \"Description\": \"Recycle\"\r\n              },\r\n              \"InstallationGridLocation\": {\r\n                \"Code\": \"01\",\r\n                \"Description\": \"FRONT LEFT CORNER\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"20\",\r\n                \"WaterMeterCategoryCode\": {\r\n                  \"Code\": \"L_RE\",\r\n                  \"Description\": \"Light Meter\"\r\n                },\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"Y\",\r\n              \"ProjectedReplacementDate\": \"04.01.2020\",\r\n              \"DeviceGroup\": \"Standard\",\r\n              \"DeviceLockTagFlag\": \"N\"\r\n            }\r\n          },\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterSerialNumber\": \"4\",\r\n              \"MeterMakerNumber\": \"BGCM0949\",\r\n              \"Class\": {\r\n                \"Code\": \"1000\",\r\n                \"Description\": \"Potable\"\r\n              },\r\n              \"InstallationGridLocation\": {\r\n                \"Code\": \"08\",\r\n                \"Description\": \"REAR CENTRE\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"20\",\r\n                \"WaterMeterCategoryCode\": {\r\n                  \"Code\": \"L_DR\",\r\n                  \"Description\": \"Light Meter\"\r\n                },\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"N\",\r\n              \"ProjectedReplacementDate\": \"01.10.2018\",\r\n              \"DeviceGroup\": \"Standard\",\r\n              \"DeviceLockTagFlag\": \"N\"\r\n            }\r\n          },\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterSerialNumber\": \"5\",\r\n              \"MeterMakerNumber\": \"CGCC0002\",\r\n              \"Class\": {\r\n                \"Code\": \"1000\",\r\n                \"Description\": \"Potable\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"25\",\r\n                \"WaterMeterCategoryCode\": {\r\n                  \"Code\": \"L_DR\",\r\n                  \"Description\": \"Light Meter\"\r\n                },\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"N\",\r\n              \"ProjectedReplacementDate\": \"17.10.2043\",\r\n              \"DeviceGroup\": \"Standard\",\r\n              \"DeviceLockTagFlag\": \"N\"\r\n            }\r\n          },\r\n          {\r\n            \"InstalledWaterType\": {\r\n              \"MeterSerialNumber\": \"6\",\r\n              \"MeterMakerNumber\": \"BTJE4723\",\r\n              \"Class\": {\r\n                \"Code\": \"1000\",\r\n                \"Description\": \"Potable\"\r\n              },\r\n              \"WaterMeter\": {\r\n                \"WaterMeterSizeValue\": \"20\",\r\n                \"WaterMeterCategoryCode\": {\r\n                  \"Code\": \"L_DR\",\r\n                  \"Description\": \"Light Meter\"\r\n                },\r\n                \"DialsNumber\": \"4\"\r\n              }\r\n            },\r\n            \"Device\": {\r\n              \"RecycledWaterServiceFlag\": \"N\",\r\n              \"ProjectedReplacementDate\": \"10.10.2020\",\r\n              \"DeviceGroup\": \"AMI\",\r\n              \"DeviceLockTagFlag\": \"N\"\r\n            }\r\n          }\r\n        ]\r\n      }\r\n    ],\r\n    \"ServiceLocationIdentifier\": null\r\n  }\r\n}",
+                "schemaId": "60b00eabd7e96917686e87ee",
+                "typeName": "MeterEquipmentGet200ApplicationJsonResponse2"
+              }
+            ]
+          }
+        ],
+        "displayName": "Get equipment details",
+        "method": "GET",
+        "urlTemplate": "/Equipment?MaxRecordCount={MaxRecordCount}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/meter-api/GetEquipmentDetails')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'meter-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'meter-api', '60b00eabd7e96917686e87ee')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/meter-api/GetEquipmentDetails/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'meter-api', 'GetEquipmentDetails')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "SubmitSelfRead",
+        "request": {
+          "description": "",
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "ApplicationID",
+              "description": "Send System APP ID – All interaction from source system should have same Application ID.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "TransactionContextID",
+              "description": "Supply GUID – It is generated once at the initiation point of the transaction and is propagated throughout the transaction lifecycle through the service execution.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "UserID",
+              "description": "End user initiating the transaction.",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "Version",
+              "description": "Version of the API to be called. Use the value specified in example (highest version)",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "MessageTraceID",
+              "description": "This element is a unique identifier associated with each message. Response and Fault messages should have a distinct MessageTraceID from request messages. Element can be used to achieve idempotent behaviour on server side.",
+              "type": "string",
+              "required": true,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"SubmitSelfReadRequest\": {\r\n    \"SubmitSelfReadRequestPayload\": {\r\n      \"SelfReadSuppliedDateTime\": \"2021-04-23T03:57:04.643Z\",\r\n      \"PropertyId\": \"5406700\",\r\n      \"MeterSerialNum\": \"BTDG1693\",\r\n      \"MeterReadValueAmount\": 1218,\r\n      \"MeterReadStatusDesc\": \"SUCCESS\",\r\n      \"SelfReadDetailList\": {\r\n        \"SelfReadDetail\": [\r\n          {\r\n            \"Name\": \"SelfReadCardId\",\r\n            \"Value\": \"David\"\r\n          },\r\n          {\r\n            \"Name\": \"DateMeterRead\",\r\n            \"Value\": \"2021-05-20T14:56:19Z\"\r\n          },\r\n          {\r\n            \"Name\": \"ReceivedVia\",\r\n            \"Value\": \"Sample Value\"\r\n          },\r\n          {\r\n            \"Name\": \"CustomerGroup\",\r\n            \"Value\": \"Owner\"\r\n          },\r\n          {\r\n            \"Name\": \"CustomerContactPhone\",\r\n            \"Value\": \"0406137495\"\r\n          },\r\n          {\r\n            \"Name\": \"CustomerFirstName\",\r\n            \"Value\": \"David\"\r\n          },\r\n          {\r\n            \"Name\": \"CustomerLastName\",\r\n            \"Value\": \"Marsh\"\r\n          }\r\n        ]\r\n      }\r\n    }\r\n  }\r\n}",
+              "schemaId": "60b00eabd7e96917686e87ee",
+              "typeName": "submitSelfReadRequest"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Successful Operation",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"SubmitSelfReadResponse\": {\r\n    \"SubmitSelfReadResponsePayload\": {\r\n      \"OperationStatus\": \"1\",\r\n      \"OperationDesc\": \"Success.\"\r\n    }\r\n  }\r\n}",
+                "schemaId": "60b00eabd7e96917686e87ee",
+                "typeName": "MeterSelfReadPost200ApplicationJsonResponse"
+              }
+            ]
+          }
+        ],
+        "displayName": "Submit self read",
+        "method": "POST",
+        "urlTemplate": "/SelfRead"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/meter-api/SubmitSelfRead')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'meter-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'meter-api', '60b00eabd7e96917686e87ee')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/meter-api/SubmitSelfRead/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'meter-api', 'SubmitSelfRead')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<authentication-basic username=\"{{api-authentication-username}}\" password=\"{{api-authentication-password}}\" />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/meter-api/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'meter-api')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/non-self-service-apis/meter-api')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'meter-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

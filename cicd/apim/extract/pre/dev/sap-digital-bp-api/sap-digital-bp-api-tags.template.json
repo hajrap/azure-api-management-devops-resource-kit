@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "Batch Requests"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Batch-Requests')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC_HeaderSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/CDC_HeaderSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC_NewsLetterSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/CDC_NewsLetterSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "CDC_PropertySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/CDC_PropertySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "Biller"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Biller')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BPoint"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/bpoint')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Payment Gateway"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/payment-gateway')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Token"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Token')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "TokenAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/TokenAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "TokenAuthkeyClient"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/TokenAuthkeyClient')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Txn"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Txn')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkey"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/TxnAuthkey')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "TxnAuthkeyClient"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/TxnAuthkeyClient')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

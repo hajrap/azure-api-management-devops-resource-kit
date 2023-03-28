@@ -1,0 +1,219 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "AccntStatus"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccntStatus')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountBalanceSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountBalanceSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "AccountStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/AccountStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BankpaySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BankpaySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "Batch Requests"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/Batch-Requests')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillPayHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillPayHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillPaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillPaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillSummaryAmtSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillSummaryAmtSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BillSummaryDetailsSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BillSummaryDetailsSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "BPSearchSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/BPSearchSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "FormItemSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/FormItemSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "FormSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/FormSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanASet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InstallmentPlanASet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanLSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InstallmentPlanLSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InstallmentPlanSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InstallmentPlanSSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InstallmentPlanSSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InvIDSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InvIDSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "InvoicePDFSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/InvoicePDFSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessAccountsSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaperlessAccountsSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaperlessSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaperlessSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PayenrollMsgSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PayenrollMsgSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PayenrollSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PayenrollSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PaymentHistorySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PaymentHistorySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PEEligibilitySet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PEEligibilitySet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "displayName": "PEEligStatusSet"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/PEEligStatusSet')]",
+      "type": "Microsoft.ApiManagement/service/tags",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}

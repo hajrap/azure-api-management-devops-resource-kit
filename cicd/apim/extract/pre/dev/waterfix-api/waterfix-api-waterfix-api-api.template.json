@@ -1,0 +1,288 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "serviceUrl": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "Provides functionality related to water fix/repair appointment booking",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "4",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiRevisionDescription": "change propertyNumber with customer_id",
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/60d1313345b5f9adc65fc3bb')]",
+        "subscriptionRequired": true,
+        "displayName": "WaterFix API",
+        "serviceUrl": "[parameters('serviceUrl').waterfixapi]",
+        "path": "waterfix",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/waterfix-api')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "testJson": {
+                "type": "object",
+                "properties": {
+                  "anyprop": {
+                    "type": "string"
+                  }
+                }
+              },
+              "spotless-testApiAppointment_book-phpPostRequest": {
+                "x-apim-inline": true
+              },
+              "spotless-testApiAppointment_book-phpPostRequest-1": {
+                "x-apim-inline": true
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/waterfix-api/60e24b1491d0f00a507a7c23')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'waterfix-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Submit a waterfix request. Response is an appointment id.",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Content-Type",
+              "type": "",
+              "defaultValue": "application/x-www-form-urlencoded",
+              "required": true,
+              "values": [
+                "application/x-www-form-urlencoded"
+              ]
+            },
+            {
+              "name": "Accept",
+              "type": "",
+              "defaultValue": "application/xml",
+              "required": true,
+              "values": [
+                "application/xml"
+              ]
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/x-www-form-urlencoded",
+              "sample": "customer_id=3100000&firstname=Saurabh&surname=Karnik&streetno=1&streetname=Smith&streettype=ST&suburb=Parramatta&state=NSW&postcode=2150&mobilenumber=0413070029&email=saurabh@gmail.com&status=W&work_type_id=19&customer_answers={\"210\":\"Waterfix\",\"5858\":\"Yes\",\"5860\":\"fix shower head\",\"5751\":\"Other\"}"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Request appointment",
+        "method": "POST",
+        "urlTemplate": "/api/appointment_book.php"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/waterfix-api/request-appointment')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'waterfix-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-header name=\"Content-Type\" exists-action=\"override\">\r\n\t\t\t<value>application/x-www-form-urlencoded</value>\r\n\t\t</set-header>\r\n\t\t<set-header name=\"Accept\" exists-action=\"override\">\r\n\t\t\t<value>application/xml</value>\r\n\t\t</set-header>\r\n\t\t<set-body>@{ \n            string inBody = context.Request.Body.As<string>();\n            string waterfixGuid = \"api_guid={{waterfix-guid}}\";\n            string waterfixDatabase = \"database={{waterfix-database}}\";\n            string startKey=\"customer_id=\";\n            string endKey=\"&\";\n            string propertyNumberValue=\"\";\n            if (inBody.Contains(startKey) && inBody.Contains(endKey))\n            {\n              int Start, End;\n              Start = inBody.IndexOf(startKey, 0) + startKey.Length;\n              End = inBody.IndexOf(endKey, Start);\n              propertyNumberValue= inBody.Substring(Start, End - Start);\n              //ecryption of propertyNumber\n                byte[] IV = Convert.FromBase64String(\"{{api-encryptiv}}\");\n                byte[] key = Convert.FromBase64String(\"{{api-encryptkey}}\");\n                string encryptExcpetions = \"{{encrypt-exception-values}}\";\n\n            string encryptedValue = propertyNumberValue;\n            string[] arrEncryptExceptions = encryptExcpetions.Split(',');\n            bool toDecrypt = (Array.Exists(arrEncryptExceptions, e => e.Trim() == encryptedValue.Trim())) ? false : true;\n\n\t\t\tif (toDecrypt)\n            {\n\t\t\t string urlDecodedValue =  System.Net.WebUtility.UrlDecode(encryptedValue);\n\t\t\t byte[] urlDecodedByte = Convert.FromBase64String(urlDecodedValue);\n\t\t\t byte[] decryptedBytes = urlDecodedByte.Decrypt(\"Aes\", key, IV);\n\t\t\t char[] convertedBytesToChar = Encoding.UTF8.GetString(decryptedBytes).ToCharArray();\n\t\t\t string decryptedValue = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(convertedBytesToChar));\n            \n             inBody= inBody.Replace(encryptedValue,decryptedValue);\n            }\n            }\n            \n            return String.Format(\"{0}&{1}&version=1&{2}\",waterfixGuid,waterfixDatabase,inBody);\n        }</set-body>\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t\t<!--<set-header name=\"Content-Type\" exists-action=\"override\">\n            <value>application/xml</value>\n        </set-header>-->\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/waterfix-api/request-appointment/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'waterfix-api', 'request-appointment')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Upload a file using the appointment id. Must send parameters api_guid=#AppId#, database=#AppDatabase#",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Content-Type",
+              "type": "",
+              "defaultValue": "multipart/form-data",
+              "required": true,
+              "values": [
+                "multipart/form-data"
+              ]
+            },
+            {
+              "name": "Accept",
+              "type": "",
+              "defaultValue": "application/xml",
+              "required": true,
+              "values": [
+                "application/xml"
+              ]
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "multipart/form-data"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Upload file",
+        "method": "POST",
+        "urlTemplate": "/api/fieldworker_jobfile.php"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/waterfix-api/upload-file')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'waterfix-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n\n    TODO: update sending waterfix-guid in the post request. Waiting to get sample payload for upload from SW\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/waterfix-api/upload-file/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'waterfix-api', 'upload-file')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<choose>\r\n\t\t\t<when condition=\"{{enable-3rd-party-http-proxy}}\">\r\n\t\t\t\t<proxy url=\"{{3rd-party-http-proxy-url}}\" username=\"{{3rd-party-http-proxy-username}}\" password=\"{{3rd-party-http-proxy-password}}\" />\r\n\t\t\t</when>\r\n\t\t</choose>\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t\t<xml-to-json kind=\"direct\" apply=\"always\" consider-accept-header=\"false\" />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
+        "format": "rawxml"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/waterfix-api/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'waterfix-api')]"
+      ]
+    },
+    {
+      "name": "[concat(parameters('ApimServiceName'), '/3rd-party-apis/waterfix-api')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'waterfix-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/appInsightsPrimaryDeploy",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "information",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "TransactionContextID",
+              "ApplicationID",
+              "UserID",
+              "Version",
+              "apim-correlation-id",
+              "Ocp-Apim-Subscription-Key"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "apim-correlation-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/7fdba8aa-bd1e-4895-aff7-b64589d0a27e/resourceGroups/rg-corenonprod01-integration-00/providers/Microsoft.ApiManagement/service/apim-corenonprod01-integration-00/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

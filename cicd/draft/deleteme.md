@@ -1,0 +1,1 @@
+Placeholder file required by git when creating a new folder

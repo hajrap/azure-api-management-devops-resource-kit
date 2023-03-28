@@ -1,0 +1,121 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-all-sites",
+        "value": "SXXggc4xd5k9T-D78LrLpWUO6bncJLTx4DBb3g5OXxY"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-all-sites')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-all-sites-for-bounds",
+        "value": "R_AotoaXevDdWwIzp-Z8qeaTKF2PPJ6kM1CWsuPsY-U"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-all-sites-for-bounds')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-current-alarms",
+        "value": "TDLAbq6fYc7XndWS2H9PDevpf3BNh_mqBBiCpGHBcXY"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-current-alarms')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-eventhistory",
+        "value": "D9q5GH1M-6PrcD0XMCJl8ylcTcQia2IsBljOBwZeiNo"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-eventhistory')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-state-history",
+        "value": "-kkvFphsAswBtEGpqRByr6APBJUpUWadsuDEzvocQZM"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-state-history')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-telemetry-history",
+        "value": "qML5fgY9vqmI6NZYDqm-22a-R5okq_Q3BcG9XGxt0tM"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-telemetry-history')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-telemetry-within-bounds",
+        "value": "nXNa_3cF-hLY53YNxnz1EFsXjNNu9yLwsVTJ8TcIfkI"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-telemetry-within-bounds')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-update-alarm",
+        "value": "b8V_2LIpGBHGUTbcFF8MpZwPvYVnGLFHzICUj6_72cU"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-update-alarm')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-sig-wetweatherregions",
+        "value": "yqgjjlhpGsYPjT19bwlplOk42qnBfie1GzdS97y4Q0E"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-sig-wetweatherregions')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    },
+    {
+      "properties": {
+        "tags": [],
+        "secret": false,
+        "displayName": "iot-sewer-telemetry-for-site",
+        "value": "Hn7_Ukz_MoiO5w276vUvY4DoL6tGGZe1MyDNVAJpG4A"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/iot-sewer-telemetry-for-site')]",
+      "type": "Microsoft.ApiManagement/service/namedValues",
+      "apiVersion": "2021-01-01-preview"
+    }
+  ]
+}
